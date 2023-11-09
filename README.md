@@ -1,7 +1,7 @@
 # selt2023-g5-SellNest
 Repository for SELT 2023 Team 5
 
-# [Your Marketplace App's Name]
+# SellNest
 
 Welcome to SellNest, an online marketplace for buying and selling a wide array of items. We combine the simplicity of online classifieds with the diverse inventory of an antique store, making it easy for you to find exactly what you need or sell what you don't.
 
