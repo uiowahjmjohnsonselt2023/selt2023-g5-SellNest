@@ -10,11 +10,7 @@ Welcome to SellNest, an online marketplace for buying and selling a wide array o
 - [Introduction](#introduction)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
-- [Getting Started](#getting-started)
-- [Contributing](#contributing)
 - [Meet the Team](#meet-the-team)
-- [License](#license)
-- [Contact](#contact)
 
 ## Introduction
 
@@ -37,3 +33,9 @@ Our mission is to provide a user-friendly, secure, and efficient online platform
 - Database: sqlite3 and pg
 - Cloud Services: Heroku
 - Payment Gateway: Unimplemented
+
+## Meet the Team
+- Charlie Wilmot, CSE, SCRUM Master
+- Tristan Pawlenty, CSE, Product Owner
+- Trey Eckenrod, CSE, Developer
+- Charlize Santos, BME, Developer
