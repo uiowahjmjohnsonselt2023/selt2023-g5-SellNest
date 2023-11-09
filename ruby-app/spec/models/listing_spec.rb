@@ -1,0 +1,3 @@
+describe Listing do
+
+end

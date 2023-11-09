@@ -1,0 +1,3 @@
+describe ListingsController do
+
+end
