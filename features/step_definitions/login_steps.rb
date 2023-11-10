@@ -7,3 +7,7 @@ When(/^I enter valid credentials$/) do
   fill_in 'Password', with: 'password'
   click_button 'Login'
 end
+
+Then(/^I should be redirected to the user dashboard$/) do
+  expect(page).to have_current_path('user/index') # Replace with actual dashboard path
+end
