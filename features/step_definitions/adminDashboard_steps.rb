@@ -19,3 +19,10 @@ And(/^I should see the total users stat$/) do
     expect(page).to have_css('.stat-value', text: /\d+/) # Check if a number is displayed
   end
 end
+
+And(/^I should see the total sellers stat$/) do
+  within('.dashboard-stats') do
+    expect(page).to have_content('Total Sellers')
+    expect(page).to have_css('.stat-value', text: /\d+/) # Check if a number is displayed
+  end
+end
