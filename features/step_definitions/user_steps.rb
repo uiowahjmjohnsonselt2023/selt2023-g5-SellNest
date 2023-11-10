@@ -5,3 +5,7 @@ end
 Then(/^I should see the user's photo$/) do
   expect(page).to have_css('img.profile-photo')
 end
+
+And(/^I should see the username$/) do
+  expect(page).to have_css('.username')
+end
