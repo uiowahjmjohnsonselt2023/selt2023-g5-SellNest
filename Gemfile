@@ -64,6 +64,6 @@ group :test do
 end
 
 group :production do
-  gem 'pg' # for Heroku deployment
+  gem 'pg', '~>0.2' # for Heroku deployment
   gem 'rails_12factor'
 end
