@@ -12,3 +12,7 @@ end
 And(/^I submit the form$/) do
   click_button 'Sign Up'
 end
+
+Then(/^I should be registered and redirected to the user dashboard$/) do
+  expect(page).to have_current_path('user/index') # Replace with actual dashboard path
+end
