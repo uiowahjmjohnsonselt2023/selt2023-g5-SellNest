@@ -9,3 +9,7 @@ end
 And(/^I should see the username$/) do
   expect(page).to have_css('.username')
 end
+
+And(/^I should see the user profile information$/) do
+  expect(page).to have_css('.user-info')
+end
