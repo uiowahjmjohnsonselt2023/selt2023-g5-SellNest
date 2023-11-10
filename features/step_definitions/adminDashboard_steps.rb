@@ -5,3 +5,10 @@ end
 Then(/^I should see the "Admin Dashboard" header$/) do
   expect(page).to have_content('Admin Dashboard')
 end
+
+And(/^I should see the total sales stat$/) do
+  within('.dashboard-stats') do
+    expect(page).to have_content('Total Sales')
+    expect(page).to have_css('.stat-value', text: /\d+/) # Check if a number is displayed
+  end
+end
