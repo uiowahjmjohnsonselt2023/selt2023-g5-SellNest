@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
+  get 'user/login'
+
   get 'user/index'
+
+  get 'user/signup'
 
   get 'listings/new'
 
