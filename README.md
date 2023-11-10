@@ -11,6 +11,7 @@ Welcome to SellNest, an online marketplace for buying and selling a wide array o
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Meet the Team](#meet-the-team)
+- [Pivotal Tracker](#pivotal)
 
 ## Introduction
 
@@ -39,3 +40,6 @@ Our mission is to provide a user-friendly, secure, and efficient online platform
 - Tristan Pawlenty, CSE, Product Owner
 - Trey Eckenrod, CSE, Developer
 - Charlize Santos, BME, Developer
+
+## Pivotal Tracker
+https://www.pivotaltracker.com/n/projects/2681836
