@@ -8,3 +8,7 @@ When(/^I fill in the signup form$/) do
   fill_in 'Password', with: 'password'
   fill_in 'Password confirmation', with: 'password'
 end
+
+And(/^I submit the form$/) do
+  click_button 'Sign Up'
+end
