@@ -6,7 +6,7 @@ class ListingsController < ApplicationController
   def new
   end
 
-  def listing_params
+  def listing_paramss
     params.require(:listing).permit(:name, :photos, :description, :price, :sellerID)
   end
 

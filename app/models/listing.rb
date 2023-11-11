@@ -1,3 +1,3 @@
 class Listing < ActiveRecord::Base
-  belongs_to :sellerID
+  belongs_to :seller_id
 end

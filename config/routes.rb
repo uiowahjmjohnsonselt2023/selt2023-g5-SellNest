@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   get 'listings/new'
 
+  post 'listings', to:'listings#create'
 
   resources :listings
   root :to => redirect('/listings')
