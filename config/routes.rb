@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'listings/index'
 
   get 'listings/new'
+  get 'listings/create'
 
   post 'listings', to:'listings#create'
 
