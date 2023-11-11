@@ -1,3 +1,0 @@
-describe ListingsController do
-
-end
