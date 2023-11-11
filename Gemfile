@@ -61,6 +61,7 @@ group :test do
   gem 'rspec-expectations'
   gem 'cucumber-rails', :require=>false
   gem 'database_cleaner'
+  gem 'simplecov'
 end
 
 group :production do
