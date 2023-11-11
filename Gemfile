@@ -5,7 +5,7 @@ ruby '2.6.6'
 gem 'haml'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.10'
+gem 'rails', '4.2.11'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.3'
@@ -30,7 +30,7 @@ gem 'jbuilder', '~> 2.0'
 
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-
+gem 'devise'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -64,6 +64,6 @@ group :test do
 end
 
 group :production do
-  gem 'pg' # for Heroku deployment
+  gem 'pg', '~>0.2' # for Heroku deployment
   gem 'rails_12factor'
 end
