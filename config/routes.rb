@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'home#index'
   get 'listings/new'
+  get 'user/index'
   get 'signup', to: 'user#signup', as: 'signup'
   post 'users', to: 'user#create'
   get 'login', to: 'user#login', as: 'login'
