@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SellNest</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f7f7f7;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          flex-direction: column;
+      }
+      .container {
+          text-align: center;
+      }
+      h1 {
+          color: #333;
+      }
+      p {
+          color: #666;
+          margin-bottom: 20px;
+      }
+      button {
+          background-color: #007bff;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          margin: 0 10px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+      }
+      button:hover {
+          background-color: #0056b3;
+      }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Welcome to SellNest</h1>
+  <p>An online platform where Hawkeyes can buy and sell online</p>
+  <button onclick="location.href='/signup'">Create New User</button>
+  <button onclick="location.href='/login'">Sign In</button>
+  <button onclick="location.href= '/listings/new'">Create New Listing</button>
+  <button onclick="location.href= '/user/index'">Admin Page</button>
+</div>
+</body>
+</html>
