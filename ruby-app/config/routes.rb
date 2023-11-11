@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'listings/edit'
+
+  get 'listings/index'
+
   get 'listings/new'
 
   # The priority is based upon order of creation: first created -> highest priority.
