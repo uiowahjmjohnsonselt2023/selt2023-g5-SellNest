@@ -1,0 +1,31 @@
+<!-- app/views/listings/index.html.erb -->
+<div class="container">
+  <h1>Listings</h1>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Name of Item</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @listings.each do |listing| %>
+      <tr>
+        <td>
+          <%= link_to listing.name, edit_listing_path(listing) %>
+        </td>
+        <td><%= listing.description %></td>
+        <td><%= listing.price %></td>
+        <td>
+          <%= link_to 'Edit', edit_listing_path(listing) %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to 'Create New Listing', new_listing_path %>
+</div>

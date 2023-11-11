@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   root 'home#index'
+  get 'listings/edit'
+
+  get 'listings/index'
+
   get 'listings/new'
   get 'user/index'
   get 'admin/index'
@@ -7,6 +11,11 @@ Rails.application.routes.draw do
   post 'users', to: 'user#create'
   get 'login', to: 'user#login', as: 'login'
   get 'user/:id', to: 'user#show', as: 'user'
+  get 'listings/create'
+
+  post 'listings', to:'listings#create'
+
+  resources :listings
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
