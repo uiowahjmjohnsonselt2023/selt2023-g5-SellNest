@@ -46,10 +46,20 @@
       .text-center {
           margin-top: 20px;
       }
+      .text-logo {
+          display: block;
+          text-align: center;
+          font-size: 24px;
+          font-weight: bold;
+          color: #007bff;
+          text-decoration: none;
+          margin-bottom: 20px;
+      }
   </style>
 </head>
 <body>
 <div class="container">
+  <a href="/" class="text-logo">SellNest</a>
   <h2>Login</h2>
   <%= form_for(:session, url: login_path, html: { class: "form-horizontal" }) do |f| %>
     <div class="form-group">
