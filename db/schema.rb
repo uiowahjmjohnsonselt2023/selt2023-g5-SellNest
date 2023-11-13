@@ -18,12 +18,12 @@ ActiveRecord::Schema.define(version: 20231111013300) do
     t.text     "description"
     t.decimal  "price"
     t.string   "photoURL"
-    t.integer  "sellerID_id"
+    t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
-  add_index "listings", ["sellerID_id"], name: "index_listings_on_sellerID_id"
+  add_index "listings", ["user_id"], name: "index_listings_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
