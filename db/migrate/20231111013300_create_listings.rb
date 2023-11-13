@@ -5,7 +5,9 @@ class CreateListings < ActiveRecord::Migration
       t.text :description
       t.decimal :price
       t.string :photoURL
-      t.references :seller_ids, index: true, foreign_key: true
+
+      # Assuming each listing is associated with a user (seller)
+      t.references :user, index: true, foreign_key: true
 
       t.timestamps null: false
     end
