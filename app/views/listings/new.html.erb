@@ -46,7 +46,7 @@
           box-sizing: border-box; /* Added to keep width as 100% including padding */
       }
       input[type="submit"] {
-          background-color: #007bff;
+          background-color: #ffd700;
           color: white;
           border: none;
           padding: 10px 20px;
@@ -55,17 +55,27 @@
           transition: background-color 0.3s;
       }
       input[type="submit"]:hover {
-          background-color: #0056b3;
+          background-color: #b8860b;
+      }
+      .text-logo {
+          display: block;
+          text-align: center;
+          font-size: 24px;
+          font-weight: bold;
+          color: #ffd700;
+          text-decoration: none;
+          margin-bottom: 20px;
       }
   </style>
 </head>
 <body>
 <div class="container">
+  <a href="/" class="text-logo">SellNest</a>
   <h1>Create Listing</h1>
 
   <form action="/listings" method="post" enctype="multipart/form-data">
     <div class="form-group">
-      <label for="item_name">Name of Item:</label>
+      <label for="item_name">Item:</label>
       <input type="text" id="item_name" name="item_name" required>
     </div>
 

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe "Listings", type: :request do
-  describe "GET /edit" do
+RSpec.describe "Admins", type: :request do
+  describe "GET /index" do
     it "returns http success" do
-      get "/listings/edit"
+      get "/admin/index"
       expect(response).to have_http_status(:success)
     end
   end
