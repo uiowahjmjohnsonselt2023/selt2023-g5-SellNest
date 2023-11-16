@@ -73,10 +73,10 @@
   <a href="/" class="text-logo">SellNest</a>
   <h1>Create Listing</h1>
 
-  <form action="/listings" method="post" enctype="multipart/form-data">
+  <%= form_for(@listing, url: listings_path, html: { class: "form-horizontal"}) do |f| %>
     <div class="form-group">
-      <label for="item_name">Item:</label>
-      <input type="text" id="item_name" name="item_name" required>
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control', required: true %>
     </div>
 
     <div class="form-group">
@@ -85,19 +85,19 @@
     </div>
 
     <div class="form-group">
-      <label for="item_description">Description:</label>
-      <textarea id="item_description" name="item_description" rows="4" required></textarea>
+      <%= f.label :description %>
+      <%= f.text_area :description, class: 'form-control', rows: 4, required: true %>
     </div>
 
     <div class="form-group">
-      <label for="item_price">Price:</label>
-      <input type="number" id="item_price" name="item_price" required>
+      <%= f.label :price %>
+      <%= f.text_field :price, class: 'form-control', step: '0.01', pattern: '\d+(\.\d{1,2})?', required: true %>
     </div>
 
     <div class="form-group">
-      <input type="submit" value="Submit Listing">
+      <%= f.submit "Create Listing", class: 'btn btn-primary' %>
     </div>
-  </form>
+  <% end %>
 </div>
 </body>
 </html>

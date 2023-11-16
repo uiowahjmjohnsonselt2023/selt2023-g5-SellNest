@@ -4,6 +4,7 @@ class ListingsController < ApplicationController
   end
 
   def new
+    @listing = Listing.new
   end
 
   def show
@@ -11,13 +12,13 @@ class ListingsController < ApplicationController
     @listing = Listing.find(id)
   end
 
-  def listing_paramss
+  def listing_params
     params.require(:listing).permit(:name, :photos, :description, :price, :user_id)
   end
 
   def create
     @listing = Listing.create!(listing_params)
-    flash[:notice] = "#{@Listing.name} was successfully created."
+    flash[:notice] = "#{@listing.name} was successfully created."
     redirect_to listings_path
   end
 
@@ -26,7 +27,21 @@ class ListingsController < ApplicationController
     render :index
   end
 
-  def update  # does not actually update info at the moment
-    index
+  def update
+    @listing = Listing.find(params[:id])
+    if @listing.update(listing_params)
+      flash[:notice] = "#{@listing.name} was successfully updated."
+      redirect_to listings_path
+    else
+      render 'edit'
+    end
   end
+
+  def destroy
+    @listing = Listing.find(params[:id])
+    @listing.destroy
+    flash[:notice] = "Listing deleted."
+    redirect_to listings_path
+  end
+
 end
