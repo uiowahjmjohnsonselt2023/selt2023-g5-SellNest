@@ -43,7 +43,7 @@ gem 'devise'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'sqlite3', '~>1.3.13'
+  gem 'sqlite3', '~> 1.4'
   gem 'capybara'
   gem 'rspec', '~>3.5'
   gem 'rspec-rails'
