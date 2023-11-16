@@ -2,10 +2,10 @@ source 'https://rubygems.org'
 
 ruby '3.2.2'
 
-gem 'haml'
+#gem 'haml'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.11'
+gem 'rails', '~> 7.1.1'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.3'
@@ -14,7 +14,7 @@ gem 'sass-rails', '~> 5.0.3'
 gem 'uglifier', '>= 2.7.0'
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 5.0.0'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
