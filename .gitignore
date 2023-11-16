@@ -84,10 +84,6 @@ config/master.key
 # Comment out this rule if environment variables can be committed
 .env
 
-## Environment normalization:
-/.bundle
-/vendor/bundle
-
 # these should all be checked in to normalize the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
 
@@ -187,6 +183,8 @@ fabric.properties
 
 # Ignore bundler config.
 /.bundle
+
+/vendor
 
 # Ignore all environment files (except templates).
 /.env*
