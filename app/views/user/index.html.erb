@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+      body {
+          font-family: 'Arial', sans-serif;
+          background-color: #f7f7f7;
+      }
+      .profile-header {
+          background-color: #fff;
+          border-bottom: 1px solid #eaeaea;
+          padding-bottom: 10px;
+      }
+      .profile-photo {
+          margin-top: -50px;
+          border: 5px solid #fff;
+      }
+      .username {
+          margin: 0;
+          color: #333;
+      }
+      .user-info {
+          color: #666;
+      }
+      .nav-tabs {
+          color: #ffd700;
+          border-bottom: none;
+      }
+      .tab-content {
+          background-color: #fff;
+          padding: 20px;
+          border: 1px solid #eaeaea;
+          border-top: none;
+      }
+      .btn-primary {
+          background-color: #ffd700;
+          border: none;
+      }
+      .text-logo {
+          display: block;
+          text-align: center;
+          font-size: 24px;
+          font-weight: bold;
+          color: #ffd700;
+          text-decoration: none;
+          margin-bottom: 20px;
+      }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="profile-header text-center">
+    <a href="/" class="text-logo">SellNest</a>
+    <img src="profile-pic.jpg" alt="User photo" class="rounded-circle profile-photo" width="100">
+    <h1 class="username">Username</h1>
+    <p class="user-info">User profile information goes here</p>
+  </div>
+  <ul class="nav nav-tabs justify-content-center">
+    <li class="nav-item">
+      <a class="nav-link text-logo" href="#listings" data-toggle="tab">Listings</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-logo" href="#settings" data-toggle="tab">Settings</a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div id="listings" class="tab-pane fade show active">
+      <p>Listings content...</p>
+    </div>
+    <div id="settings" class="tab-pane fade">
+      <div style="text-align: left;">
+        <input type="checkbox" id="sellItemsCheckbox">
+        <label for="sellItemsCheckbox">Sell Items</label>
+        <br> <!-- Add a line break to move the button to the next line -->
+        <button type="button" onclick="saveChanges()">Save Changes</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.9/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

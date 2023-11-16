@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f7f7f7;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          flex-direction: column;
+      }
+      .container {
+          text-align: center;
+          width: 400px; /* Adjust width as needed */
+          background-color: white;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+      }
+      h2 {
+          color: #333;
+      }
+      .form-group {
+          margin-bottom: 15px;
+      }
+      .btn-primary {
+          background-color: #ffd700;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+      }
+      .btn-primary:hover {
+          background-color: #ffd700;
+      }
+      .text-center {
+          color: #333;
+          margin-top: 20px;
+      }
+      .text-logo {
+          display: block;
+          text-align: center;
+          font-size: 24px;
+          font-weight: bold;
+          color: #ffd700;
+          text-decoration: none;
+          margin-bottom: 20px;
+      }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="/" class="text-logo">SellNest</a>
+  <h2>Login</h2>
+  <%= form_for(:session, url: login_path, html: { class: "form-horizontal" }) do |f| %>
+    <div class="form-group">
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.submit "Login", class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+  <p class="text-center">New user? <%= link_to "Sign up", signup_path %></p>
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
