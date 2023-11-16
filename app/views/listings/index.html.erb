@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listings - SellNest</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f7f7f7;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          flex-direction: column;
+      }
+      .container {
+          text-align: center;
+          width: 80%;
+      }
+      h1 {
+          color: #333;
+      }
+      table {
+          margin: 20px auto;
+          border-collapse: collapse;
+          width: 100%;
+      }
+      th, td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+      }
+      th {
+          background-color: #333;
+          color: white;
+      }
+      a {
+          color: #ffd700;
+          text-decoration: none;
+      }
+      a:hover {
+          text-decoration: underline;
+      }
+      button {
+          background-color: #333;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          margin: 10px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+      }
+      button:hover {
+          background-color: #333;
+      }
+      .text-logo {
+          display: block;
+          text-align: center;
+          font-size: 24px;
+          font-weight: bold;
+          color: #ffd700;
+          text-decoration: none;
+          margin-bottom: 20px;
+      }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="/" class="text-logo">SellNest</a>
+  <h1>Listings</h1>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Item</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @listings.each do |listing| %>
+      <tr>
+        <td>
+          <%= link_to listing.name, edit_listing_path(listing) %>
+        </td>
+        <td><%= listing.description %></td>
+        <td><%= listing.price %></td>
+        <td>
+          <%= link_to 'Edit', edit_listing_path(listing) %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to 'Create New Listing', new_listing_path, class: "button" %>
+</div>
+<script>
+    document.querySelectorAll('.button').forEach(function(button) {
+        button.addEventListener('click', function() {
+            location.href = this.getAttribute('href');
+        });
+    });
+</script>
+</body>
+</html>

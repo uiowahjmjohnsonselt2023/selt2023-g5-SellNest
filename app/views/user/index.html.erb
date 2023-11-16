@@ -27,6 +27,7 @@
           color: #666;
       }
       .nav-tabs {
+          color: #ffd700;
           border-bottom: none;
       }
       .tab-content {
@@ -36,24 +37,34 @@
           border-top: none;
       }
       .btn-primary {
-          background-color: #007bff;
+          background-color: #ffd700;
           border: none;
+      }
+      .text-logo {
+          display: block;
+          text-align: center;
+          font-size: 24px;
+          font-weight: bold;
+          color: #ffd700;
+          text-decoration: none;
+          margin-bottom: 20px;
       }
   </style>
 </head>
 <body>
 <div class="container">
   <div class="profile-header text-center">
+    <a href="/" class="text-logo">SellNest</a>
     <img src="profile-pic.jpg" alt="User photo" class="rounded-circle profile-photo" width="100">
     <h1 class="username">Username</h1>
     <p class="user-info">User profile information goes here</p>
   </div>
   <ul class="nav nav-tabs justify-content-center">
     <li class="nav-item">
-      <a class="nav-link active" href="#listings" data-toggle="tab">Listings</a>
+      <a class="nav-link text-logo" href="#listings" data-toggle="tab">Listings</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#settings" data-toggle="tab">Settings</a>
+      <a class="nav-link text-logo" href="#settings" data-toggle="tab">Settings</a>
     </li>
   </ul>
   <div class="tab-content">
