@@ -85,9 +85,8 @@
     <tbody>
     <% @listings.each do |listing| %>
       <tr>
-        <td>
-          <%= link_to listing.name, edit_listing_path(listing) %>
-        </td>
+        <td><%= image_tag(listing.photos[0].url) %></td>
+        <td><%= link_to listing.name, edit_listing_path(listing) %></td>
         <td><%= listing.description %></td>
         <td><%= listing.price %></td>
         <td>

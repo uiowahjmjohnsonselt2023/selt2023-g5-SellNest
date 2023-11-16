@@ -80,8 +80,8 @@
     </div>
 
     <div class="form-group">
-      <label for="item_photos">Upload Photos:</label>
-      <input type="file" id="item_photos" name="item_photos" accept="image/*" multiple>
+      <%= f.label :photos, 'Upload Photos:' %>
+      <%= f.file_field :photos, accept: 'image/*', multiple: true %>
     </div>
 
     <div class="form-group">
