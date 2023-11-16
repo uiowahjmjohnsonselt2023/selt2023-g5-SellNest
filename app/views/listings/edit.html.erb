@@ -92,6 +92,8 @@
       <%= f.submit 'Update Listing', class: 'btn btn-primary' %>
     </div>
   <% end %>
+
+  <%= button_to 'Delete', listing_path(@listing), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
 </div>
 </body>
 </html>
