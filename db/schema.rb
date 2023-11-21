@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_11_013300) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_16_023205) do
   create_table "listings", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.decimal "price"
-    t.string "photoURL"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "photos"
     t.index ["user_id"], name: "index_listings_on_user_id"
   end
 
