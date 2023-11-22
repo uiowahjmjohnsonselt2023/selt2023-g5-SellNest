@@ -73,9 +73,9 @@
   <a href="/" class="text-logo">SellNest</a>
   <h1>Create Listing</h1>
 
-  <%= form_for(@listing, url: listings_path, html: { class: "form-horizontal"}) do |f| %>
+  <%= form_for(@listing, url: listings_path, html: { class: "form-horizontal", multipart: true}) do |f| %>
     <div class="form-group">
-      <%= f.label :name %>
+      <%= f.label :name, 'Item Name' %>
       <%= f.text_field :name, class: 'form-control', required: true %>
     </div>
 
