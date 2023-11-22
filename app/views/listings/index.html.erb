@@ -76,6 +76,7 @@
   <table>
     <thead>
     <tr>
+      <th>Photo</th>
       <th>Item</th>
       <th>Description</th>
       <th>Price</th>
@@ -85,9 +86,11 @@
     <tbody>
     <% @listings.each do |listing| %>
       <tr>
-        <% @listing.photos.each do |photo| %>
-          <%= image_tag(photo) %>
-        <% end %>
+        <td>
+          <% listing.photos.each do |photo| %>
+              <%= image_tag(photo, width: '100px', height: '100px') %>
+          <% end %>
+        </td>
         <td><%= link_to listing.name, edit_listing_path(listing) %></td>
         <td><%= listing.description %></td>
         <td><%= listing.price %></td>
