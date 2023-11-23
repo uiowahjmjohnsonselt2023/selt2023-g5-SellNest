@@ -79,6 +79,23 @@
       <%= f.text_field :name, class: 'form-control', required: true %>
     </div>
 
+    <!-- Display selected tags -->
+    <div class="form-group">
+      <% f.object.tags.each do |tag| %>
+      <span class="selected-tag">
+        <%= tag.name %>
+        <%= f.hidden_field :tag_ids, multiple: true, value: tag.id %>
+        <button type="button" class="remove-tag" data-tag-id="<%= tag.id %>">x</button>
+      </span>
+      <% end %>
+    </div>
+
+    <!-- Add dropdown for selecting category tag -->
+    <div class="form-group">
+      <%= f.label :tag_ids, "Select Tags (up to 3)" %>
+      <%= f.collection_select :tag_ids, Tag.all, :id, :name, { prompt: "Select Tags" }, { multiple: true, class: 'form-control' } %>
+    </div>
+
     <div class="form-group">
       <label for="item_photos">Upload Photos:</label>
       <input type="file" id="item_photos" name="item_photos" accept="image/*" multiple>
@@ -98,6 +115,41 @@
       <%= f.submit "Create Listing", class: 'btn btn-primary' %>
     </div>
   <% end %>
+
+  <script>
+      // Remove tag functionality
+      document.addEventListener('DOMContentLoaded', function() {
+          const removeTagButtons = document.querySelectorAll('.remove-tag');
+
+          removeTagButtons.forEach(button => {
+              button.addEventListener('click', function() {
+                  const tagId = this.getAttribute('data-tag-id');
+                  const hiddenInput = document.querySelector(`input[value="${tagId}"]`);
+                  if (hiddenInput) {
+                      hiddenInput.remove();
+                  }
+                  this.parentElement.remove();
+              });
+          });
+      });
+  </script>
+
+  <style>
+      .selected-tag {
+          display: inline-block;
+          margin: 5px;
+          padding: 5px 10px;
+          background-color: #f0f0f0;
+          border-radius: 5px;
+      }
+      .remove-tag {
+          margin-left: 5px;
+          background-color: #e0e0e0;
+          border: none;
+          border-radius: 50%;
+          cursor: pointer;
+      }
+  </style>
 </div>
 </body>
 </html>
