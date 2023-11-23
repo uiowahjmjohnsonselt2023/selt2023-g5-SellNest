@@ -22,6 +22,12 @@ class UserController < ApplicationController
     @user = User.new
   end
 
+  def update_flag
+    @user = User.find(params[:id])
+    @user.update(seller: true)
+    redirect_to user_path, notice: 'Account upgraded'
+  end
+
   def signup
     @user = User.new
   end

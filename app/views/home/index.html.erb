@@ -6,62 +6,68 @@
   <title>SellNest</title>
   <style>
       body {
-          font-family: Arial, sans-serif;
+          font-family: 'Helvetica Neue', sans-serif;
           margin: 0;
           padding: 0;
-          background-color: #f7f7f7;
+          background-color: #eef2f3;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          flex-direction: column;
+          height: 100vh;
+      }
+      .header {
+          width: 100%;
+          background-color: #ffffff;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          padding: 10px 20px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+      .header h1 {
+          color: #333;
+          margin: 1px;
+      }
+      .buttons {
+          display: flex;
+          gap: 10px;
+      }
+      button {
+          background-color: #ffbd00;
+          color: black;
+          border: none;
+          padding: 10px 15px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.3s, box-shadow 0.3s;
+      }
+      button:hover {
+          background-color: #3949AB;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      }
+      main {
+          flex-grow: 1;
           display: flex;
           justify-content: center;
           align-items: center;
-          height: 100vh;
-          flex-direction: column;
       }
-      .container {
-          text-align: center;
-      }
-      h1 {
-          color: #333;
-      }
-      p {
+      main p {
           color: #666;
-          margin-bottom: 20px;
-      }
-      button {
-          background-color: #ffd700;
-          color: black;
-          border: none;
-          padding: 10px 20px;
-          margin: 0 10px;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: background-color 0.3s;
-      }
-      button:hover {
-          background-color: #b8860b;
+          font-size: 1.2rem;
       }
   </style>
 </head>
 <body>
-<div class="container">
-  <h1>Welcome to SellNest</h1>
-  <p>An online platform where Hawkeyes can buy and sell online</p>
-  <button onclick="location.href='/signup'">Create New User</button>
-  <button onclick="location.href='/login'">Sign In</button>
-  <button onclick="location.href= '/listings'">Listings</button>
-  <button onclick="location.href= '/user/index'">User Profile</button>
-  <button onclick="location.href= '/admin/index'">Admin Dashboard</button>
+<div class="header">
+  <h1>SellNest</h1>
+  <div class="buttons">
+    <button onclick="location.href='/signup'">Create New User</button>
+    <button onclick="location.href='/login'">Sign In</button>
+  </div>
 </div>
+<main>
+  <p>An online platform where Hawkeyes can buy and sell online</p>
+</main>
 </body>
 </html>
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
-
-<% if current_user %>
-  <h2><%= current_user.email %></h2>
-  <%= image_tag(current_user.avatar_url) %>
-  <%= link_to "Edit Account", edit_user_registration_path %>
-  <%= button_to "Logout", destroy_user_session_path, data: {turbo: "false"}, method: :delete %>
-<% else %>
-  <%= link_to "Login", new_user_session_path %>
-  <%= link_to "Create Account", new_user_registration_path %>
-<% end %>

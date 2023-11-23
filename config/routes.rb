@@ -1,23 +1,19 @@
 Rails.application.routes.draw do
-  root 'home#index'
-  devise_for :users, controllers: {
-    registrations: 'users/registrations',
-    sessions: 'users/sessions',
-    omniauth_callbacks: 'users/omniauth_callbacks'
-  }
+    root 'home#index'
 
-  get 'user/index'
-  get 'admin/index'
-  get 'signup', to: 'user#signup', as: 'signup'
-  post 'users', to: 'user#create'
-  get 'login', to: 'user#login', as: 'login'
-  get 'user/:id', to: 'user#show', as: 'user'
+    get 'user/index'
+    get 'admin/index'
 
-  resources :listings
-  post 'listings', to: 'listing#create'
-  # post 'update', to: 'listing#update', as: 'update'
+    get 'signup', to: 'user#signup', as: 'signup'
+    post 'users', to: 'user#create'
+    get 'login', to: 'user#login', as: 'login'
+    get 'user/:id', to: 'user#show', as: 'user'
 
+    resources :listings
+    post 'listings', to: 'listing#create'
+    # post 'update', to: 'listing#update', as: 'update'
 
+  end
 
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -74,4 +70,3 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-end
