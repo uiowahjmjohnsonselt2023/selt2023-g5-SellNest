@@ -91,9 +91,10 @@
     </div>
 
     <!-- Add dropdown for selecting category tag -->
-    <div class="form-group">
-      <%= f.label :tag_ids, "Select Tags (up to 3)" %>
-      <%= f.collection_select :tag_ids, Tag.all, :id, :name, { prompt: "Select Tags" }, { multiple: true, class: 'form-control' } %>
+    <div class="field">
+      <%= f.label :tag_ids, 'Select Tags' %>
+      <%= f.select :tag_ids, Tag.all.collect { |t| [t.name, t.id] }, include_blank: true %>
+      <%= f.submit %>
     </div>
 
     <div class="form-group">

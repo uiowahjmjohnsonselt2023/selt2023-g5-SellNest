@@ -5,6 +5,7 @@ class ListingsController < ApplicationController
 
   def new
     @listing = Listing.new
+    @tags = Tag.all
   end
 
   def show
