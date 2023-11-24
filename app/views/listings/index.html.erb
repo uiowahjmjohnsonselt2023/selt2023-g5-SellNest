@@ -118,6 +118,11 @@
           font-size: 20px;
           margin-bottom: 10px;
       }
+
+      .listing-buttons {
+          display: flex;
+          justify-content: space-between;
+      }
   </style>
 </head>
 <body>
@@ -134,13 +139,20 @@
               <%= image_tag(photo, width: '100%', height: 'auto') %>
             <% end %>
           </div>
-          <div class="carousel-controls">
-            <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
-            <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
-          </div>
+          <% if listing.photos.length > 1 %>
+            <div class="carousel-controls">
+              <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+              <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+            </div>
+          <% end %>
         </div>
         <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
         <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
+        <div class="listing-buttons">
+          <%= link_to 'Details', listing_path(listing), class: 'button details-button' %>
+          <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
+          <%= button_to 'Buy', '#', method: :post, class: 'button buy-button'%>
+        </div>
       </div>
     <% end %>
   </div>
