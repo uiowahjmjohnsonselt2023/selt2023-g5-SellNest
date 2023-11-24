@@ -16,34 +16,74 @@
           height: 100vh;
           flex-direction: column;
       }
+
       .container {
           text-align: center;
           width: 80%;
       }
+
       h1 {
           color: #333;
       }
-      table {
-          margin: 20px auto;
-          border-collapse: collapse;
-          width: 100%;
+
+      .grid-container {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 20px;
+          justify-content: center;
+          align-items: stretch;
       }
-      th, td {
-          border: 1px solid #ddd;
-          padding: 8px;
+
+      .grid-item {
           text-align: left;
+          border: 1px solid #ddd;
+          padding: 10px;
+          background-color: white;
+          height: 100%;
       }
-      th {
-          background-color: #333;
-          color: white;
+
+      .carousel-container {
+          position: relative;
+          overflow: hidden;
       }
+
+      .carousel {
+          display: flex;
+          transition: transform 0.3s ease-in-out;
+      }
+
+      .carousel img {
+          max-width: 100%;
+          height: auto;
+          border-bottom: 1px solid #ddd;
+          margin-bottom: 10px;
+      }
+
+      .carousel-controls {
+          position: absolute;
+          top: 50%;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          transform: translateY(-50%);
+      }
+
+      .carousel-arrow {
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 20px;
+      }
+
       a {
           color: #ffd700;
           text-decoration: none;
       }
+
       a:hover {
           text-decoration: underline;
       }
+
       button {
           background-color: #333;
           color: white;
@@ -54,9 +94,11 @@
           cursor: pointer;
           transition: background-color 0.3s;
       }
+
       button:hover {
           background-color: #333;
       }
+
       .text-logo {
           display: block;
           text-align: center;
@@ -73,43 +115,40 @@
   <a href="/" class="text-logo">SellNest</a>
   <h1>Listings</h1>
 
-  <table>
-    <thead>
-    <tr>
-      <th>Photo</th>
-      <th>Item</th>
-      <th>Description</th>
-      <th>Price</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
+  <div class="grid-container">
     <% @listings.each do |listing| %>
-      <tr>
-        <td>
-          <% listing.photos.each do |photo| %>
-              <%= image_tag(photo, width: '100px', height: '100px') %>
-          <% end %>
-        </td>
-        <td><%= link_to listing.name, edit_listing_path(listing) %></td>
-        <td><%= listing.description %></td>
-        <td><%= listing.price %></td>
-        <td>
-          <%= link_to 'Edit', edit_listing_path(listing) %>
-        </td>
-      </tr>
+      <div class="grid-item">
+        <div class="carousel-container">
+          <div class="carousel">
+            <% listing.photos.each do |photo| %>
+              <%= image_tag(photo, width: '100%', height: 'auto') %>
+            <% end %>
+          </div>
+          <div class="carousel-controls">
+            <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+            <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+          </div>
+        </div>
+        <h2><%= link_to listing.name, edit_listing_path(listing) %></h2>
+        <p><%= listing.description %></p>
+        <p><strong>Price:</strong> <%= listing.price %></p>
+        <%= link_to 'Edit', edit_listing_path(listing) %>
+      </div>
     <% end %>
-    </tbody>
-  </table>
+  </div>
 
   <%= link_to 'Create New Listing', new_listing_path, class: "button" %>
 </div>
 <script>
-    document.querySelectorAll('.button').forEach(function(button) {
-        button.addEventListener('click', function() {
-            location.href = this.getAttribute('href');
-        });
-    });
+    function prevSlide(button) {
+        const carousel = button.parentElement.previousElementSibling;
+        carousel.appendChild(carousel.firstElementChild);
+    }
+
+    function nextSlide(button) {
+        const carousel = button.parentElement.previousElementSibling;
+        carousel.prepend(carousel.lastElementChild);
+    }
 </script>
 </body>
 </html>
