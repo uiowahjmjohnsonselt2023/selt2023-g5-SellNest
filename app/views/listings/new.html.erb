@@ -94,7 +94,7 @@
     <div class="field">
       <%= f.label :tag_ids, 'Select Tags' %>
       <%= f.select :tag_ids, Tag.all.collect { |t| [t.name, t.id] }, include_blank: true %>
-      <%= f.submit %>
+      <%= f.button "Add tag" %>
     </div>
 
     <div class="form-group">
@@ -117,41 +117,42 @@
     </div>
   <% end %>
 
-  <script>
-      // Remove tag functionality
-      document.addEventListener('DOMContentLoaded', function() {
-          const removeTagButtons = document.querySelectorAll('.remove-tag');
-
-          removeTagButtons.forEach(button => {
-              button.addEventListener('click', function() {
-                  const tagId = this.getAttribute('data-tag-id');
-                  const hiddenInput = document.querySelector(`input[value="${tagId}"]`);
-                  if (hiddenInput) {
-                      hiddenInput.remove();
-                  }
-                  this.parentElement.remove();
-              });
-          });
-      });
-  </script>
-
-  <style>
-      .selected-tag {
-          display: inline-block;
-          margin: 5px;
-          padding: 5px 10px;
-          background-color: #f0f0f0;
-          border-radius: 5px;
-      }
-      .remove-tag {
-          margin-left: 5px;
-          background-color: #e0e0e0;
-          border: none;
-          border-radius: 50%;
-          cursor: pointer;
-      }
-  </style>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addTagBtn = document.querySelector('.add-tag-btn');
+        const selectedTagsList = document.querySelector('.selected-tags-list');
+        const tagDropdown = document.querySelector('.tag-dropdown');
+
+        addTagBtn.addEventListener('click', function() {
+            const selectedTagId = tagDropdown.value;
+            const selectedTagName = tagDropdown.options[tagDropdown.selectedIndex].text;
+
+            if (selectedTagId) {
+                const tagListItem = document.createElement('div');
+                tagListItem.classList.add('selected-tag');
+                tagListItem.innerHTML = `
+          ${selectedTagName}
+          <input type="hidden" name="listing[tag_ids][]" value="${selectedTagId}">
+          <button type="button" class="remove-tag" data-tag-id="${selectedTagId}">x</button>
+        `;
+                selectedTagsList.appendChild(tagListItem);
+            }
+        });
+
+        // Functionality to remove tags
+        selectedTagsList.addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-tag')) {
+                const tagId = event.target.dataset.tagId;
+                const tagToRemove = document.querySelector(`[data-tag-id="${tagId}"]`);
+
+                if (tagToRemove) {
+                    tagToRemove.parentElement.remove();
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>
 
