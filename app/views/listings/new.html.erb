@@ -74,13 +74,9 @@
   <h1>Create Listing</h1>
 
   <%= form_for(@listing, url: listings_path, html: { class: "form-horizontal"}) do |f| %>
-    <div class="form-group">
-      <%= f.label :name %>
-      <%= f.text_field :name, class: 'form-control', required: true %>
-    </div>
-
     <!-- Display selected tags -->
     <div class="form-group">
+      <div class="selected-tags-list"></div>
       <% f.object.tags.each do |tag| %>
       <span class="selected-tag">
         <%= tag.name %>
@@ -93,8 +89,8 @@
     <!-- Add dropdown for selecting category tag -->
     <div class="field">
       <%= f.label :tag_ids, 'Select Tags' %>
-      <%= f.select :tag_ids, Tag.all.collect { |t| [t.name, t.id] }, include_blank: true %>
-      <%= f.button "Add tag" %>
+      <%= f.select :tag_ids, Tag.all.collect { |t| [t.name, t.id] }, include_blank: true, class: 'tag-dropdown' %>
+      <%= f.button "Add tag", class: 'add-tag-btn' %>
     </div>
 
     <div class="form-group">
