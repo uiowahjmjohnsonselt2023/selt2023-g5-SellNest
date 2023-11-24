@@ -8,4 +8,11 @@ class BookmarksController < ApplicationController
     #       # respond with error message
     #     end
   end
+
+  def destroy
+    # temp code
+    # @bookmark = Bookmark.find(params[:id])
+    #     @bookmark.destroy
+    #     # respond to confirm deletion or update UI
+  end
 end
