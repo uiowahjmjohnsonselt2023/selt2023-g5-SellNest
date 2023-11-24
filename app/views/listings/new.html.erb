@@ -93,6 +93,15 @@
       <%= f.text_field :name, class: 'form-control', required: true %>
     </div>
 
+
+
+    <!-- Add dropdown for selecting category tag -->
+    <div class="field">
+      <%= f.label :tag_ids, 'Select Tags' %>
+      <%= f.select :tag_ids, Tag.all.collect { |t| [t.name, t.id] }, include_blank: true, class: 'tag-dropdown' %>
+      <%= f.button "Add tag", type: 'button', class: 'add-tag-btn' %>
+    </div>
+
     <div class="form-group">
       <div class="selected-tags-list horizontal-tags-list"></div>
       <% f.object.tags.each do |tag| %>
@@ -102,13 +111,6 @@
         <button type="button" class="remove-tag" data-tag-id="<%= tag.id %>">x</button>
       </span>
       <% end %>
-    </div>
-
-    <!-- Add dropdown for selecting category tag -->
-    <div class="field">
-      <%= f.label :tag_ids, 'Select Tags' %>
-      <%= f.select :tag_ids, Tag.all.collect { |t| [t.name, t.id] }, include_blank: true, class: 'tag-dropdown' %>
-      <%= f.button "Add tag", class: 'add-tag-btn' %>
     </div>
 
     <div class="form-group">
