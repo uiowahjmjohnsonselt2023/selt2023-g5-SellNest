@@ -80,7 +80,6 @@
       <%= f.text_field :name, class: 'form-control', required: true %>
     </div>
 
-    <!-- Display selected tags -->
     <div class="form-group">
       <div class="selected-tags-list"></div>
       <% f.object.tags.each do |tag| %>
@@ -126,7 +125,7 @@
         const selectedTagsList = document.querySelector('.selected-tags-list');
 
         addTagBtn.addEventListener('click', function() {
-            const tagDropdown = document.querySelector('.tag-dropdown');
+            const tagDropdown = document.getElementById('listing_tag_ids');
             const selectedTagId = tagDropdown.value;
             const selectedTagName = tagDropdown.options[tagDropdown.selectedIndex].text;
 
@@ -134,10 +133,10 @@
                 const tagListItem = document.createElement('div');
                 tagListItem.classList.add('selected-tag');
                 tagListItem.innerHTML = `
-          ${selectedTagName}
-          <input type="hidden" name="listing[tag_ids][]" value="${selectedTagId}">
-          <button type="button" class="remove-tag" data-tag-id="${selectedTagId}">x</button>
-        `;
+        ${selectedTagName}
+        <input type="hidden" name="listing[tag_ids][]" value="${selectedTagId}">
+        <button type="button" class="remove-tag" data-tag-id="${selectedTagId}">x</button>
+      `;
                 selectedTagsList.appendChild(tagListItem);
             }
         });
@@ -154,6 +153,7 @@
             }
         });
     });
+
 </script>
 </body>
 </html>
