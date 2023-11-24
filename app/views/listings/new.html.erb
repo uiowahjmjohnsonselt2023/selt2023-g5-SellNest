@@ -66,6 +66,19 @@
           text-decoration: none;
           margin-bottom: 20px;
       }
+      .horizontal-tags-list {
+          display: flex;
+          flex-wrap: wrap; /* Allow tags to wrap onto the next line */
+          gap: 8px; /* Adjust the space between tags */
+      }
+
+      .selected-tag {
+          display: inline-block;
+          background-color: #eaeaea;
+          padding: 4px 8px;
+          margin-bottom: 8px; /* Adjust vertical spacing between tags */
+          border-radius: 4px;
+      }
   </style>
 </head>
 <body>
@@ -81,7 +94,7 @@
     </div>
 
     <div class="form-group">
-      <div class="selected-tags-list"></div>
+      <div class="selected-tags-list horizontal-tags-list"></div>
       <% f.object.tags.each do |tag| %>
       <span class="selected-tag">
         <%= tag.name %>
