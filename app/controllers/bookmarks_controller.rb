@@ -15,4 +15,10 @@ class BookmarksController < ApplicationController
     #     @bookmark.destroy
     #     # respond to confirm deletion or update UI
   end
+
+  private
+
+  def bookmark_params
+    params.require(:bookmark).permit(:listable_id, :listable_type)
+  end
 end
