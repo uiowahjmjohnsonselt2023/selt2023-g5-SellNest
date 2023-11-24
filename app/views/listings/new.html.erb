@@ -74,6 +74,12 @@
   <h1>Create Listing</h1>
 
   <%= form_for(@listing, url: listings_path, html: { class: "form-horizontal"}) do |f| %>
+
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control', required: true %>
+    </div>
+
     <!-- Display selected tags -->
     <div class="form-group">
       <div class="selected-tags-list"></div>
@@ -118,9 +124,9 @@
     document.addEventListener('DOMContentLoaded', function() {
         const addTagBtn = document.querySelector('.add-tag-btn');
         const selectedTagsList = document.querySelector('.selected-tags-list');
-        const tagDropdown = document.querySelector('.tag-dropdown');
 
         addTagBtn.addEventListener('click', function() {
+            const tagDropdown = document.querySelector('.tag-dropdown');
             const selectedTagId = tagDropdown.value;
             const selectedTagName = tagDropdown.options[tagDropdown.selectedIndex].text;
 
