@@ -108,6 +108,16 @@
           text-decoration: none;
           margin-bottom: 20px;
       }
+
+      .listing-title {
+          font-size: 18px;
+          margin: 10px 0;
+      }
+
+      .listing-price {
+          font-size: 20px;
+          margin-bottom: 10px;
+      }
   </style>
 </head>
 <body>
@@ -129,16 +139,13 @@
             <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
           </div>
         </div>
-        <h2><%= link_to listing.name, edit_listing_path(listing) %></h2>
-        <p><%= listing.description %></p>
-        <p><strong>Price:</strong> <%= listing.price %></p>
-        <%= link_to 'Edit', edit_listing_path(listing) %>
+        <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
+        <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
       </div>
     <% end %>
   </div>
-
-  <%= link_to 'Create New Listing', new_listing_path, class: "button" %>
 </div>
+<%= link_to 'Create New Listing', new_listing_path, class: "button" %>
 <script>
     function prevSlide(button) {
         const carousel = button.parentElement.previousElementSibling;
