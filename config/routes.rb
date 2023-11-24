@@ -12,8 +12,10 @@ Rails.application.routes.draw do
     resources :listings
     post 'listings', to: 'listing#create'
     # post 'update', to: 'listing#update', as: 'update'
+    devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  end
+
+end
 
 
   # The priority is based upon order of creation: first created -> highest priority.
