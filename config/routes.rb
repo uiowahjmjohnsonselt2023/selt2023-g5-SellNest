@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     root 'home#index'
 
     get 'user/index'
-    get 'admin/index'
+    get '/admin', to: 'admin#index'
 
     #get 'signup', to: 'user#signup', as: 'signup'
     #post 'users', to: 'user#create'
@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
     resources :listings
     post 'listings', to: 'listing#create'
+    post '/admin', to: 'admin#index'
     # post 'update', to: 'listing#update', as: 'update'
 
 

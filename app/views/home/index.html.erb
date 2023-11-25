@@ -63,6 +63,7 @@
   <h1>SellNest</h1>
   <%= link_to "Login", new_user_session_path %>
   <%= link_to "Create Login", new_user_registration_path %>
+  <%= button_to "Logout", destroy_user_session_path, data: {turbo: "false"}, method: :delete %>
 </div>
 <main>
   <p>An online platform where Hawkeyes can buy and sell online</p>
