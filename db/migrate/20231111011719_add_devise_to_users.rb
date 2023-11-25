@@ -5,6 +5,10 @@ class AddDeviseToUsers < ActiveRecord::Migration[7.1]
       # Ensure these columns exist, if not, uncomment them
       # t.string :email,              null: false, default: ""
       # t.string :encrypted_password, null: false, default: ""
+      t.string :full_name
+      t.string :uid
+      t.string :avatar_url
+      t.string :provider
 
       ## Recoverable
       t.string   :reset_password_token
