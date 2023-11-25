@@ -14,14 +14,21 @@ class ListingsController < ApplicationController
   end
 
   def listing_params
-    params.require(:listing).permit(:name, :photos, :description, :price, :user_id)
+    params.require(:listing).permit(:name, :description, :price, :user_id, photos: [])
   end
 
   def create
-    @listing = Listing.create!(listing_params)
-    flash[:notice] = "#{@listing.name} was successfully created."
-    redirect_to listings_path
+    @listing = Listing.new(listing_params)
+
+    if @listing.save
+      flash[:notice] = "#{@listing.name} was successfully created."
+      redirect_to listings_path
+    else
+      render 'new'
+    end
   end
+
+
 
   def index
     @listings = Listing.all
