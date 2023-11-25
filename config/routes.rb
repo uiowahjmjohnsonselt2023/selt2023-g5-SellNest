@@ -1,19 +1,27 @@
 Rails.application.routes.draw do
+
     root 'home#index'
 
     get 'user/index'
     get 'admin/index'
 
-    get 'signup', to: 'user#signup', as: 'signup'
-    post 'users', to: 'user#create'
-    get 'login', to: 'user#login', as: 'login'
-    get 'user/:id', to: 'user#show', as: 'user'
+    #get 'signup', to: 'user#signup', as: 'signup'
+    #post 'users', to: 'user#create'
+    #get 'login', to: 'user#login', as: 'login'
+    devise_for :users, controllers: {
+      omniauth_callbacks: 'users/omniauth_callbacks',
+      sessions: 'users/sessions',
+      registrations: 'users/registrations'
+    }
+
+    #get 'user/:id', to: 'user#show', as: 'user'
 
     resources :listings
     post 'listings', to: 'listing#create'
     # post 'update', to: 'listing#update', as: 'update'
 
-  end
+
+end
 
 
   # The priority is based upon order of creation: first created -> highest priority.

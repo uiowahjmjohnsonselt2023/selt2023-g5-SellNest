@@ -61,10 +61,8 @@
 <body>
 <div class="header">
   <h1>SellNest</h1>
-  <div class="buttons">
-    <button onclick="location.href='/signup'">Create New User</button>
-    <button onclick="location.href='/login'">Sign In</button>
-  </div>
+  <%= link_to "Login", new_user_session_path %>
+  <%= link_to "Create Login", new_user_registration_path %>
 </div>
 <main>
   <p>An online platform where Hawkeyes can buy and sell online</p>
