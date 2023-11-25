@@ -56,6 +56,10 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_22_182949) do
     t.boolean "seller", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "full_name"
+    t.string "uid"
+    t.string "avatar_url"
+    t.string "provider"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
