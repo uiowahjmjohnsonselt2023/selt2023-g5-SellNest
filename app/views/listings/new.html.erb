@@ -112,6 +112,7 @@
 
           transform: scale(1.05); /* Scale the button on hover */
       }
+
   </style>
 </head>
 <body>
@@ -131,7 +132,8 @@
     <!-- Add dropdown for selecting category tag -->
     <div class="field">
       <%= f.label :tag_ids, 'Select Tags' %>
-      <%= f.select :tag_ids, Tag.all.collect { |t| [t.name, t.id] }, include_blank: true, class: 'tag-dropdown' %>
+      <%= f.select :tag_ids, Tag.all.collect { |t| [t.name, t.id] }, { include_blank: true }, { multiple: true, class: 'tag-dropdown' } %>
+
       <%= f.button "Add tag", type: 'button', class: 'add-tag-btn' %>
     </div>
 
@@ -173,21 +175,21 @@
         const selectedTagsList = document.querySelector('.selected-tags-list');
 
         addTagBtn.addEventListener('click', function() {
-            const tagDropdown = document.getElementById('listing_tag_ids');
-            const selectedTagId = tagDropdown.value;
-            const selectedTagName = tagDropdown.options[tagDropdown.selectedIndex].text;
+            const tagDropdown = document.querySelector('.tag-dropdown');
+            const selectedOption = tagDropdown.options[tagDropdown.selectedIndex];
 
-            if (selectedTagId) {
+            if (selectedOption.value !== '') {
+                const tagId = selectedOption.value;
+                const tagName = selectedOption.text;
+
                 const tagListItem = document.createElement('div');
                 tagListItem.classList.add('selected-tag');
                 tagListItem.innerHTML = `
-        ${selectedTagName}
-        <input type="hidden" name="listing[tag_ids][]" value="${selectedTagId}">
-        <button type="button" class="remove-tag" data-tag-id="${selectedTagId}">x</button>
+        ${tagName}
+        <input type="hidden" name="listing[tag_ids][]" value="${tagId}">
+        <button type="button" class="remove-tag" data-tag-id="${tagId}">x</button>
       `;
                 selectedTagsList.appendChild(tagListItem);
-                // Reset the dropdown to the blank state
-                tagDropdown.selectedIndex = 0;
             }
         });
 
