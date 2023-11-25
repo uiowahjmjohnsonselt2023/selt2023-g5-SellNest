@@ -30,7 +30,14 @@ class ListingsController < ApplicationController
 
 
   def index
-    @listings = Listing.all
+    # Sort by creation date if the parameter is present
+    if params[:sort_by_date] == "desc"
+      @listings = Listing.order(created_at: :desc)
+    elsif params[:sort_by_date] == "asc"
+      @listings = Listing.order(created_at: :asc)
+    else
+      @listings = Listing.all
+    end
     render :index
   end
 

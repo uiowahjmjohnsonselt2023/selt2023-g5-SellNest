@@ -164,6 +164,7 @@
   <h1>Listings</h1>
 
   <button id="sortPrice">Sort by Price</button>
+  <button id="sortDate">Sort by Date</button>
 
   <div class="grid-container">
     <% @listings.each do |listing| %>
@@ -272,6 +273,14 @@
 
             // Optionally, update the button text to reflect the sort order
             document.getElementById('sortPrice').textContent = sortOrder === 'ascending' ? 'Sort by Price (Ascending)' : 'Sort by Price (Descending)';
+        });
+
+        var isAscending = true; // Tracks the current sorting order
+
+        document.getElementById('sortDate').addEventListener('click', function() {
+            var sortParam = isAscending ? 'asc' : 'desc';
+            window.location.href = '?sort_by_date=' + sortParam;
+            isAscending = !isAscending; // Toggle the sorting order for the next click
         });
     });
 </script>
