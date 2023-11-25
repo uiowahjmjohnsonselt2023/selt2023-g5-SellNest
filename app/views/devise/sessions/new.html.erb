@@ -62,20 +62,28 @@
 <div class="container">
   <a href="/" class="text-logo">SellNest</a>
   <h2>Login</h2>
-  <%= form_for(:session, url: login_path, html: { class: "form-horizontal" }) do |f| %>
-    <div class="form-group">
-      <%= f.label :email %>
-      <%= f.email_field :email, class: 'form-control' %>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="field">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
     </div>
-    <div class="form-group">
-      <%= f.label :password %>
-      <%= f.password_field :password, class: 'form-control' %>
+
+    <div class="field">
+      <%= f.label :password %><br />
+      <%= f.password_field :password, autocomplete: "current-password" %>
     </div>
-    <div class="form-group">
-      <%= f.submit "Login", class: 'btn btn-primary' %>
+
+    <% if devise_mapping.rememberable? %>
+      <div class="field">
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me %>
+      </div>
+    <% end %>
+    <div class="actions">
+      <%= f.submit "Log in" %>
     </div>
   <% end %>
-  <p class="text-center">New user? <%= link_to "Sign up", signup_path %></p>
+  <%= render "devise/shared/links" %>
 </div>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
