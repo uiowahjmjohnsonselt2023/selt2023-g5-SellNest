@@ -173,27 +173,31 @@
     document.addEventListener('DOMContentLoaded', function() {
         const addTagBtn = document.querySelector('.add-tag-btn');
         const selectedTagsList = document.querySelector('.selected-tags-list');
+        const tagDropdown = document.querySelector('.tag-dropdown');
 
         addTagBtn.addEventListener('click', function() {
-            const tagDropdown = document.querySelector('.tag-dropdown');
             const selectedOption = tagDropdown.options[tagDropdown.selectedIndex];
+            const selectedValue = selectedOption.value;
 
-            if (selectedOption.value !== '') {
-                const tagId = selectedOption.value;
+            if (selectedValue && !isTagAlreadyAdded(selectedValue)) {
                 const tagName = selectedOption.text;
 
                 const tagListItem = document.createElement('div');
                 tagListItem.classList.add('selected-tag');
                 tagListItem.innerHTML = `
         ${tagName}
-        <input type="hidden" name="listing[tag_ids][]" value="${tagId}">
-        <button type="button" class="remove-tag" data-tag-id="${tagId}">x</button>
+        <input type="hidden" name="listing[tag_ids][]" value="${selectedValue}">
+        <button type="button" class="remove-tag" data-tag-id="${selectedValue}">x</button>
       `;
                 selectedTagsList.appendChild(tagListItem);
             }
         });
 
-        // Functionality to remove tags
+        function isTagAlreadyAdded(tagId) {
+            const tagInputs = document.querySelectorAll('input[name="listing[tag_ids][]"]');
+            return Array.from(tagInputs).some(input => input.value === tagId);
+        }
+
         selectedTagsList.addEventListener('click', function(event) {
             if (event.target.classList.contains('remove-tag')) {
                 const tagId = event.target.dataset.tagId;
