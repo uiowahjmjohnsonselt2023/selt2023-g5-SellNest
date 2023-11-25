@@ -163,6 +163,8 @@
   <a href="/" class="text-logo">SellNest</a>
   <h1>Listings</h1>
 
+  <button id="sortPrice">Sort by Price</button>
+
   <div class="grid-container">
     <% @listings.each do |listing| %>
       <div class="grid-item">
@@ -233,7 +235,45 @@
         if (event.target === modal) {
             modal.style.display = 'none';
         }
-    };
+    }
+
+    // Ensure the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize a variable to keep track of the sort order
+        let sortOrder = 'ascending'; // The initial sort order
+
+        document.getElementById('sortPrice').addEventListener('click', () => {
+            // Select all listings within the container
+            let listings = document.querySelectorAll('.grid-container .grid-item');
+            let sortedListings;
+
+            if (sortOrder === 'ascending') {
+                sortedListings = Array.from(listings).sort((a, b) => {
+                    let priceA = parseFloat(a.querySelector('.listing-price').textContent.replace(/[$,]/g, ''));
+                    let priceB = parseFloat(b.querySelector('.listing-price').textContent.replace(/[$,]/g, ''));
+                    return priceA - priceB;
+                });
+                sortOrder = 'descending'; // Toggle the sort order for the next click
+            } else {
+                sortedListings = Array.from(listings).sort((a, b) => {
+                    let priceA = parseFloat(a.querySelector('.listing-price').textContent.replace(/[$,]/g, ''));
+                    let priceB = parseFloat(b.querySelector('.listing-price').textContent.replace(/[$,]/g, ''));
+                    return priceB - priceA;
+                });
+                sortOrder = 'ascending'; // Toggle the sort order for the next click
+            }
+
+            // Container of listings
+            let listingsContainer = document.querySelector('.grid-container');
+            // Append sorted listings back to the container
+            sortedListings.forEach(listing => {
+                listingsContainer.appendChild(listing);
+            });
+
+            // Optionally, update the button text to reflect the sort order
+            document.getElementById('sortPrice').textContent = sortOrder === 'ascending' ? 'Sort by Price (Ascending)' : 'Sort by Price (Descending)';
+        });
+    });
 </script>
 </body>
 </html>
