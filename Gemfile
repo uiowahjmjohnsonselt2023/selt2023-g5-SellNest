@@ -35,6 +35,7 @@ gem 'jbuilder'
 gem 'sdoc', '~> 1.1.0', group: :doc
 gem 'devise'
 gem 'omniauth-google-oauth2'
+gem "omniauth-rails_csrf_protection"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

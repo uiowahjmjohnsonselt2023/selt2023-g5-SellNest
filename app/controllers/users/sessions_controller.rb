@@ -22,7 +22,7 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def after_sign_in_path_for(resource_or_scope)
-    stared_location_for(resource_or_scope) || root_path
+    stored_location_for(resource_or_scope) || root_path
   end
 
   # protected
