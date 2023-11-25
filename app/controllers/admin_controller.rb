@@ -1,10 +1,6 @@
 class AdminController < ApplicationController
   def index
-    @total_users = totalUsers
+    @total_users = User.count
+    @items_listed = Listing.count
   end
-
-  def totalUsers
-    User.count
-  end
-  
 end
