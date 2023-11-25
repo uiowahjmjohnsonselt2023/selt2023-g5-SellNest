@@ -8,7 +8,6 @@ class CreateListings < ActiveRecord::Migration[7.1]
 
       # Assuming each listing is associated with a user (seller)
       t.references :user, index: true, foreign_key: true
-
       t.timestamps null: false
     end
   end

@@ -53,9 +53,11 @@
           border-radius: 5px;
           cursor: pointer;
           transition: background-color 0.3s;
+
       }
       input[type="submit"]:hover {
           background-color: #b8860b;
+          transform: scale(1.05);
       }
       .text-logo {
           display: block;
@@ -66,6 +68,51 @@
           text-decoration: none;
           margin-bottom: 20px;
       }
+      .horizontal-tags-list {
+          display: flex;
+          flex-wrap: wrap; /* Allow tags to wrap onto the next line */
+          gap: 8px; /* Adjust the space between tags */
+      }
+
+      .selected-tag {
+          display: inline-block;
+          /*background-color: #eaeaea;*/
+          padding: 4px 8px;
+          margin-bottom: 8px; /* Adjust vertical spacing between tags */
+          border-radius: 4px;
+      }
+
+      .add-tag-btn {
+          background-color: #ffd700;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s, transform 0.2s;
+      }
+
+      .add-tag-btn:hover {
+          background-color: #b8860b;
+           /* Scale the button on hover */
+      }
+
+      .remove-tag {
+          background-color: #d9534f; /* Lighter shade of red */
+          color: white; /* Text color */
+          border: none;
+          padding: 4px 8px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.3s, transform 0.2s, color 0.3s;
+      }
+
+      .remove-tag:hover {
+          background-color: #c9302c; /* Slightly darker shade of red on hover */
+
+          transform: scale(1.05); /* Scale the button on hover */
+      }
+
   </style>
 </head>
 <body>
@@ -74,9 +121,31 @@
   <h1>Create Listing</h1>
 
   <%= form_for(@listing, url: listings_path, html: { class: "form-horizontal", multipart: true}) do |f| %>
+
     <div class="form-group">
-      <%= f.label :name, 'Item Name' %>
+      <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control', required: true %>
+    </div>
+
+
+
+    <!-- Add dropdown for selecting category tag -->
+    <div class="field">
+      <%= f.label :tag_ids, 'Select Tags' %>
+      <%= f.select :tag_ids, Tag.all.collect { |t| [t.name, t.id] }, { include_blank: true }, { multiple: true, class: 'tag-dropdown' } %>
+
+      <%= f.button "Add tag", type: 'button', class: 'add-tag-btn' %>
+    </div>
+
+    <div class="form-group">
+      <div class="selected-tags-list horizontal-tags-list"></div>
+      <% f.object.tags.each do |tag| %>
+      <span class="selected-tag">
+        <%= tag.name %>
+        <%= f.hidden_field :tag_ids, multiple: true, value: tag.id %>
+        <button type="button" class="remove-tag" data-tag-id="<%= tag.id %>">x</button>
+      </span>
+      <% end %>
     </div>
 
     <div class="form-group">
@@ -98,7 +167,50 @@
       <%= f.submit "Create Listing", class: 'btn btn-primary' %>
     </div>
   <% end %>
+
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addTagBtn = document.querySelector('.add-tag-btn');
+        const selectedTagsList = document.querySelector('.selected-tags-list');
+        const tagDropdown = document.querySelector('.tag-dropdown');
+
+        addTagBtn.addEventListener('click', function() {
+            const selectedOption = tagDropdown.options[tagDropdown.selectedIndex];
+            const selectedValue = selectedOption.value;
+
+            if (selectedValue && !isTagAlreadyAdded(selectedValue)) {
+                const tagName = selectedOption.text;
+
+                const tagListItem = document.createElement('div');
+                tagListItem.classList.add('selected-tag');
+                tagListItem.innerHTML = `
+        ${tagName}
+        <input type="hidden" name="listing[tag_ids][]" value="${selectedValue}">
+        <button type="button" class="remove-tag" data-tag-id="${selectedValue}">x</button>
+      `;
+                selectedTagsList.appendChild(tagListItem);
+            }
+        });
+
+        function isTagAlreadyAdded(tagId) {
+            const tagInputs = document.querySelectorAll('input[name="listing[tag_ids][]"]');
+            return Array.from(tagInputs).some(input => input.value === tagId);
+        }
+
+        selectedTagsList.addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-tag')) {
+                const tagId = event.target.dataset.tagId;
+                const tagToRemove = document.querySelector(`[data-tag-id="${tagId}"]`);
+
+                if (tagToRemove) {
+                    tagToRemove.parentElement.remove();
+                }
+            }
+        });
+    });
+
+</script>
 </body>
 </html>
 

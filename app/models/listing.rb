@@ -1,4 +1,8 @@
 class Listing < ActiveRecord::Base
+
+
+  has_many :listing_tags
+  has_many :tags, through: :listing_tags
   # belongs_to :user
   has_many_attached :photos
 
