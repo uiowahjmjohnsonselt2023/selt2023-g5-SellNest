@@ -165,6 +165,10 @@
 <div class="container">
   <a href="/" class="text-logo">SellNest</a>
   <h1>Listings</h1>
+  <%= form_tag(listings_path, method: :get) do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search Listings" %>
+    <%= submit_tag "Search", name: nil %>
+  <% end %>
   <%= link_to "Admin Dashboard", admin_path %>
   <div class="grid-container">
     <% @listings.each do |listing| %>

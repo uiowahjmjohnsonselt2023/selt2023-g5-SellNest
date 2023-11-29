@@ -31,7 +31,11 @@ class ListingsController < ApplicationController
 
 
   def index
-    @listings = Listing.all
+    @listings = if params[:search]
+                  Listing.search_by_title(params[:search])
+                else
+                  Listing.all
+                end
     render :index
   end
 
