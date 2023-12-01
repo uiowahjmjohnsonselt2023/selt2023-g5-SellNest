@@ -26,22 +26,30 @@ class CartController < ApplicationController
   end
 
   def checkout
+    order = nil
     if @cart.cart_items.any?
-      order = current_user.orders.create(total: @cart.total_price, status: 'complete')
+      ActiveRecord::Base.transaction do
+        order = current_user.orders.create!(total: @cart.total_price, status: 'complete')
 
-      @cart.cart_items.each do |item|
-        order.order_items.create(listing: item.listing, quantity: item.quantity)
-        # Here you may also want to remove the item from the cart or decrease the stock of the listing
+        @cart.cart_items.each do |item|
+          order.order_items.create!(listing: item.listing, quantity: item.quantity)
+          # Remove the listing from the active listings
+          item.listing.destroy!
+        end
+
+        # Clear the cart items after checkout
+        @cart.cart_items.destroy_all
       end
-
-      # Clear the cart items after checkout
-      @cart.cart_items.destroy_all
 
       redirect_to order_path(order), notice: 'Thank you for your purchase!'
     else
       redirect_to cart_path, alert: 'Your cart is empty.'
     end
+  rescue ActiveRecord::RecordInvalid => e
+    # If the transaction fails, redirect to the cart page with an error message
+    redirect_to cart_path, alert: "Checkout failed: #{e.message}"
   end
+
 
   private
 
