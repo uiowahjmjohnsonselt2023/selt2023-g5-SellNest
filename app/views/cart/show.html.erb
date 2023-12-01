@@ -2,6 +2,7 @@
 
 <div class="cart-container">
   <%= stylesheet_link_tag 'cart' %>
+  <%= button_to 'Checkout', cart_checkout_path, method: :post, class: 'checkout-button' %>
   <% if @cart.cart_items.any? %>
     <table class="cart-table">
       <thead>
