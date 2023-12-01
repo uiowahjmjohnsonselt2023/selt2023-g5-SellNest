@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-
+  has_one :cart
   def seller?
     seller == true
   end
