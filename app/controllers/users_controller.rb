@@ -1,4 +1,5 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
+  before_action :authenticate_user!, only: [:show]
   def login
   end
 
@@ -19,7 +20,7 @@ class UserController < ApplicationController
   end
 
   def show
-    @user = User.new
+    @user = User.find(params[:id])
   end
 
   def update_flag
