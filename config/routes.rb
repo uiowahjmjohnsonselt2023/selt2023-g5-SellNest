@@ -34,6 +34,7 @@ Rails.application.routes.draw do
         delete 'remove_item/:id', to: 'cart#remove_item', as: :remove_item_from
       end
     end
+    resources :users, only: [:show]
 
 end
 
