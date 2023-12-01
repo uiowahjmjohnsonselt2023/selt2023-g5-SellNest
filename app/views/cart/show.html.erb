@@ -1,2 +1,14 @@
-<h1>Cart#show</h1>
-<p>Find me in app/views/cart/show.html.erb</p>
+<h1>Your Shopping Cart</h1>
+
+<% if @cart.cart_items.any? %>
+  <ul>
+    <% @cart.cart_items.each do |cart_item| %>
+      <li>
+        <%= cart_item.listing.name %> - Quantity: <%= cart_item.quantity %>
+        <%= button_to 'Remove from Cart', remove_item_from_cart_path(cart_item.listing), method: :delete %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Your cart is empty.</p>
+<% end %>
