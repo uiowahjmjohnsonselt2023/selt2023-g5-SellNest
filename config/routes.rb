@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     post '/admin', to: 'admin#index'
     # post 'update', to: 'listing#update', as: 'update'
 
+    resources :users, only: [:show]
 
 end
 
