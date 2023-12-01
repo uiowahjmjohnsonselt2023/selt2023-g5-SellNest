@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  has_one :cart
+  has_one :cart, dependent: :destroy
+  after_create :create_cart_for_user
   def seller?
     seller == true
   end
@@ -17,5 +18,11 @@ class User < ActiveRecord::Base
       # uncomment the line below to skip the confirmation emails.
       # user.skip_confirmation!
     end
+  end
+
+  private
+
+  def create_cart_for_user
+    create_cart
   end
 end
