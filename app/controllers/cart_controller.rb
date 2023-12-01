@@ -19,6 +19,12 @@ class CartController < ApplicationController
     redirect_to cart_path
   end
 
+  def add_item_to_cart
+    cart_item = @cart.cart_items.find_or_initialize_by(listing_id: params[:listing_id])
+    cart_item.quantity = (cart_item.quantity || 0) + 1
+    cart_item.save
+  end
+
   private
 
   def set_cart
