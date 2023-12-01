@@ -165,6 +165,29 @@
 <div class="container">
   <a href="/" class="text-logo">SellNest</a>
   <h1>Listings</h1>
+  <%= form_tag(listings_path, method: :get) do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search Listings" %>
+    <%= submit_tag "Search", name: nil %>
+  <% end %>
+  <%= link_to 'Price Low to High', listings_path(sort: 'price_asc') %>
+  <%= link_to 'Price High to Low', listings_path(sort: 'price_desc') %>
+  <%= link_to 'Newest First', listings_path(sort: 'newest') %>
+  <%= link_to 'Oldest First', listings_path(sort: 'oldest') %>
+
+  <%= form_tag(listings_path, method: :get) do %>
+    <%= label_tag(:min_price, "Minimum Price") %>
+    <%= text_field_tag(:min_price) %>
+
+    <%= label_tag(:max_price, "Maximum Price") %>
+    <%= text_field_tag(:max_price) %>
+
+    <%= label_tag(:tags, "Tags") %>
+    <%= text_field_tag(:tags) %>
+
+    <%= submit_tag "Filter" %>
+  <% end %>
+
+
   <%= link_to "Admin Dashboard", admin_path %>
   <div class="grid-container">
     <% @listings.each do |listing| %>

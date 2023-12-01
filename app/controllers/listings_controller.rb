@@ -31,9 +31,30 @@ class ListingsController < ApplicationController
 
 
   def index
-    @listings = Listing.all
+    # Start with all listings or search results
+    @listings = params[:search] ? Listing.search_by_title(params[:search]) : Listing.all
+
+    # Sorting logic
+    case params[:sort]
+    when 'price_asc'
+      @listings = @listings.order(price: :asc)
+    when 'price_desc'
+      @listings = @listings.order(price: :desc)
+    when 'newest'
+      @listings = @listings.order(created_at: :desc)
+    when 'oldest'
+      @listings = @listings.order(created_at: :asc)
+    end
+
+    # Advanced filtering logic
+    @listings = @listings.where('price >= ?', params[:min_price].to_f) if params[:min_price].present?
+    @listings = @listings.where('price <= ?', params[:max_price].to_f) if params[:max_price].present?
+    # Add more filters as needed
+
+    # Finally, render the index view
     render :index
   end
+
 
   def update
     @listing = Listing.find(params[:id])
