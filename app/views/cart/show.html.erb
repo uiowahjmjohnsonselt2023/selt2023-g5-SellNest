@@ -1,0 +1,38 @@
+<h1>Your Shopping Cart</h1>
+
+<div class="cart-container">
+  <%= stylesheet_link_tag 'cart' %>
+  <%= button_to 'Checkout', cart_checkout_path, method: :post, class: 'checkout-button' %>
+  <% if @cart.cart_items.any? %>
+    <table class="cart-table">
+      <thead>
+      <tr>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @cart.cart_items.each do |cart_item| %>
+        <tr>
+          <td><%= cart_item.listing.name %></td>
+          <td><%= number_to_currency(cart_item.listing.price) %></td>
+          <td>
+            <%= button_to 'Remove from Cart', remove_item_from_cart_path(cart_item.listing), method: :delete, class: 'remove-button' %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <!-- Link to the listings page -->
+    <div class="continue-shopping">
+      <%= link_to 'Continue Shopping', listings_path, class: 'continue-shopping-link' %>
+    </div>
+  <% else %>
+    <p>Your cart is empty.</p>
+    <!-- Link to the listings page -->
+    <div class="continue-shopping">
+      <%= link_to 'Start Shopping', listings_path, class: 'continue-shopping-link' %>
+    </div>
+  <% end %>
+</div>

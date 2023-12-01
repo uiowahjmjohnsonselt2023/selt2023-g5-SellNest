@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <title>Listings - SellNest</title>
   <style>
       body {
@@ -159,11 +160,37 @@
       .close:hover {
           color: black;
       }
+
+      .fa-shopping-cart {
+          margin-right: 5px; /* Adds spacing between the icon and text */
+      }
+
+      .view-cart-button {
+          display: inline-block;
+          margin-left: 20px; /* Adjust as needed */
+          vertical-align: middle;
+      }
+
+      .button.view-cart-button {
+          text-decoration: none;
+          padding: 10px 15px; /* Adjust padding as needed */
+          background-color: #333; /* Adjust background color as needed */
+          color: white; /* Adjust text color as needed */
+          border-radius: 5px; /* Adjust border radius as needed */
+          transition: background-color 0.3s;
+      }
+
+      .button.view-cart-button:hover {
+          background-color: #555; /* Adjust hover color as needed */
+      }
   </style>
 </head>
 <body>
 <div class="container">
   <a href="/" class="text-logo">SellNest</a>
+  <%= link_to cart_path do %>
+    <i class="fas fa-shopping-cart"></i> Cart
+  <% end %>
   <h1>Listings</h1>
   <%= form_tag(listings_path, method: :get) do %>
     <%= text_field_tag :search, params[:search], placeholder: "Search Listings" %>
@@ -210,8 +237,8 @@
         <div class="listing-buttons">
           <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>')">Details</button>
           <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
-          <%= button_to 'Buy', '#', method: :post, class: 'button buy-button'%>
         </div>
+        <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
       </div>
     <% end %>
   </div>
