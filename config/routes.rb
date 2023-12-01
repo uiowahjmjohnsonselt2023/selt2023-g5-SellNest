@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
-  get 'cart/show'
-  get 'cart/add_item'
-  get 'cart/remove_item'
-
     root 'home#index'
 
     get 'user/index'
     get '/admin', to: 'admin#index'
+    get 'cart/show'
+    get 'cart/add_item'
+    get 'cart/remove_item'
 
     #get 'signup', to: 'user#signup', as: 'signup'
     #post 'users', to: 'user#create'
@@ -24,6 +23,12 @@ Rails.application.routes.draw do
     post '/admin', to: 'admin#index'
     # post 'update', to: 'listing#update', as: 'update'
 
+    resource :cart, only: [:show] do
+      member do
+        post 'add_item/:id', to: 'cart#add_item', as: :add_item_to
+        delete 'remove_item/:id', to: 'cart#remove_item', as: :remove_item_from
+      end
+    end
 
 end
 
