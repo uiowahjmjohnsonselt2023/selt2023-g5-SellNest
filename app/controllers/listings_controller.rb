@@ -9,9 +9,9 @@ class ListingsController < ApplicationController
   end
 
   def show
-    id = params[:id]
-    @listing = Listing.find(id)
+    @listing = Listing.includes(:tags).find(params[:id])
   end
+
 
   def listing_params
     params.require(:listing).permit(:name, :description, :price, :user_id, photos: [])
