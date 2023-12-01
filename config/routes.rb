@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
     get 'user/index'
     get '/admin', to: 'admin#index'
-    get 'cart/show'
+    get '/cart', to: 'cart#show', as: 'cart_show'
+    post '/cart/add_item/:id', to: 'cart#add_item', as: 'cart_add_item'
+    delete '/cart/remove_item/:id', to: 'cart#remove_item', as: 'cart_remove_item'
     get 'cart/add_item'
     get 'cart/remove_item'
 
