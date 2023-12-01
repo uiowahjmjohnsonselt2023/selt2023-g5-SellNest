@@ -1,14 +1,33 @@
 <h1>Your Shopping Cart</h1>
 
-<% if @cart.cart_items.any? %>
-  <ul>
-    <% @cart.cart_items.each do |cart_item| %>
-      <li>
-        <%= cart_item.listing.name %> - Quantity: <%= cart_item.quantity %>
-        <%= button_to 'Remove from Cart', remove_item_from_cart_path(cart_item.listing), method: :delete %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>Your cart is empty.</p>
-<% end %>
+<div class="cart-container">
+  <%= stylesheet_link_tag 'cart' %>
+  <% if @cart.cart_items.any? %>
+    <table class="cart-table">
+      <thead>
+      <tr>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @cart.cart_items.each do |cart_item| %>
+        <tr>
+          <td><%= cart_item.listing.name %></td>
+          <td><%= number_to_currency(cart_item.listing.price) %></td>
+          <td><%= cart_item.quantity %></td>
+          <td><%= number_to_currency(cart_item.quantity * cart_item.listing.price) %></td>
+          <td>
+            <%= button_to 'Remove from Cart', remove_item_from_cart_path(cart_item.listing), method: :delete, class: 'remove-button' %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>Your cart is empty.</p>
+  <% end %>
+</div>
