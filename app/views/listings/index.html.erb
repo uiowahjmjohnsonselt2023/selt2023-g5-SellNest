@@ -212,6 +212,7 @@
           <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
           <%= button_to 'Buy', '#', method: :post, class: 'button buy-button'%>
         </div>
+        <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
       </div>
     <% end %>
   </div>
