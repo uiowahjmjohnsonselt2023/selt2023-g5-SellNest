@@ -8,8 +8,6 @@
       <tr>
         <th>Item</th>
         <th>Price</th>
-        <th>Quantity</th>
-        <th>Total</th>
         <th>Actions</th>
       </tr>
       </thead>
@@ -18,10 +16,6 @@
         <tr>
           <td><%= cart_item.listing.name %></td>
           <td><%= number_to_currency(cart_item.listing.price) %></td>
-          <!-- The lines below are the ones you're replacing -->
-          <td><%= cart_item.quantity.to_i %></td>
-          <td><%= number_to_currency(cart_item.quantity.to_i * cart_item.listing.price) %></td>
-          <!-- End replacement -->
           <td>
             <%= button_to 'Remove from Cart', remove_item_from_cart_path(cart_item.listing), method: :delete, class: 'remove-button' %>
           </td>
@@ -29,7 +23,15 @@
       <% end %>
       </tbody>
     </table>
+    <!-- Link to the listings page -->
+    <div class="continue-shopping">
+      <%= link_to 'Continue Shopping', listings_path, class: 'continue-shopping-link' %>
+    </div>
   <% else %>
     <p>Your cart is empty.</p>
+    <!-- Link to the listings page -->
+    <div class="continue-shopping">
+      <%= link_to 'Start Shopping', listings_path, class: 'continue-shopping-link' %>
+    </div>
   <% end %>
 </div>
