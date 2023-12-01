@@ -223,8 +223,10 @@
     <h2 class="listing-title" id="modalTitle"></h2>
     <h2 class="listing-price" id="modalPrice"></h2>
     <p id="modalDescription"></p>
+    <div id="modalTags"></div>
   </div>
 </div>
+
 <script>
     function prevSlide(button) {
         const carousel = button.parentElement.previousElementSibling;
@@ -236,17 +238,31 @@
         carousel.prepend(carousel.lastElementChild);
     }
 
-    function showDescriptionModal(title, price, description, photos) {
+    function showDescriptionModal(title, price, description, tags) {
         const modal = document.getElementById('descriptionModal');
         const modalTitle = document.getElementById('modalTitle');
         const modalPrice = document.getElementById('modalPrice');
         const modalDescription = document.getElementById('modalDescription');
+        const modalTags = document.getElementById('modalTags');
 
         modalTitle.innerHTML = title;
         modalPrice.innerHTML = price;
         modalDescription.innerHTML = description;
+
+        // Clear previous tags before adding new ones
+        modalTags.innerHTML = '';
+
+        // Display tags associated with the listing
+        tags.forEach(tag => {
+            const tagElement = document.createElement('span');
+            tagElement.classList.add('tag');
+            tagElement.textContent = tag.name;
+            modalTags.appendChild(tagElement);
+        });
+
         modal.style.display = 'flex';
     }
+
 
     function closeDescriptionModal() {
         const modal = document.getElementById('descriptionModal');
