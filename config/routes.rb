@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'orders/show'
     root 'home#index'
 
     get 'user/index'
@@ -8,6 +9,7 @@ Rails.application.routes.draw do
     delete '/cart/remove_item/:id', to: 'cart#remove_item', as: 'cart_remove_item'
     get 'cart/add_item'
     get 'cart/remove_item'
+    post '/cart/checkout', to: 'cart#checkout', as: 'cart_checkout'
 
     #get 'signup', to: 'user#signup', as: 'signup'
     #post 'users', to: 'user#create'
@@ -18,6 +20,7 @@ Rails.application.routes.draw do
       registrations: 'users/registrations'
     }
 
+    resources :orders, only: [:show]
     #get 'user/:id', to: 'user#show', as: 'user'
 
     resources :listings
