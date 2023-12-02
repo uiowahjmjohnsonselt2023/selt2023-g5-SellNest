@@ -286,7 +286,8 @@
 
         // Check if tags is defined and not empty before processing
         if (parsedTags && parsedTags.length > 0) {
-            modalTags.textContent = parsedTags.map((tag, index) => (index === 0 ? `Category: ${tag.name}` : tag.name)).join(', ');
+            const isPlural = parsedTags.length > 1 ? 'Categories:' : 'Category:';
+            modalTags.textContent = `${isPlural} ${parsedTags.map((tag, index) => (index === 0 ? tag.name : ` ${tag.name}`)).join(',')}`;
         }
 
         modal.style.display = 'flex';
