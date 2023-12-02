@@ -215,13 +215,10 @@
   <% end %>
 
 
-
-
   <%= link_to "Admin Dashboard", admin_path %>
   <div class="grid-container">
     <% @listings.each do |listing| %>
       <div class="grid-item">
-        <%= hidden_field_tag :listing_tags, listing.tags.to_json %>
         <div class="carousel-container">
           <div class="carousel">
             <% listing.photos.each do |photo| %>
@@ -241,6 +238,7 @@
 
           <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= j listing.tags.to_json %>')">Details</button>
           <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
+          <%= button_to 'Buy', '#', method: :post, class: 'button buy-button'%>
         </div>
         <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
       </div>
