@@ -16,3 +16,6 @@
   <% end %>
 </div>
 
+<% unless @user.seller? %>
+  <%= link_to "Become a Seller", become_seller_user_path(@user), method: :post, class: "btn btn-primary" %>
+<% end %>

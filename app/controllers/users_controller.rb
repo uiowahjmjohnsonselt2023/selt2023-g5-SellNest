@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:show]
+  before_action :authenticate_user!, only: [:show, :become_seller]
   def login
   end
 
@@ -23,10 +23,10 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
-  def update_flag
+  def become_seller
     @user = User.find(params[:id])
     @user.update(seller: true)
-    redirect_to user_path, notice: 'Account upgraded'
+    redirect_to user_path, notice: 'You are now a seller!'
   end
 
   def signup
