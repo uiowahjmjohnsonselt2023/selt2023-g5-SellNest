@@ -5,3 +5,14 @@
   <p> Email: <%= @user.email %> </p>
   <p> Joined: <%= @user.created_at %></p>
 </div>
+
+<div class="order-history">
+  <h2>Order History</h2>
+  <% @user.orders.each do |order| %>
+    <div class="order">
+      <p>Order ID: <%= order.id %></p>
+      <p>Total: <%= number_to_currency(order.total) %></p>
+    </div>
+  <% end %>
+</div>
+
