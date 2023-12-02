@@ -214,6 +214,8 @@
     <%= submit_tag "Filter" %>
   <% end %>
 
+  <%= hidden_field_tag :listing_tags, @listing.tags.to_json %>
+
 
   <%= link_to "Admin Dashboard", admin_path %>
   <div class="grid-container">
@@ -271,6 +273,7 @@
         const modalPrice = document.getElementById('modalPrice');
         const modalDescription = document.getElementById('modalDescription');
         const modalTags = document.getElementById('modalTags');
+        const tagsData = JSON.parse(document.querySelector('#listing_tags').value);
 
         modalTitle.innerHTML = title;
         modalPrice.innerHTML = price;
@@ -280,8 +283,8 @@
         modalTags.innerHTML = '';
 
         // Check if tags is defined and not empty before processing
-        if (tags && tags.length > 0) {
-            tags.forEach(tag => {
+        if (tagsData && tagsData.length > 0) {
+            tagsData.forEach(tag => {
                 const tagElement = document.createElement('span');
                 tagElement.classList.add('tag');
                 tagElement.textContent = tag.name;
