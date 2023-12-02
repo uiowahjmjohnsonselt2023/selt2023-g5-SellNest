@@ -214,7 +214,7 @@
     <%= submit_tag "Filter" %>
   <% end %>
 
-  <%= hidden_field_tag :listing_tags, @listing.tags.to_json %>
+  <%#= hidden_field_tag :listing_tags, @listing.tags.to_json %>
 
 
   <%= link_to "Admin Dashboard", admin_path %>
@@ -283,8 +283,8 @@
         modalTags.innerHTML = '';
 
         // Check if tags is defined and not empty before processing
-        if (tagsData && tagsData.length > 0) {
-            tagsData.forEach(tag => {
+        if (tags && tags.length > 0) {
+            tags.forEach(tag => {
                 const tagElement = document.createElement('span');
                 tagElement.classList.add('tag');
                 tagElement.textContent = tag.name;
