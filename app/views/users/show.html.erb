@@ -1,1 +1,7 @@
 <h1>User Profile</h1>
+
+<div class="user-info">
+  <p> Username: <%= @user.email.split('@').first %> </p>
+  <p> Email: <%= @user.email %> </p>
+  <p> Joined: <%= @user.created_at %></p>
+</div>
