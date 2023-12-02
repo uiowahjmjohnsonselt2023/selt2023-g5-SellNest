@@ -127,7 +127,7 @@
       <%= f.text_field :name, class: 'form-control', required: true %>
     </div>
 
-
+    <%= f.hidden_field :user_id, value: current_user.id %>
 
     <!-- Add dropdown for selecting category tag -->
     <div class="field">
