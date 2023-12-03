@@ -22,9 +22,18 @@
 
 <% if @user.seller? %>
   <div class="seller-history">
-    <h2>Seller History</h2>
+    <h2>Active Listings</h2>
     <ul>
-      <% @user.listings.each do |listing| %>
+      <% @user.listings.where(is_sold: false).each do |listing| %>
+        <li>
+          <p> Item: <%= listing.name %> </p>
+        </li>
+      <% end %>
+    </ul>
+
+    <h2>Sold Listings</h2>
+    <ul>
+      <% @user.listings.where(is_sold: true).each do |listing| %>
         <li>
           <p> Item: <%= listing.name %> </p>
         </li>
