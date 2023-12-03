@@ -235,8 +235,10 @@
         <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
         <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
         <div class="listing-buttons">
-          <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>')">Details</button>
+
+          <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= j listing.tags.to_json %>')">Details</button>
           <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
+          <%= button_to 'Buy', '#', method: :post, class: 'button buy-button'%>
         </div>
         <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
       </div>
@@ -250,8 +252,10 @@
     <h2 class="listing-title" id="modalTitle"></h2>
     <h2 class="listing-price" id="modalPrice"></h2>
     <p id="modalDescription"></p>
+    <div id="modalTags"></div>
   </div>
 </div>
+
 <script>
     function prevSlide(button) {
         const carousel = button.parentElement.previousElementSibling;
@@ -263,17 +267,31 @@
         carousel.prepend(carousel.lastElementChild);
     }
 
-    function showDescriptionModal(title, price, description, photos) {
+    function showDescriptionModal(title, price, description, tags) {
         const modal = document.getElementById('descriptionModal');
         const modalTitle = document.getElementById('modalTitle');
         const modalPrice = document.getElementById('modalPrice');
         const modalDescription = document.getElementById('modalDescription');
+        const modalTags = document.getElementById('modalTags');
+        const parsedTags = JSON.parse(tags);
 
         modalTitle.innerHTML = title;
         modalPrice.innerHTML = price;
         modalDescription.innerHTML = description;
+
+        // Clear previous tags before adding new ones
+        modalTags.innerHTML = '';
+
+        // Check if tags is defined and not empty before processing
+        if (parsedTags && parsedTags.length > 0) {
+            const isPlural = parsedTags.length > 1 ? 'Categories:' : 'Category:';
+            modalTags.textContent = `${isPlural} ${parsedTags.map((tag, index) => (index === 0 ? tag.name : ` ${tag.name}`)).join(',')}`;
+        }
+
         modal.style.display = 'flex';
     }
+
+
 
     function closeDescriptionModal() {
         const modal = document.getElementById('descriptionModal');
