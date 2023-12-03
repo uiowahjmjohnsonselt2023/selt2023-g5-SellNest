@@ -119,7 +119,7 @@
 <div class="container">
   <h1>Edit Listing</h1>
 
-  <%= form_for @listing, url: listing_path(@listing), method: :patch, multipart: true do |f| %>
+  <%= form_for @listing, url: listing_path(@listing), method: :patch, html: { id:'editListingForm', class: "form-horizontal"}, multipart: true do |f| %>
     <div class="form-group">
       <%= f.label :name, 'Name of Item:' %>
       <%= f.text_field :name, required: true %>
@@ -165,7 +165,7 @@
         const addTagBtn = document.querySelector('.add-tag-btn');
         const selectedTagsList = document.querySelector('.selected-tags-list');
         const tagDropdown = document.querySelector('.tag-dropdown');
-        const form = document.getElementById('newListingForm');
+        const form = document.getElementById('editListingForm');
 
         addTagBtn.addEventListener('click', function() {
             const selectedOption = tagDropdown.options[tagDropdown.selectedIndex];
