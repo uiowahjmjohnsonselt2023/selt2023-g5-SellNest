@@ -125,6 +125,24 @@
       <%= f.text_field :name, required: true %>
     </div>
 
+    <div class="field">
+      <%= f.label :tag_ids, 'Select Tags' %>
+      <%= f.select :tag_ids, Tag.all.collect { |t| [t.name, t.id] }, { include_blank: true }, { multiple: true, class: 'tag-dropdown' } %>
+      <%= f.button "Add tag", type: 'button', class: 'add-tag-btn' %>
+    </div>
+
+    <!-- Display selected tags -->
+    <div class="form-group">
+      <div class="selected-tags-list horizontal-tags-list">
+        <% @listing.tags.each do |tag| %>
+          <span class="selected-tag">
+            <%= tag.name %>
+            <button type="button" class="remove-tag" data-tag-id="<%= tag.id %>">x</button>
+          </span>
+        <% end %>
+      </div>
+    </div>
+
     <div class="form-group">
       <%= f.label :description, 'Description:' %>
       <%= f.text_area :description, rows: 4, required: true %>
@@ -142,5 +160,66 @@
 
   <%= button_to 'Delete', listing_path(@listing), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addTagBtn = document.querySelector('.add-tag-btn');
+        const selectedTagsList = document.querySelector('.selected-tags-list');
+        const tagDropdown = document.querySelector('.tag-dropdown');
+        const form = document.getElementById('newListingForm');
+
+        addTagBtn.addEventListener('click', function() {
+            const selectedOption = tagDropdown.options[tagDropdown.selectedIndex];
+            const selectedValue = selectedOption.value;
+
+            if (selectedValue && !isTagAlreadyAdded(selectedValue)) {
+                const tagName = selectedOption.text;
+
+                const tagListItem = document.createElement('div');
+                tagListItem.classList.add('selected-tag');
+                tagListItem.innerHTML = `
+    ${tagName}
+    <input type="hidden" name="listing[tag_ids][]" value="${selectedValue}" data-tagName="${tagName}">
+    <button type="button" class="remove-tag" data-tag-id="${selectedValue}">x</button>
+`;
+
+                selectedTagsList.appendChild(tagListItem);
+            }
+        });
+
+        function isTagAlreadyAdded(tagId, tagName) {
+            const tagInputs = document.querySelectorAll('input[name="listing[tag_ids][]"]');
+            return Array.from(tagInputs).some(input => input.value === tagId && input.dataset.tagName === tagName);
+        }
+
+
+        selectedTagsList.addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-tag')) {
+                const tagId = event.target.dataset.tagId;
+                const tagToRemove = document.querySelector(`[data-tag-id="${tagId}"]`);
+
+                if (tagToRemove) {
+                    tagToRemove.parentElement.remove();
+                }
+            }
+        });
+
+        form.addEventListener('submit', function(event) {
+            // Prevent the default form submission
+            event.preventDefault();
+
+            // Remove the last tag ID from the array before submitting the form
+            const tagInputs = document.querySelectorAll('input[name="listing[tag_ids][]"]');
+            if (tagInputs.length > 0) {
+                // Remove the last tag input from the NodeList
+                const lastTagInput = tagInputs[tagInputs.length - 1];
+                lastTagInput.parentElement.remove();
+            }
+
+            // Submit the form
+            form.submit();
+        });
+    });
+
+</script>
 </body>
 </html>
