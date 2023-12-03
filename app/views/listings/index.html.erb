@@ -235,7 +235,7 @@
         <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
         <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
         <div class="listing-buttons">
-          <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>')">Details</button>
+          <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= listing.user.email.split('@').first %>')">Details</button>
           <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
         </div>
         <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
@@ -250,6 +250,7 @@
     <h2 class="listing-title" id="modalTitle"></h2>
     <h2 class="listing-price" id="modalPrice"></h2>
     <p id="modalDescription"></p>
+    <p id="modalSeller"></p>
   </div>
 </div>
 <script>
@@ -263,15 +264,17 @@
         carousel.prepend(carousel.lastElementChild);
     }
 
-    function showDescriptionModal(title, price, description, photos) {
+    function showDescriptionModal(title, price, description, name) {
         const modal = document.getElementById('descriptionModal');
         const modalTitle = document.getElementById('modalTitle');
         const modalPrice = document.getElementById('modalPrice');
         const modalDescription = document.getElementById('modalDescription');
+        const modalSeller = document.getElementById('modalSeller'); // Assuming there's an element for displaying the seller
 
         modalTitle.innerHTML = title;
         modalPrice.innerHTML = price;
-        modalDescription.innerHTML = description;
+        modalDescription.innerHTML = `Description: ${description}`;
+        modalSeller.innerHTML = `Seller: ${name}`; // Displaying the seller's name
         modal.style.display = 'flex';
     }
 
