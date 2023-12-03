@@ -24,18 +24,32 @@
   <div class="seller-history">
     <h2>Active Listings</h2>
     <ul>
-      <% @user.listings.where(is_sold: false).each do |listing| %>
+      <% active_listings = @user.listings.where(is_sold: false) %>
+      <% if active_listings.any? %>
+        <% active_listings.each do |listing| %>
+          <li>
+            <p> Item: <%= listing.name %> </p>
+          </li>
+        <% end %>
+      <% else %>
         <li>
-          <p> Item: <%= listing.name %> </p>
+          <p>No active listings</p>
         </li>
       <% end %>
     </ul>
 
     <h2>Sold Listings</h2>
     <ul>
-      <% @user.listings.where(is_sold: true).each do |listing| %>
+      <% sold_listings = @user.listings.where(is_sold: true) %>
+      <% if sold_listings.any? %>
+        <% sold_listings.each do |listing| %>
+          <li>
+            <p> Item: <%= listing.name %> </p>
+          </li>
+        <% end %>
+      <% else %>
         <li>
-          <p> Item: <%= listing.name %> </p>
+          <p>No sold listings</p>
         </li>
       <% end %>
     </ul>
