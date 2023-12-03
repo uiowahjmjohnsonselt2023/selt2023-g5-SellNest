@@ -50,6 +50,7 @@ class ListingsController < ApplicationController
     @listings = @listings.where('price >= ?', params[:min_price].to_f) if params[:min_price].present?
     @listings = @listings.where('price <= ?', params[:max_price].to_f) if params[:max_price].present?
     # Add more filters as needed
+    @listings = @listings.joins(:tags).where(tags: { id: params[:tags] }) if params[:tags].present?
 
     # Finally, render the index view
     render :index
