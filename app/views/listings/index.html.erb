@@ -208,8 +208,8 @@
     <%= label_tag(:max_price, "Maximum Price") %>
     <%= text_field_tag(:max_price) %>
 
-    <%= label_tag(:tags, "Tags") %>
-    <%= text_field_tag(:tags) %>
+    <%= label_tag(:tags, "Category") %>
+    <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true %>
 
     <%= submit_tag "Filter" %>
   <% end %>
