@@ -19,3 +19,16 @@
 <% unless @user.seller? %>
   <%= link_to "Become a Seller", become_seller_user_path(@user), method: :post, class: "btn btn-primary" %>
 <% end %>
+
+<% if @user.seller? %>
+  <div class="seller-history">
+    <h2>Seller History</h2>
+    <ul>
+      <% @user.listings.each do |listing| %>
+        <li>
+          <p> Item: <%= listing.name %> </p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
