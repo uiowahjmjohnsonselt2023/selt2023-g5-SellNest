@@ -1,5 +1,7 @@
 <h1>User Profile</h1>
 
+<%= link_to "Back to Home", root_path, class: "btn btn-primary" %>
+
 <div class="user-info">
   <p> Username: <%= @user.email.split('@').first %> </p>
   <p> Email: <%= @user.email %> </p>
