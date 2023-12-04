@@ -8,42 +8,55 @@
   <p> Joined: <%= @user.created_at %></p>
 </div>
 
-<div class="order-history">
-  <h2>Order History</h2>
-  <ul>
-    <% order_listings = @user.orders %>
-    <% if order_listings.any? %>
-      <% order_listings.each do |order| %>
-        <li>
-          <p> Order ID: <%= order.id %> </p>
-          <p>Total: <%= number_to_currency(order.total) %></p>
-        </li>
-      <% end %>
-    <% else %>
-      <li>
-        <p>No Orders Placed</p>
-      </li>
-    <% end %>
-  </ul>
-</div>
-
 <% unless @user.seller? %>
   <%= link_to "Become a Seller", become_seller_user_path(@user), method: :post, class: "btn btn-primary" %>
+<% else %>
+  <%= link_to 'Create New Listing', new_listing_path, class: "button" %>
 <% end %>
 
 <% if @user.seller? %>
-  <%= link_to 'Create New Listing', new_listing_path, class: "button" %>
+  <div class="toggle-container">
+    <label class="toggle-label">
+      <input type="radio" name="toggle-section" id="toggle-orders" checked>
+      Order History
+    </label>
+    <label class="toggle-label">
+      <input type="radio" name="toggle-section" id="toggle-active-listings">
+      Active Listings
+    </label>
+    <label class="toggle-label">
+      <input type="radio" name="toggle-section" id="toggle-sold-listings">
+      Sold Listings
+    </label>
+  </div>
 
-  <div class="seller-history">
-    <% user_listings = Listing.where(user_id: @user.id) %>
+  <div id="order-history" class="content">
+    <h2>Order History</h2>
+    <ul>
+      <% order_listings = @user.orders %>
+      <% if order_listings.any? %>
+        <% order_listings.each do |order| %>
+          <li>
+            <p> Order ID: <%= order.id %> </p>
+            <p>Total: <%= number_to_currency(order.total) %></p>
+          </li>
+        <% end %>
+      <% else %>
+        <li>
+          <p>No Orders Placed</p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div id="active-listings" class="content" style="display: none;">
     <h2>Active Listings</h2>
     <ul>
-      <% active_listings = user_listings.where(is_sold: false) %>
+      <% active_listings = Listing.where(user_id: @user.id, is_sold: false) %>
       <% if active_listings.any? %>
         <% active_listings.each do |listing| %>
           <li>
             <p> Item: <%= listing.name %> </p>
-            <p> ID: <%= listing.user_id %> </p>
           </li>
         <% end %>
       <% else %>
@@ -52,10 +65,12 @@
         </li>
       <% end %>
     </ul>
+  </div>
 
+  <div id="sold-listings" class="content" style="display: none;">
     <h2>Sold Listings</h2>
     <ul>
-      <% sold_listings = user_listings.where(is_sold: true) %>
+      <% sold_listings = Listing.where(user_id: @user.id, is_sold: true) %>
       <% if sold_listings.any? %>
         <% sold_listings.each do |listing| %>
           <li>
@@ -69,4 +84,51 @@
       <% end %>
     </ul>
   </div>
+<% else %>
+  <div id="order-history" class="content">
+    <h2>Order History</h2>
+    <ul>
+      <% order_listings = @user.orders %>
+      <% if order_listings.any? %>
+        <% order_listings.each do |order| %>
+          <li>
+            <p> Order ID: <%= order.id %> </p>
+            <p>Total: <%= number_to_currency(order.total) %></p>
+          </li>
+        <% end %>
+      <% else %>
+        <li>
+          <p>No Orders Placed</p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 <% end %>
+
+<script>
+    const toggleOrders = document.getElementById('toggle-orders');
+    const toggleActiveListings = document.getElementById('toggle-active-listings');
+    const toggleSoldListings = document.getElementById('toggle-sold-listings');
+
+    const orderHistory = document.getElementById('order-history');
+    const activeListings = document.getElementById('active-listings');
+    const soldListings = document.getElementById('sold-listings');
+
+    toggleOrders.addEventListener('change', () => {
+        orderHistory.style.display = 'block';
+        activeListings.style.display = 'none';
+        soldListings.style.display = 'none';
+    });
+
+    toggleActiveListings.addEventListener('change', () => {
+        orderHistory.style.display = 'none';
+        activeListings.style.display = 'block';
+        soldListings.style.display = 'none';
+    });
+
+    toggleSoldListings.addEventListener('change', () => {
+        orderHistory.style.display = 'none';
+        activeListings.style.display = 'none';
+        soldListings.style.display = 'block';
+    });
+</script>
