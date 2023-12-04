@@ -183,6 +183,10 @@
       .button.view-cart-button:hover {
           background-color: #555; /* Adjust hover color as needed */
       }
+
+      .listing-created-at {
+          display: none;
+      }
   </style>
 </head>
 <body>
@@ -234,6 +238,9 @@
         </div>
         <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
         <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
+        <div class="listing-created-at">
+          <%= listing.created_at.strftime('%Y-%m-%d') %>
+        </div>
         <div class="listing-buttons">
 
           <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= j listing.tags.to_json %>')">Details</button>
