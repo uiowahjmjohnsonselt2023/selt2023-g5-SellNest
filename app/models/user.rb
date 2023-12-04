@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   has_one :cart, dependent: :destroy
   has_many :orders
+  has_many :bookmarks
+  has_many :bookmarked_listings, through: :bookmarks, source: :listing
   after_create :create_cart_for_user
   def seller?
     seller == true
