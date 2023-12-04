@@ -37,7 +37,7 @@
       <% if order_listings.any? %>
         <% order_listings.each do |order| %>
           <li>
-            <p> Order ID: <%= order.id %> </p>
+            <p> ID: <%= order.id %> </p>
             <p>Total: <%= number_to_currency(order.total) %></p>
           </li>
         <% end %>
@@ -56,7 +56,9 @@
       <% if active_listings.any? %>
         <% active_listings.each do |listing| %>
           <li>
+            <p> ID: <%= listing.id %></p>
             <p> Item: <%= listing.name %> </p>
+            <p> Price: <%= number_to_currency(listing.price) %></p>
           </li>
         <% end %>
       <% else %>
@@ -74,7 +76,9 @@
       <% if sold_listings.any? %>
         <% sold_listings.each do |listing| %>
           <li>
-            <p> Item: <%= listing.id %> </p>
+            <p> ID: <%= listing.id %></p>
+            <p> Item: <%= listing.name %> </p>
+            <p> Price: <%= number_to_currency(listing.price) %></p>
           </li>
         <% end %>
       <% else %>
