@@ -10,12 +10,21 @@
 
 <div class="order-history">
   <h2>Order History</h2>
-  <% @user.orders.each do |order| %>
-    <div class="order">
-      <p>Order ID: <%= order.id %></p>
-      <p>Total: <%= number_to_currency(order.total) %></p>
-    </div>
-  <% end %>
+  <ul>
+    <% order_listings = @user.orders %>
+    <% if order_listings.any? %>
+      <% order_listings.each do |order| %>
+        <li>
+          <p> Order ID: <%= order.id %> </p>
+          <p>Total: <%= number_to_currency(order.total) %></p>
+        </li>
+      <% end %>
+    <% else %>
+      <li>
+        <p>No Orders Placed</p>
+      </li>
+    <% end %>
+  </ul>
 </div>
 
 <% unless @user.seller? %>
@@ -23,6 +32,8 @@
 <% end %>
 
 <% if @user.seller? %>
+  <%= link_to 'Create New Listing', new_listing_path, class: "button" %>
+
   <div class="seller-history">
     <h2>Active Listings</h2>
     <ul>
