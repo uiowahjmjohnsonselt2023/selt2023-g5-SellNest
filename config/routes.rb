@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   resources :listings do
     resource :bookmark, only: [:create, :destroy]
   end
-  get '/bookmarks', to: 'users#bookmarks'
+  post '/bookmarks', to: 'bookmarks#create', as: 'bookmarks'
 
 end
 

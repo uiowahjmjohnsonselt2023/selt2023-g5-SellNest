@@ -183,6 +183,15 @@
       .button.view-cart-button:hover {
           background-color: #555; /* Adjust hover color as needed */
       }
+      .bookmark-button {
+          /* Your styling here, for example: */
+          padding: 8px 16px;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
   </style>
 </head>
 <body>
@@ -190,6 +199,9 @@
   <a href="/" class="text-logo">SellNest</a>
   <%= link_to cart_path do %>
     <i class="fas fa-shopping-cart"></i> Cart
+  <% end %>
+  <%= link_to bookmarks_path do %>
+    <i class="fas fa-bookmark"></i> Bookmarks
   <% end %>
   <h1>Listings</h1>
   <%= form_tag(listings_path, method: :get) do %>
@@ -241,6 +253,7 @@
           <%= button_to 'Buy', '#', method: :post, class: 'button buy-button'%>
         </div>
         <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
+        <%= button_to 'Bookmark', bookmarks_path(listing_id: listing.id), method: :post, class: "bookmark-button" %>
       </div>
     <% end %>
   </div>

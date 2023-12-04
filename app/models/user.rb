@@ -28,9 +28,4 @@ class User < ActiveRecord::Base
   def create_cart_for_user
     create_cart
   end
-
-  def bookmarks
-    @user = User.find(params[:id])
-    @bookmarked_listings = @user.bookmarked_listings
-  end
 end
