@@ -34,7 +34,7 @@ class CartController < ApplicationController
         @cart.cart_items.each do |item|
           order.order_items.create!(listing: item.listing, quantity: item.quantity)
           # Remove the listing from the active listings
-          item.listing.is_sold = true
+          item.listing.update(is_sold: true)
         end
 
         # Clear the cart items after checkout
