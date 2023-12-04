@@ -183,6 +183,10 @@
       .button.view-cart-button:hover {
           background-color: #555; /* Adjust hover color as needed */
       }
+
+      .listing-created-at {
+          display: none;
+      }
   </style>
 </head>
 <body>
@@ -208,8 +212,8 @@
     <%= label_tag(:max_price, "Maximum Price") %>
     <%= text_field_tag(:max_price) %>
 
-    <%= label_tag(:tags, "Tags") %>
-    <%= text_field_tag(:tags) %>
+    <%= label_tag(:tags, "Category") %>
+    <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true %>
 
     <%= submit_tag "Filter" %>
   <% end %>
@@ -234,13 +238,16 @@
         </div>
         <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
         <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
+        <div class="listing-created-at">
+          <%= listing.created_at.strftime('%Y-%m-%d') %>
+        </div>
         <div class="listing-buttons">
 
           <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= j listing.tags.to_json %>')">Details</button>
           <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
-          <%= button_to 'Buy', '#', method: :post, class: 'button buy-button'%>
+          <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
         </div>
-        <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
+
       </div>
     <% end %>
   </div>
