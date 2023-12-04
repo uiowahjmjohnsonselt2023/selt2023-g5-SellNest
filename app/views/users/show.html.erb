@@ -79,6 +79,8 @@
             <p> ID: <%= listing.id %></p>
             <p> Item: <%= listing.name %> </p>
             <p> Price: <%= number_to_currency(listing.price) %></p>
+            <% sold_item = OrderItem.find_by(listing_id: listing.id) %>
+            <p> Sold on: <%= sold_item.created_at %></p>
           </li>
         <% end %>
       <% else %>
