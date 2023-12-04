@@ -1,0 +1,4 @@
+<% @user.bookmarked_listings.each do |listing| %>
+  <p><%= listing.name %></p>
+  <%= button_to 'Remove Bookmark', listing_bookmark_path(listing), method: :delete %>
+<% end %>
