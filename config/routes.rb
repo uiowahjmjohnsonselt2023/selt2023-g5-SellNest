@@ -36,6 +36,11 @@ Rails.application.routes.draw do
     end
     resources :users, only: [:show]
 
+  resources :listings do
+    resource :bookmark, only: [:create, :destroy]
+  end
+  get '/bookmarks', to: 'users#bookmarks'
+
 end
 
 
