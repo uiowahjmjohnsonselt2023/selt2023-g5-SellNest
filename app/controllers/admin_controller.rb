@@ -10,6 +10,8 @@ class AdminController < ApplicationController
     @items_listed = Listing.count
 
     @company_profits = @total_sales * 0.05
+
     @all_users = User.all
+    @all_listings = Listing.all
   end
 end
