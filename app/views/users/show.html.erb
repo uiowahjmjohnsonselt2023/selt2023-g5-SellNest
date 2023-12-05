@@ -1,15 +1,14 @@
-<h1>User Profile</h1>
-
-<%= link_to "Back to Home", root_path, class: "btn btn-primary" %>
+<h1><%= t('profile.user_profile') %></h1>
+<%= link_to t('profile.back_to_home'), root_path, class: "btn btn-primary" %>
 
 <div class="user-info">
-  <p> Username: <%= @user.email.split('@').first %> </p>
-  <p> Email: <%= @user.email %> </p>
-  <p> Joined: <%= @user.created_at %></p>
+  <p> <%= t('profile.username') %>: <%= @user.email.split('@').first %> </p>
+  <p> <%= t('profile.email') %>: <%= @user.email %> </p>
+  <p> <%= t('profile.joined') %>: <%= @user.created_at %></p>
 </div>
 
-<%= link_to "Edit Email", edit_user_registration_path %>
-<%= link_to "Change Password", edit_user_registration_path(anchor: 'password') %>
+<%= link_to t('profile.edit_email'), edit_user_registration_path %>
+<%= link_to t('profile.change_password'), edit_user_registration_path(anchor: 'password') %>
 
 <% unless @user.seller? %>
   <%= link_to "Become a Seller", become_seller_user_path(@user), method: :post, class: "btn btn-primary" %>
@@ -17,37 +16,40 @@
   <%= link_to 'Create New Listing', new_listing_path, class: "button" %>
 <% end %>
 
+<%= link_to "English", locale: 'en' %>
+<%= link_to "Español", locale: 'es' %>
+
 <% if @user.seller? %>
   <div class="toggle-container">
     <label class="toggle-label">
       <input type="radio" name="toggle-section" id="toggle-orders" checked>
-      Order History
+      <%= t('listings.order_history') %>
     </label>
     <label class="toggle-label">
       <input type="radio" name="toggle-section" id="toggle-active-listings">
-      Active Listings
+      <%= t('listings.active_listings') %>
     </label>
     <label class="toggle-label">
       <input type="radio" name="toggle-section" id="toggle-sold-listings">
-      Sold Listings
+      <%= t('listings.sold_listings') %>
     </label>
   </div>
 
   <div id="order-history" class="content">
-    <h2>Order History</h2>
+    <h2><%= t('listings.order_history') %></h2>
     <ul>
       <% order_listings = @user.orders %>
       <% if order_listings.any? %>
         <% order_listings.each do |order| %>
           <li>
-            <p>Items: <%= order.order_items.count %></p>
-            <p>Total: <%= number_to_currency(order.total) %></p>
-            <p>Bought: <%= order.created_at %> </p>
+            <p><%= t('listings.items') %>: <%= order.order_items.count %></p>
+            <p><%= t('listings.total') %>: <%= number_to_currency(order.total) %></p>
+            <p><%= t('listings.bought') %>: <%= order.created_at %></p>
           </li>
         <% end %>
       <% else %>
         <li>
-          <p>No Orders Placed</p>
+          <p><%= t('listings.no_orders_placed') %></p>
         </li>
       <% end %>
     </ul>
@@ -55,7 +57,7 @@
 
 
   <div id="active-listings" class="content" style="display: none;">
-    <h2>Active Listings</h2>
+    <h2><%= t('listings.active_listings') %></h2>
     <ul>
       <% active_listings = Listing.where(user_id: @user.id, is_sold: false) %>
       <% if active_listings.any? %>
@@ -82,14 +84,14 @@
         <% end %>
       <% else %>
         <li>
-          <p>No active listings</p>
+          <p><%= t('listings.no_active_listings') %></p>
         </li>
       <% end %>
     </ul>
   </div>
 
   <div id="sold-listings" class="content" style="display: none;">
-    <h2>Sold Listings</h2>
+    <h2><%= t('listings.sold_listings') %></h2>
     <ul>
       <% sold_listings = Listing.where(user_id: @user.id, is_sold: true) %>
       <% if sold_listings.any? %>
@@ -123,7 +125,7 @@
   </div>
 <% else %>
   <div id="order-history" class="content">
-    <h2>Order History</h2>
+    <h2><%= t('listings.order_history') %></h2>
     <ul>
       <% order_listings = @user.orders %>
       <% if order_listings.any? %>
@@ -135,7 +137,7 @@
         <% end %>
       <% else %>
         <li>
-          <p>No Orders Placed</p>
+          <p><%= t('listings.no_orders_placed') %></p>
         </li>
       <% end %>
     </ul>
