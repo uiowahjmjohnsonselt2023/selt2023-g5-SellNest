@@ -343,7 +343,7 @@ function prevSlide(button) {
         })
             .then(response => {
                 if (response.ok) {
-                    // Handle success, maybe update UI
+                    updateBookmarkIcon(listingId, true);
                 } else {
                     // Handle error
                 }
@@ -362,12 +362,23 @@ function prevSlide(button) {
         })
             .then(response => {
                 if (response.ok) {
-                    // Handle success, maybe update UI
+                    updateBookmarkIcon(listingId, false);
                 } else {
                     // Handle error
                 }
             })
             .catch(error => console.error('Error:', error));
+    }
+
+    function updateBookmarkIcon(listingId, isBookmarked) {
+        const iconElement = document.querySelector(`[onclick*="${listingId}"] i`);
+        if (iconElement) {
+            if (isBookmarked) {
+                iconElement.className = 'fa-solid fa-bookmark'; // Show bookmarked icon
+            } else {
+                iconElement.className = 'fa-regular fa-bookmark'; // Show not bookmarked icon
+            }
+        }
     }
 
     // Close modal if the user clicks outside the modal content
