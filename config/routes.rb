@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     get 'cart/add_item'
     get 'cart/remove_item'
     post '/cart/checkout', to: 'cart#checkout', as: 'cart_checkout'
+    get '/bookmarks', to: 'bookmarks#index', as: 'user_bookmarks'
 
     #get 'signup', to: 'user#signup', as: 'signup'
     #post 'users', to: 'user#create'

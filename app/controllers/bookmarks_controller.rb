@@ -1,6 +1,10 @@
 class BookmarksController < ApplicationController
   before_action :authenticate_user! # Ensure users are authenticated before accessing bookmarks
 
+  def index
+    @bookmarks = current_user.bookmarks
+  end
+
   def create
     @bookmark = current_user.bookmarks.build(bookmark_params)
     if @bookmark.save
@@ -21,6 +25,8 @@ class BookmarksController < ApplicationController
   end
 
   private
+
+
 
   def bookmark_params
     params.permit(:listing_id)
