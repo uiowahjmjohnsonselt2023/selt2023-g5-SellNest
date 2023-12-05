@@ -2,7 +2,7 @@ class AdminController < ApplicationController
   def index
     @total_users = User.count
     @total_sellers = User.where(seller: true).count
-    @total_sales = Order.sum(:total)
+    @total_sales = Order.where(status: 'complete').sum(:total)
     @listed_merchandise = Listing.where(is_sold: false).sum(:price)
 
     @active_listings = Listing.where(is_sold: false).count
