@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <style>
-      /* Styles for the entire document */
+      /* Global Styles */
       *, *::before, *::after {
           box-sizing: border-box;
       }
@@ -15,380 +15,96 @@
           font-family: 'Arial', sans-serif;
           margin: 0;
           padding: 0;
-          background-color: #1a1a1a; /* Dark background for the body */
-          color: #d4af37; /* Gold text color */
+          background-color: #1a1a1a;
+          color: #d4af37;
       }
 
-      /* Header styles */
+      /* Header Styles */
       .header {
+          background-color: #0a0a0a;
+          padding: 10px 20px;
           display: flex;
           justify-content: space-between;
           align-items: center;
-          background-color: #0a0a0a; /* Slightly lighter black for the header */
-          box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4); /* Gold colored shadow */
-          padding: 10px 20px;
       }
       .header h1 {
-          color: #d4af37; /* Gold color for the header title */
           margin: 0;
+          color: #d4af37;
       }
-      .btn, .button-login, .button-signup, .text-logo, .search-button {
-          padding: 0.5em 1em;
-          background-color: #d4af37; /* Gold background for buttons */
-          color: #0a0a0a; /* Black text for buttons */
-          text-align: center;
-          text-decoration: none;
-          border: none;
-          border-radius: 0.25em;
-          font-size: 0.8em;
-          cursor: pointer;
-          transition: background-color 0.2s, transform 0.2s;
-      }
-
-      .fa-shopping-cart {
-          font-size: 0.8rem; /* Smaller font size */
-          padding: 5px 10px; /* Adjust padding */
-          margin-left: 10px; /* Space between header elements */
-      }
-
-
-      .btn:hover, .btn:focus, .button-login:hover, .button-signup:hover, .text-logo:hover, .search-button:hover {
-          background-color: #b29700; /* Darker gold on hover */
-          color: #ffffff; /* White text on hover */
-          transform: translateY(-2px);
-          box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-      }
-      .button-group {
+      .header .button-group {
           display: flex;
           gap: 10px;
       }
 
-        main {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        main p {
-            color: #fff;
-            font-size: 1.4rem;
-            background: rgba(22, 22, 22, 0.8); /* Semi-transparent background for the text */
-            padding: 20px;
-            border-radius: 4px;
-        }
-
-      .container {
-        text-align: center;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .content-area {
+      /* Search and Filters */
+      .search-and-filter {
           display: flex;
           justify-content: space-between;
-          gap: 20px;
+          padding: 20px;
+          background-color: #0a0a0a;
+      }
+      .search-form {
+          flex-grow: 2;
+          margin-right: 10px;
+      }
+      .filter-form {
+          flex-grow: 1;
+      }
+      .search-field, .min-price-field, .max-price-field, .category-select {
+          width: 100%;
+          padding: 10px;
+          border-radius: 5px;
+          border: 1px solid #d4af37;
+          background-color: #000000;
+          color: #d4af37;
       }
 
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            justify-content: center;
-            align-items: stretch;
-            max-height: 80vh;
-            overflow-y: auto;
-            padding: 20px; /* Added padding */
-        }
-
-        .grid-item {
-            text-align: left;
-            border: 1px solid #d4af37; /* Gold border for items */
-            padding: 10px;
-            background-color: #000000; /* Black background for items */
-            color: #d4af37; /* Gold text for items */
-            box-shadow: 0 2px 4px rgba(255, 215, 0, 0.2); /* Gold shadow for depth */
-        }
-
-        .carousel-container {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .carousel img {
-            max-width: 100%;
-            height: auto;
-            border-bottom: 1px solid #d4af37; /* Gold border under image */
-            margin-bottom: 10px;
-        }
-
-        .carousel-controls {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-        }
-
-        .carousel-arrow {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 20px;
-            color: #d4af37; /* Gold arrows */
-        }
-
-
-      /* Image scaling */
-      img {
-          max-width: 100%;
-          height: auto;
-      }
-
-    .listing-title {
-        font-size: 18px;
-        margin: 10px 0;
-    }
-
-    .listing-price {
-        font-size: 20px;
-        margin-bottom: 10px;
-    }
-
-    .listing-buttons {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-content {
-        background-color: #000000;
-        color: #d4af37;
-        padding: 20px;
-        border-radius: 5px;
-        max-width: 600px;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    .close {
-        color: #d4af37;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .close:hover {
-        color: #fff;
-    }
-
-
-    .view-cart-button {
-        display: inline-block;
-        margin-left: 20px;
-        vertical-align: middle;
-    }
-
-    .button.view-cart-button {
-        text-decoration: none;
-        padding: 10px 15px;
-        background-color: #333;
-        color: white;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-    }
-
-    .button.view-cart-button:hover {
-        background-color: #555;
-    }
-
-    .listing-created-at {
-        display: none;
-    }
-
-    .button-edit-button {
-        background-color: #333;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        margin: 10px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-    form {
-        margin-bottom: 20px; /* Adds space below each form */
-        color: #d4af37; /* Gold text for the labels */
-    }
-
-    label {
-        display: block; /* Makes the label display on a new line */
-        margin-bottom: 5px; /* Adds space below the label */
-    }
-
-    input[type="text"], select {
-        width: 100%; /* Full width */
-        padding: 10px; /* Padding inside the text fields and select box */
-        margin-bottom: 10px; /* Space below the input/select */
-        border-radius: 5px; /* Rounded corners */
-        border: 1px solid #d4af37; /* Gold border */
-        background-color: #000000; /* Black background */
-        color: #d4af37; /* Gold text color */
-    }
-
-    input[type="text"]:focus, select:focus {
-        outline: none; /* Removes the default focus outline */
-        border-color: #b29700; /* Changes the border color on focus */
-    }
-
-    input[type="submit"] {
-        background-color: #d4af37; /* Gold background for submit buttons */
-        color: #0a0a0a; /* Black text color */
-        border: none; /* Removes border */
-        padding: 10px 20px; /* Padding inside the button */
-        border-radius: 5px; /* Rounded corners */
-        cursor: pointer; /* Pointer cursor on hover */
-        transition: background-color 0.2s, transform 0.2s; /* Transition for interaction */
-    }
-
-    input[type="submit"]:hover {
-        background-color: #b29700; /* Darker gold on hover */
-        color: #fff; /* White text color */
-    }
-
-    /* Styling for links */
-    a {
-        color: #d4af37; /* Gold text color */
-        text-decoration: none; /* Removes underline */
-        padding: 5px 10px; /* Padding around the links */
-        transition: background-color 0.2s, color 0.2s; /* Smooth transition for hover effect */
-        display: inline-block; /* Allows padding and background color */
-        margin-right: 5px; /* Space between the links */
-        border-radius: 5px; /* Rounded corners */
-    }
-
-    a:hover {
-        background-color: #d4af37; /* Gold background on hover */
-        color: #0a0a0a; /* Black text color on hover */
-    }
-    /* General button style */
-    .button {
-        padding: 10px 15px;
-        background-color: #d4af37; /* Gold background */
-        color: #0a0a0a; /* Black text */
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.2s, transform 0.2s;
-        text-align: center;
-        text-decoration: none;
-        font-size: 1em;
-        display: inline-block; /* Align buttons in line */
-        margin: 5px; /* Spacing between buttons */
-    }
-
-    .button:hover {
-        background-color: #b29700; /* Darker gold on hover */
-        color: #fff; /* White text on hover */
-        transform: translateY(-2px);
-        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Specific button styles if needed */
-    .button-login, .button-signup {
-        padding: 10px 20px; /* Larger padding for a wider button */
-    }
-
-    /* Apply the general button style to form submit tags as well */
-    input[type="submit"], button {
-        /* Inherits styles from .button */
-        background-color: inherit;
-        color: inherit;
-        border-radius: inherit;
-        padding: inherit;
-        border: inherit;
-        cursor: inherit;
-        transition: inherit;
-        text-align: inherit;
-        text-decoration: inherit;
-        font-size: inherit;
-        display: inherit;
-    }
-
-    /* Additional hover effect for form submit tags to match buttons */
-    input[type="submit"]:hover, button:hover {
-        background-color: inherit;
-        color: inherit;
-        transform: inherit;
-        box-shadow: inherit;
-    }
-      /* Main container adjustments */
-      .content-area {
-          display: flex;
-          gap: 20px;
-      }
-
-      .filters-container {
-          flex-basis: 15%; /* Reduced width */
-          max-width: 150px; /* Adjust maximum width as needed */
-          /* Additional styling for the filter container */
-      }
-
+      /* Listings Container */
       .listings-container {
-          flex-grow: 2; /* Allows this container to take up more available space */
-          /* Additional styling for the listings container */
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          padding: 20px;
+      }
+      .grid-item {
+          background-color: #222;
+          border: 1px solid #d4af37;
+          padding: 10px;
+          margin: 10px;
+          width: calc(33.333% - 20px);
+          box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4);
       }
 
+      /* Buttons */
+      .btn, .button-login, .button-signup, .search-button {
+          padding: 10px 20px;
+          background-color: #d4af37;
+          color: #0a0a0a;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.2s;
+      }
+
+      /* Responsive Design */
       @media (max-width: 768px) {
+          .search-and-filter {
+              flex-direction: column;
+          }
+          .grid-item {
+              width: calc(50% - 20px);
+          }
+      }
+
+      @media (max-width: 480px) {
+          .grid-item {
+              width: calc(100% - 20px);
+          }
           .header {
-              flex-wrap: wrap; /* Allows items to wrap to the next line on smaller screens */
-          }
-
-          .text-logo, .search-button, .fa-shopping-cart {
-              font-size: 1rem; /* Adjust font size for smaller screens if needed */
-          }
-
-          .button-group {
-              width: 100%; /* Full width to accommodate buttons */
-              justify-content: center; /* Center buttons */
-              margin-top: 10px; /* Space above the buttons */
-          }
-          .filters-container, .listings-container {
-              width: 100%;
+              flex-direction: column;
+              align-items: center;
           }
       }
-
-
-      /* Text logo, cart, and new listing link adjustments */
-      .text-logo, .search-button {
-          font-size: 0.8rem; /* Smaller font size */
-          padding: 5px 10px; /* Adjust padding as needed */
-      }
-
-
-
-      /* Override styles for specific buttons if necessary */
-    .details-button, .edit-button, .add-to-cart-button {
-        /* If you want to have distinct styles for these buttons, add them here */
-    }
-
   </style>
 </head>
 <body>
@@ -396,147 +112,58 @@
   <h1>SellNest</h1>
   <div class="button-group">
     <% if user_signed_in? %>
-      <%= link_to 'Profile', user_path(current_user), class: 'btn btn-primary' %>
+      <%= link_to 'Profile', user_path(current_user), class: 'btn' %>
       <%= button_to "Log Out", destroy_user_session_path, data: {turbo: "false"}, method: :delete %>
     <% else %>
       <%= button_to 'Login', new_user_session_path, class: "button-login" %>
       <%= link_to 'Signup', new_user_registration_path, class: 'button-signup' %>
     <% end %>
+    <%= link_to cart_path do %>
+      <i class="fas fa-shopping-cart"></i> Cart
+    <% end %>
+    <%= link_to 'Create New Listing', new_listing_path, class: "search-button" %>
   </div>
-  <a href="/" class="text-logo">SellNest</a>
-  <%= link_to cart_path do %>
-    <i class="fas fa-shopping-cart"></i> Cart
-  <% end %>
-  <%= link_to 'Create New Listing', new_listing_path, class: "search-button" %>
+</div>
+<div class="search-and-filter">
+  <div class="search-container">
+    <%= form_tag(root_path, method: :get, class: "search-form") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
+      <%= submit_tag "Search", name: nil, class: "search-button" %>
+    <% end %>
+  </div>
+  <div class="filters-container">
+    <%= form_tag(root_path, method: :get, class: "filter-form") do %>
+      <div class="form-group">
+        <%= label_tag(:min_price, "Minimum Price") %>
+        <%= text_field_tag(:min_price, nil, class: "min-price-field") %>
+      </div>
+      <div class="form-group">
+        <%= label_tag(:max_price, "Maximum Price") %>
+        <%= text_field_tag(:max_price, nil, class: "max-price-field") %>
+      </div>
+      <div class="form-group">
+        <%= label_tag(:tags, "Category") %>
+        <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true, class: "category-select" %>
+      </div>
+      <%= submit_tag "Filter", class: "filter-button" %>
+    <% end %>
+  </div>
 </div>
 <main>
-    <div class="container">
-      <div class="content-area">
-      <div class="search-container">
-        <%= form_tag(root_path, method: :get, class: "search-form") do %>
-          <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
-          <%= submit_tag "Search", name: nil, class: "search-button" %>
-        <% end %>
-      </div>
-        <div class="filters-container">
-              <div class="sort-links">
-                <%= link_to 'Price Low to High', root_path(sort: 'price_asc'), class: "sort-link" %>
-                <%= link_to 'Price High to Low', root_path(sort: 'price_desc'), class: "sort-link" %>
-                <%= link_to 'Newest First', root_path(sort: 'newest'), class: "sort-link" %>
-                <%= link_to 'Oldest First', root_path(sort: 'oldest'), class: "sort-link" %>
-              </div>
-              <div class="filter-form">
-                <%= form_tag(root_path, method: :get, class: "filter-form") do %>
-                  <div class="form-group">
-                    <%= label_tag(:min_price, "Minimum Price") %>
-                    <%= text_field_tag(:min_price, nil, class: "min-price-field") %>
-                  </div>
-                  <div class="form-group">
-                    <%= label_tag(:max_price, "Maximum Price") %>
-                    <%= text_field_tag(:max_price, nil, class: "max-price-field") %>
-                  </div>
-                  <div class="form-group">
-                    <%= label_tag(:tags, "Category") %>
-                    <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true, class: "category-select" %>
-                  </div>
-                  <%= submit_tag "Filter", class: "filter-button" %>
-                <% end %>
-              </div>
+  <div class="listings-container">
+    <% @listings.each do |listing| %>
+      <div class="grid-item">
+        <%= image_tag(listing.photos.first, width: '100%', height: 'auto') if listing.photos.any? %>
+        <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
+        <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
+        <div class="listing-buttons">
+          <%= link_to 'Details', listing_path(listing), class: 'btn' %>
+          <%= link_to 'Edit', edit_listing_path(listing), class: 'btn' %>
+          <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn' %>
         </div>
       </div>
-
-      <div class="listings-container">
-          <div class="grid-container">
-            <% @listings.each do |listing| %>
-              <div class="grid-item">
-                <div class="carousel-container">
-                  <div class="carousel">
-                    <div class="grid-container">
-                        <% listing.photos.each do |photo| %>
-                          <%= image_tag(photo, width: '100%', height: 'auto') %>
-                        <% end %>
-                      </div>
-                      <% if listing.photos.length > 1 %>
-                        <div class="carousel-controls">
-                          <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
-                          <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
-                        </div>
-                      <% end %>
-                    </div>
-                    <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
-                    <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
-                    <div class="listing-created-at">
-                      <%= listing.created_at.strftime('%Y-%m-%d') %>
-                    </div>
-                    <div class="listing-buttons">
-                      <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= j listing.tags.to_json %>')">Details</button>
-                      <%= link_to 'Edit', edit_listing_path(listing), class: 'button-edit-button' %>
-                      <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-            <div id="descriptionModal" class="modal">
-              <div class="modal-content">
-                <span class="close" onclick="closeDescriptionModal()">&times;</span>
-                <h2 class="listing-title" id="modalTitle"></h2>
-                <h2 class="listing-price" id="modalPrice"></h2>
-                <p id="modalDescription"></p>
-                <div id="modalTags"></div>
-              </div>
-            </div>
-      </div>
-    </div>
-
-
+    <% end %>
+  </div>
 </main>
-
-<script>
-    function prevSlide(button) {
-        const carousel = button.parentElement.previousElementSibling;
-        carousel.appendChild(carousel.firstElementChild);
-    }
-
-    function nextSlide(button) {
-        const carousel = button.parentElement.previousElementSibling;
-        carousel.prepend(carousel.lastElementChild);
-    }
-
-    function showDescriptionModal(title, price, description, tags) {
-        const modal = document.getElementById('descriptionModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalPrice = document.getElementById('modalPrice');
-        const modalDescription = document.getElementById('modalDescription');
-        const modalTags = document.getElementById('modalTags');
-        const parsedTags = JSON.parse(tags);
-
-        modalTitle.innerHTML = title;
-        modalPrice.innerHTML = price;
-        modalDescription.innerHTML = description;
-
-        modalTags.innerHTML = '';
-
-        if (parsedTags && parsedTags.length > 0) {
-            const isPlural = parsedTags.length > 1 ? 'Categories:' : 'Category:';
-            modalTags.textContent = `${isPlural} ${parsedTags.map((tag, index) => (index === 0 ? tag.name : ` ${tag.name}`)).join(',')}`;
-        }
-
-        modal.style.display = 'flex';
-    }
-
-
-
-    function closeDescriptionModal() {
-        const modal = document.getElementById('descriptionModal');
-        modal.style.display = 'none';
-    }
-    window.onclick = function(event) {
-        const modal = document.getElementById('descriptionModal');
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    };
-</script>
 </body>
 </html>
