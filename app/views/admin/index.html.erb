@@ -200,10 +200,13 @@
       <h2>All Orders</h2>
       <ul>
         <% @all_orders.each do |order| %>
-          <li><%= order.total %> (ID: <%= order.id %>)
-            <%= button_to "Refund", refund_order_path(order), method: :post, data: { confirm: "Are you sure you want to refund this order?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
-          </li>
-        <% end %>
+          <% if order.status == 'complete' %>
+            <li>
+              <%= order.total %> (ID: <%= order.id %>)
+              <%= button_to "Refund", refund_order_path(order), method: :post, data: { confirm: "Are you sure you want to refund this order?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
+            </li>
+          <% end %>
+        <%end %>
       </ul>
     </div>
 
