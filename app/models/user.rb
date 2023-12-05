@@ -1,8 +1,13 @@
 class User < ActiveRecord::Base
   has_one :cart, dependent: :destroy
   has_many :orders
+  has_many :bookmarks, dependent: :destroy
   has_many :listings
   after_create :create_cart_for_user
+
+  def bookmarked?(listing)
+    bookmarks.exists?(listing_id: listing.id)
+  end
 
   devise :omniauthable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, omniauth_providers: [:google_oauth2]

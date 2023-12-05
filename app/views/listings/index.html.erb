@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://kit.fontawesome.com/d968c2f6ce.js" crossorigin="anonymous"></script>
   <title>Listings - SellNest</title>
   <style>
       body {
@@ -49,6 +50,21 @@
       .carousel-container {
           position: relative;
           overflow: hidden;
+          display: inline-block;
+      }
+
+      .bookmark-icon {
+          position: absolute;
+          top: 10px; /* Adjust top position as needed */
+          right: 10px; /* Adjust right position as needed */
+          z-index: 1; /* Ensure it's above the picture */
+          cursor: pointer;
+          background: #fff; /* Background color for the icon */
+          border-radius: 50%; /* Rounded shape for the icon */
+          padding: 5px;
+      }
+      .bookmark-icon i {
+          color: #FFD700; /* Adjust the icon color */
       }
 
       .carousel {
@@ -219,10 +235,19 @@
   <% end %>
 
 
-  <div class="grid-container">
+  <div class="listings-container">
     <% @listings.each do |listing| %>
       <div class="grid-item">
         <div class="carousel-container">
+          <% if current_user && current_user.bookmarked?(listing) %>
+            <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
+              <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
+            </div>
+          <% else %>
+            <div class="bookmark-icon" onclick="addBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
+              <i class="fa-regular fa-bookmark"></i> <!-- Use your bookmark icon here -->
+            </div>
+          <% end %>
           <div class="carousel">
             <% listing.photos.each do |photo| %>
               <%= image_tag(photo, width: '100%', height: 'auto') %>
@@ -262,7 +287,9 @@
 </div>
 
 <script>
-    function prevSlide(button) {
+
+
+function prevSlide(button) {
         const carousel = button.parentElement.previousElementSibling;
         carousel.appendChild(carousel.firstElementChild);
     }
@@ -302,6 +329,55 @@
         const modal = document.getElementById('descriptionModal');
         modal.style.display = 'none';
     }
+
+function addBookmark(listingId) {
+    fetch(`/bookmarks?listing_id=${listingId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': '<%= form_authenticity_token %>'
+        },
+        credentials: 'same-origin'
+    })
+        .then(response => {
+            if (response.ok) {
+                // Handle success
+                const bookmarkIcon = document.querySelector(`.bookmark-icon[data-listing-id="${listingId}"]`);
+                if (bookmarkIcon) {
+                    bookmarkIcon.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
+                    bookmarkIcon.setAttribute('onclick', `removeBookmark(${listingId})`);
+                }
+            } else {
+                // Handle error
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function removeBookmark(listingId) {
+    fetch(`/bookmarks/${listingId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': '<%= form_authenticity_token %>'
+        },
+        credentials: 'same-origin'
+    })
+        .then(response => {
+            if (response.ok) {
+                // Handle success
+                const bookmarkIcon = document.querySelector(`.bookmark-icon[data-listing-id="${listingId}"]`);
+                if (bookmarkIcon) {
+                    bookmarkIcon.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+                    bookmarkIcon.setAttribute('onclick', `addBookmark(${listingId})`);
+                }
+            } else {
+                // Handle error
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
 
     // Close modal if the user clicks outside the modal content
     window.onclick = function(event) {
