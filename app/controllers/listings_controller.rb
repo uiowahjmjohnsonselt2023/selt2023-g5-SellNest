@@ -20,6 +20,12 @@ class ListingsController < ApplicationController
   def create
     @listing = Listing.new(listing_params)
 
+    if params[:listing][:photos].present?
+      params[:listing][:photos].each do |photo|
+        @listing.photos.attach(photo)
+      end
+    end
+
     if @listing.save
       flash[:notice] = "#{@listing.name} was successfully created."
       redirect_to listings_path

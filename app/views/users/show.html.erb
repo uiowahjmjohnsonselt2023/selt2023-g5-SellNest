@@ -49,6 +49,7 @@
     </ul>
   </div>
 
+
   <div id="active-listings" class="content" style="display: none;">
     <h2>Active Listings</h2>
     <ul>
@@ -56,6 +57,19 @@
       <% if active_listings.any? %>
         <% active_listings.each do |listing| %>
           <li>
+            <div class="carousel-container">
+              <div class="carousel">
+                <% listing.photos.each do |photo| %>
+                  <%= image_tag(photo, width: '100%', height: 'auto') %>
+                <% end %>
+              </div>
+              <% if listing.photos.length > 1 %>
+                <div class="carousel-controls">
+                  <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                  <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+                </div>
+              <% end %>
+            </div>
             <p> ID: <%= listing.id %></p>
             <p> Item: <%= listing.name %> </p>
             <p> Price: <%= number_to_currency(listing.price) %></p>
@@ -76,6 +90,19 @@
       <% if sold_listings.any? %>
         <% sold_listings.each do |listing| %>
           <li>
+            <div class="carousel-container">
+              <div class="carousel">
+                <% listing.photos.each do |photo| %>
+                  <%= image_tag(photo, width: '100%', height: 'auto') %>
+                <% end %>
+              </div>
+              <% if listing.photos.length > 1 %>
+                <div class="carousel-controls">
+                  <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                  <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+                </div>
+              <% end %>
+            </div>
             <p> ID: <%= listing.id %></p>
             <p> Item: <%= listing.name %> </p>
             <p> Price: <%= number_to_currency(listing.price) %></p>
