@@ -1,171 +1,357 @@
-<h1>User Profile</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f7f7f7;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          flex-direction: column;
+      }
+      .container {
+          text-align: center;
+          width: 400px; /* Adjust width as needed */
+          background-color: white;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+          position: relative;
+      }
+      h2 {
+          color: #333;
+      }
+      .btn-primary {
+          background-color: #ffd700;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+      }
+      .btn-primary:hover {
+          background-color: #ffd700;
+      }
+      .text-logo {
+          display: block;
+          text-align: center;
+          font-size: 24px;
+          font-weight: bold;
+          color: #ffd700;
+          text-decoration: none;
+          margin-bottom: 20px;
+      }
+      .user-info {
+          margin-bottom: 20px;
+      }
+      .action-button {
+          margin-bottom: 10px; /* Spacing between buttons */
+      }
 
-<%= link_to "Back to Home", root_path, class: "btn btn-primary" %>
+      .middle-section {
+          text-align: center; /* Center the content */
+          width: 100%; /* Take full width */
+      }
+      html, body {
+          height: 100%; /* Adjust this to auto if you still face issues */
+          margin: 0;
+          padding: 0;
+          /* other styles */
+      }
+      .main-container {
+          display: flex; /* Or 'grid' depending on your preference */
+          gap: 20px; /* Adjust the space between elements */
+          align-items: start; /* Align items to the start of the container */
+          justify-content: center; /* Center the items horizontally */
+          padding: 20px; /* Add some padding around the container */
+      }
+      .button-container {
+          margin-bottom: 20px; /* Add some space below the button container */
+      }
 
-<div class="user-info">
-  <p> Username: <%= @user.email.split('@').first %> </p>
-  <p> Email: <%= @user.email %> </p>
-  <p> Joined: <%= @user.created_at %></p>
+
+
+      .profile-container{
+          /* Ensure these containers can grow with the content */
+          min-height: 100px; /* Adjust as needed */
+          overflow: visible; /* Allows the container to expand with the content */
+          /* other styles */
+      }
+      .profile-card {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 400px;
+      }
+
+      .content {
+          display: none; /* Initially hidden */
+          /* Ensure the content can expand and doesn't have a fixed height */
+          min-height: 100px; /* Adjust as needed */
+          overflow: auto; /* Allows scrolling within the container */
+      }
+
+      .content.active {
+          display: block; /* Shown when active */
+      }
+      .carousel-container {
+          width: 100%; /* Adjust width as necessary */
+          height: auto; /* Adjust height as necessary */
+          overflow: hidden; /* Prevents images from overflowing */
+      }
+
+      .carousel img {
+          max-width: 100%; /* Ensures image width does not exceed container width */
+          max-height: 300px; /* Adjust maximum height as needed */
+          object-fit: contain; /* Keeps the aspect ratio of the image */
+          width: auto; /* Scales the width to maintain aspect ratio */
+          height: auto; /* Scales the height to maintain aspect ratio */
+      }
+
+      @media (max-width: 768px) {
+          .profile-container {
+              flex-direction: column;
+              align-items: center;
+          }
+      }
+      .content {
+          display: none; /* Initially hidden */
+          /* Rest of the styles */
+      }
+
+      .content.active {
+          display: block; /* Shown when active */
+      }
+
+
+      /* Styles for your toggled sections */
+      #order-history, #active-listings, #sold-listings {
+          display: none; /* Initially hidden */
+      }
+
+      /* Example of how to display a section (handled by your script) */
+      #active-listings.active, #order-history.active, #sold-listings.active {
+          display: block; /* Shown when active */
+      }
+  </style>
+</head>
+<body>
+<div class="profile-card">
+  <div class="container">
+    <a href="/" class="text-logo">SellNest</a>
+    <h2>User Profile for:  <%= @user.email.split('@').first %> </h2>
+
+    <div class="row">
+      <div class="col-md-8 user-info">
+       <p>Email: <%= @user.email %></p>
+       <p>Joined: <%= @user.created_at.strftime("%B %d, %Y") %></p>
+      </div>
+      <div class="col-md-4 action-buttons">
+        <%= link_to "Edit Email", edit_user_registration_path, class: "btn btn-primary btn-sm action-button" %>
+        <%= link_to "Change Password", edit_user_registration_path(anchor: 'password'), class: "btn btn-primary btn-sm action-button" %>
+        <% unless @user.seller? %>
+          <%= link_to "Become a Seller", become_seller_user_path(@user), method: :post, class: "btn btn-primary btn-sm action-button" %>
+        <% end %>
+     </div>
+    </div>
+  </div>
 </div>
 
-<%= link_to "Edit Email", edit_user_registration_path %>
-<%= link_to "Change Password", edit_user_registration_path(anchor: 'password') %>
+<div class="profile-container">
+  <div class="middle-section">
+    <% unless @user.seller? %>
+      <%= link_to "Become a Seller", become_seller_user_path(@user), method: :post, class: "btn btn-primary" %>
+    <% else %>
+      <%= link_to 'Create New Listing', new_listing_path, class: "btn btn-primary" %>
+    <% end %>
 
-<% unless @user.seller? %>
-  <%= link_to "Become a Seller", become_seller_user_path(@user), method: :post, class: "btn btn-primary" %>
-<% else %>
-  <%= link_to 'Create New Listing', new_listing_path, class: "button" %>
-<% end %>
+    <% if @user.seller? %>
+      <div class="toggle-container">
+        <label class="toggle-label">
+          <input type="radio" name="toggle-section" id="toggle-orders" checked>
+          Order History
+        </label>
+        <label class="toggle-label">
+          <input type="radio" name="toggle-section" id="toggle-active-listings">
+          Active Listings
+        </label>
+        <label class="toggle-label">
+          <input type="radio" name="toggle-section" id="toggle-sold-listings">
+          Sold Listings
+        </label>
+      </div>
 
-<% if @user.seller? %>
-  <div class="toggle-container">
-    <label class="toggle-label">
-      <input type="radio" name="toggle-section" id="toggle-orders" checked>
-      Order History
-    </label>
-    <label class="toggle-label">
-      <input type="radio" name="toggle-section" id="toggle-active-listings">
-      Active Listings
-    </label>
-    <label class="toggle-label">
-      <input type="radio" name="toggle-section" id="toggle-sold-listings">
-      Sold Listings
-    </label>
-  </div>
-
-  <div id="order-history" class="content">
-    <h2>Order History</h2>
-    <ul>
-      <% order_listings = @user.orders %>
-      <% if order_listings.any? %>
-        <% order_listings.each do |order| %>
-          <li>
-            <p>Items: <%= order.order_items.count %></p>
-            <p>Total: <%= number_to_currency(order.total) %></p>
-            <p>Bought: <%= order.created_at %> </p>
-          </li>
-        <% end %>
-      <% else %>
-        <li>
-          <p>No Orders Placed</p>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+      <div id="order-history" class="content">
+        <h2>Order History</h2>
+        <ul>
+          <% order_listings = @user.orders %>
+          <% if order_listings.any? %>
+            <% order_listings.each do |order| %>
+              <li>
+                <p>Items: <%= order.order_items.count %></p>
+                <p>Total: <%= number_to_currency(order.total) %></p>
+                <p>Bought: <%= order.created_at %> </p>
+              </li>
+            <% end %>
+          <% else %>
+            <li>
+              <p>No Orders Placed</p>
+            </li>
+          <% end %>
+        </ul>
+      </div>
 
 
-  <div id="active-listings" class="content" style="display: none;">
-    <h2>Active Listings</h2>
-    <ul>
-      <% active_listings = Listing.where(user_id: @user.id, is_sold: false) %>
-      <% if active_listings.any? %>
-        <% active_listings.each do |listing| %>
-          <li>
-            <div class="carousel-container">
-              <div class="carousel">
-                <% listing.photos.each do |photo| %>
-                  <%= image_tag(photo, width: '100%', height: 'auto') %>
-                <% end %>
-              </div>
-              <% if listing.photos.length > 1 %>
-                <div class="carousel-controls">
-                  <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
-                  <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+      <div id="active-listings" class="content" style="display: none;">
+        <h2>Active Listings</h2>
+        <ul>
+          <% active_listings = Listing.where(user_id: @user.id, is_sold: false) %>
+          <% if active_listings.any? %>
+            <% active_listings.each do |listing| %>
+              <li>
+                <div class="carousel-container">
+                  <div class="carousel">
+                    <% listing.photos.each do |photo| %>
+                      <%= image_tag(photo, width: '100%', height: 'auto') %>
+                    <% end %>
+                  </div>
+                  <% if listing.photos.length > 1 %>
+                    <div class="carousel-controls">
+                      <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                      <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+                    </div>
+                  <% end %>
                 </div>
-              <% end %>
-            </div>
-            <p> ID: <%= listing.id %></p>
-            <p> Item: <%= listing.name %> </p>
-            <p> Price: <%= number_to_currency(listing.price) %></p>
-            <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
-          </li>
-        <% end %>
-      <% else %>
-        <li>
-          <p>No active listings</p>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+                <p> Item: <%= listing.name %> </p>
+                <p> Price: <%= number_to_currency(listing.price) %></p>
+                <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
+              </li>
+            <% end %>
+          <% else %>
+            <li>
+              <p>No active listings</p>
+            </li>
+          <% end %>
+        </ul>
+      </div>
 
-  <div id="sold-listings" class="content" style="display: none;">
-    <h2>Sold Listings</h2>
-    <ul>
-      <% sold_listings = Listing.where(user_id: @user.id, is_sold: true) %>
-      <% if sold_listings.any? %>
-        <% sold_listings.each do |listing| %>
-          <li>
-            <div class="carousel-container">
-              <div class="carousel">
-                <% listing.photos.each do |photo| %>
-                  <%= image_tag(photo, width: '100%', height: 'auto') %>
-                <% end %>
-              </div>
-              <% if listing.photos.length > 1 %>
-                <div class="carousel-controls">
-                  <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
-                  <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+      <div id="sold-listings" class="content" style="display: none;">
+        <h2>Sold Listings</h2>
+        <ul>
+          <% sold_listings = Listing.where(user_id: @user.id, is_sold: true) %>
+          <% if sold_listings.any? %>
+            <% sold_listings.each do |listing| %>
+              <li>
+                <div class="carousel-container">
+                  <div class="carousel">
+                    <% listing.photos.each do |photo| %>
+                      <%= image_tag(photo, width: '100%', height: 'auto') %>
+                    <% end %>
+                  </div>
+                  <% if listing.photos.length > 1 %>
+                    <div class="carousel-controls">
+                      <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                      <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+                    </div>
+                  <% end %>
                 </div>
-              <% end %>
-            </div>
-            <p> Item: <%= listing.name %> </p>
-            <p> Price: <%= number_to_currency(listing.price) %></p>
-            <% sold_item = OrderItem.find_by(listing_id: listing.id) %>
-            <p> Sold on: <%= sold_item.created_at %></p>
-          </li>
-        <% end %>
-      <% else %>
-        <li>
-          <p>No sold listings</p>
-        </li>
-      <% end %>
-    </ul>
+                <p> Item: <%= listing.name %> </p>
+                <p> Price: <%= number_to_currency(listing.price) %></p>
+                <% sold_item = OrderItem.find_by(listing_id: listing.id) %>
+                <p> Sold on: <%= sold_item.created_at %></p>
+              </li>
+            <% end %>
+          <% else %>
+            <li>
+              <p>No sold listings</p>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% else %>
+      <div id="order-history" class="content">
+        <h2>Order History</h2>
+        <ul>
+          <% order_listings = @user.orders %>
+          <% if order_listings.any? %>
+            <% order_listings.each do |order| %>
+              <li>
+                <p>Items: <%= order.order_items.count %></p>
+                <p>Total: <%= number_to_currency(order.total) %></p>
+              </li>
+            <% end %>
+          <% else %>
+            <li>
+              <p>No Orders Placed</p>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
   </div>
-<% else %>
-  <div id="order-history" class="content">
-    <h2>Order History</h2>
-    <ul>
-      <% order_listings = @user.orders %>
-      <% if order_listings.any? %>
-        <% order_listings.each do |order| %>
-          <li>
-            <p>Items: <%= order.order_items.count %></p>
-            <p>Total: <%= number_to_currency(order.total) %></p>
-          </li>
-        <% end %>
-      <% else %>
-        <li>
-          <p>No Orders Placed</p>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+</div>
 
-<script>
-    const toggleOrders = document.getElementById('toggle-orders');
-    const toggleActiveListings = document.getElementById('toggle-active-listings');
-    const toggleSoldListings = document.getElementById('toggle-sold-listings');
+  <script>
+      document.querySelectorAll('input[name="toggle-section"]').forEach(input => {
+          input.addEventListener('change', function() {
+              const sectionId = this.id.replace('toggle-', '');
+              document.querySelectorAll('.content').forEach(section => {
+                  section.classList.remove('active'); // Remove active class from all sections
+              });
+              document.getElementById(sectionId).classList.add('active'); // Add active class to the selected section
+          });
+      });
 
-    const orderHistory = document.getElementById('order-history');
-    const activeListings = document.getElementById('active-listings');
-    const soldListings = document.getElementById('sold-listings');
+      function showSection(sectionId) {
+          const sections = document.querySelectorAll('.content');
+          sections.forEach(section => {
+              section.style.display = 'none'; // Hide all sections
+          });
 
-    toggleOrders.addEventListener('change', () => {
-        orderHistory.style.display = 'block';
-        activeListings.style.display = 'none';
-        soldListings.style.display = 'none';
-    });
+          const activeSection = document.getElementById(sectionId);
+          activeSection.style.display = 'block'; // Show the active section
+      }
 
-    toggleActiveListings.addEventListener('change', () => {
-        orderHistory.style.display = 'none';
-        activeListings.style.display = 'block';
-        soldListings.style.display = 'none';
-    });
 
-    toggleSoldListings.addEventListener('change', () => {
-        orderHistory.style.display = 'none';
-        activeListings.style.display = 'none';
-        soldListings.style.display = 'block';
-    });
-</script>
+      const toggleOrders = document.getElementById('toggle-orders');
+      const toggleActiveListings = document.getElementById('toggle-active-listings');
+      const toggleSoldListings = document.getElementById('toggle-sold-listings');
+
+      const orderHistory = document.getElementById('order-history');
+      const activeListings = document.getElementById('active-listings');
+      const soldListings = document.getElementById('sold-listings');
+
+      toggleOrders.addEventListener('change', () => {
+          orderHistory.style.display = 'block';
+          activeListings.style.display = 'none';
+          soldListings.style.display = 'none';
+      });
+
+      toggleActiveListings.addEventListener('change', () => {
+          orderHistory.style.display = 'none';
+          activeListings.style.display = 'block';
+          soldListings.style.display = 'none';
+      });
+
+      toggleSoldListings.addEventListener('change', () => {
+          orderHistory.style.display = 'none';
+          activeListings.style.display = 'none';
+          soldListings.style.display = 'block';
+      });
+  </script>
+
+
+
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
