@@ -5,17 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SellNest</title>
   <style>
-      body {
-          font-family: 'Helvetica Neue', sans-serif;
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    body {
+          font-family: 'Arial', sans-serif;
           margin: 0;
           padding: 0;
-          background-color: #eef2f3;
+          background-color: #F7F8FA;
           display: flex;
-          justify-content: flex-start;
+          justify-content: center;
           align-items: center;
           flex-direction: column;
           height: 100vh;
+          background-size: cover;
+          background-position: center;
       }
+
       .header {
           width: 100%;
           background-color: #ffffff;
@@ -25,52 +29,341 @@
           justify-content: space-between;
           align-items: center;
       }
+
       .header h1 {
           color: #333;
-          margin: 1px;
+          margin: 0;
       }
-      .buttons {
-          display: flex;
-          gap: 10px;
-      }
-      button {
-          background-color: #ffbd00;
-          color: black;
-          border: none;
-          padding: 10px 15px;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: background-color 0.3s, box-shadow 0.3s;
-      }
-      button:hover {
-          background-color: #3949AB;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      }
+
+    .btn {
+        padding: 0.5em 1em; /* Add some padding inside the button */
+        background-color: #ffbd00; /* Use a nice green shade for the button */
+        color: #000000; /* Use white color for text to stand out */
+        text-align: center; /* Center-align the text */
+        text-decoration: none; /* Remove the underline from links */
+        border: none; /* Remove borders */
+        border-radius: 0.25em; /* Slightly round the corners */
+        font-size: 1em; /* Set a standard font size */
+        cursor: pointer; /* Change mouse cursor to indicate it's clickable */
+        transition: background-color 0.2s, transform 0.2s; /* Smooth background color change on hover */
+    }
+
+    .btn:hover, .btn:focus {
+        background-color: #449d44; /* Darken the button when hovered or focused */
+        text-decoration: none; /* Ensure no underline appears on hover */
+        transform: translateY(-2px); /* Slightly lift the button */
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2); /* Add a subtle shadow to lift effect */
+    }
+
+    .btn-signup {
+        font-weight: bold; /* Make the 'Sign Up' text bold */
+    }
+    /* Add this to your existing CSS */
+    .button-group {
+        display: flex;
+        gap: 10px; /* This will create space between your buttons */
+    }
+
       main {
           flex-grow: 1;
           display: flex;
           justify-content: center;
           align-items: center;
+          text-align: center;
+          padding: 20px;
       }
+
       main p {
-          color: #666;
-          font-size: 1.2rem;
+          color: #fff;
+          font-size: 1.4rem;
+          background: rgba(0, 0, 0, 0.5);
+          padding: 20px;
+          border-radius: 4px;
       }
+    .container {
+        text-align: center;
+        width: 80%;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        justify-content: center;
+        align-items: stretch;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .grid-item {
+        text-align: left;
+        border: 1px solid #ddd;
+        padding: 10px;
+        background-color: white;
+        height: 100%;
+    }
+
+    .carousel-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .carousel {
+        display: flex;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .carousel img {
+        max-width: 100%;
+        height: auto;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    .carousel-controls {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+    }
+
+    .carousel-arrow {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 20px;
+    }
+    .text-logo {
+        display: block;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #ffd700;
+        text-decoration: none;
+        margin-bottom: 20px;
+    }
+
+    .listing-title {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+
+    .listing-price {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .listing-buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover {
+        color: black;
+    }
+
+    .fa-shopping-cart {
+        margin-right: 5px; /* Adds spacing between the icon and text */
+    }
+
+    .view-cart-button {
+        display: inline-block;
+        margin-left: 20px; /* Adjust as needed */
+        vertical-align: middle;
+    }
+
+    .button.view-cart-button {
+        text-decoration: none;
+        padding: 10px 15px; /* Adjust padding as needed */
+        background-color: #333; /* Adjust background color as needed */
+        color: white; /* Adjust text color as needed */
+        border-radius: 5px; /* Adjust border radius as needed */
+        transition: background-color 0.3s;
+    }
+
+    .button.view-cart-button:hover {
+        background-color: #555; /* Adjust hover color as needed */
+    }
+
+    .listing-created-at {
+        display: none;
+    }
+    .button-edit-button {
+        background-color: #333;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
   </style>
 </head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <body>
 <div class="header">
   <h1>SellNest</h1>
-  <% if user_signed_in? %>
-    <%= link_to 'Profile', user_path(current_user) %>
-    <%= button_to "Logout", destroy_user_session_path, data: {turbo: "false"}, method: :delete %>
-  <% else %>
-    <%= link_to 'Login', new_user_session_path %>
-    <%= link_to 'Create Login', new_user_registration_path %>
-  <% end %>
+  <div class="button-group">
+    <% if user_signed_in? %>
+      <%= button_to 'Profile', user_path(current_user) %>
+      <%= button_to "Logout", destroy_user_session_path, data: {turbo: "false"}, method: :delete %>
+    <% else %>
+      <%= button_to 'Login', new_user_session_path, class: "btn btn-signup" %>
+      <%= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-signup' %>
+    <% end %>
+  </div>
 </div>
 <main>
-  <p>An online platform where Hawkeyes can buy and sell online</p>
+    <p>Listings</p>
+    <div class="container">
+      <a href="/" class="text-logo">SellNest</a>
+      <%= link_to cart_path do %>
+        <i class="fas fa-shopping-cart"></i> Cart
+      <% end %>
+      <h1>Listings</h1>
+      <%= form_tag(listings_path, method: :get) do %>
+        <%= text_field_tag :search, params[:search], placeholder: "Search Listings" %>
+        <%= submit_tag "Search", name: nil %>
+      <% end %>
+      <%= link_to 'Price Low to High', listings_path(sort: 'price_asc') %>
+      <%= link_to 'Price High to Low', listings_path(sort: 'price_desc') %>
+      <%= link_to 'Newest First', listings_path(sort: 'newest') %>
+      <%= link_to 'Oldest First', listings_path(sort: 'oldest') %>
+
+      <%= form_tag(listings_path, method: :get) do %>
+        <%= label_tag(:min_price, "Minimum Price") %>
+        <%= text_field_tag(:min_price) %>
+
+        <%= label_tag(:max_price, "Maximum Price") %>
+        <%= text_field_tag(:max_price) %>
+
+        <%= label_tag(:tags, "Category") %>
+        <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true %>
+
+        <%= submit_tag "Filter" %>
+      <% end %>
+
+      <div class="grid-container">
+        <% @listings.each do |listing| %>
+          <div class="grid-item">
+            <div class="carousel-container">
+              <div class="carousel">
+                <% listing.photos.each do |photo| %>
+                  <%= image_tag(photo, width: '100%', height: 'auto') %>
+                <% end %>
+              </div>
+              <% if listing.photos.length > 1 %>
+                <div class="carousel-controls">
+                  <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                  <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+                </div>
+              <% end %>
+            </div>
+            <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
+            <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
+            <div class="listing-created-at">
+              <%= listing.created_at.strftime('%Y-%m-%d') %>
+            </div>
+            <div class="listing-buttons">
+
+              <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= j listing.tags.to_json %>')">Details</button>
+              <%= link_to 'Edit', edit_listing_path(listing), class: 'button-edit-button' %>
+              <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
+            </div>
+
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <%= link_to 'Create New Listing', new_listing_path, class: "button-edit-button" %>
+    <div id="descriptionModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeDescriptionModal()">&times;</span>
+        <h2 class="listing-title" id="modalTitle"></h2>
+        <h2 class="listing-price" id="modalPrice"></h2>
+        <p id="modalDescription"></p>
+        <div id="modalTags"></div>
+      </div>
+    </div>
 </main>
+
+<script>
+    function prevSlide(button) {
+        const carousel = button.parentElement.previousElementSibling;
+        carousel.appendChild(carousel.firstElementChild);
+    }
+
+    function nextSlide(button) {
+        const carousel = button.parentElement.previousElementSibling;
+        carousel.prepend(carousel.lastElementChild);
+    }
+
+    function showDescriptionModal(title, price, description, tags) {
+        const modal = document.getElementById('descriptionModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalTags = document.getElementById('modalTags');
+        const parsedTags = JSON.parse(tags);
+
+        modalTitle.innerHTML = title;
+        modalPrice.innerHTML = price;
+        modalDescription.innerHTML = description;
+
+        modalTags.innerHTML = '';
+
+        if (parsedTags && parsedTags.length > 0) {
+            const isPlural = parsedTags.length > 1 ? 'Categories:' : 'Category:';
+            modalTags.textContent = `${isPlural} ${parsedTags.map((tag, index) => (index === 0 ? tag.name : ` ${tag.name}`)).join(',')}`;
+        }
+
+        modal.style.display = 'flex';
+    }
+
+
+
+    function closeDescriptionModal() {
+        const modal = document.getElementById('descriptionModal');
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('descriptionModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+</script>
 </body>
 </html>

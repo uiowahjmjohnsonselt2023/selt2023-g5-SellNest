@@ -11,7 +11,8 @@ Rails.application.routes.draw do
     get 'cart/remove_item'
     post '/cart/checkout', to: 'cart#checkout', as: 'cart_checkout'
 
-    #get 'signup', to: 'user#signup', as: 'signup'
+
+  #get 'signup', to: 'user#signup', as: 'signup'
     #post 'users', to: 'user#create'
     #get 'login', to: 'user#login', as: 'login'
     devise_for :users, controllers: {
