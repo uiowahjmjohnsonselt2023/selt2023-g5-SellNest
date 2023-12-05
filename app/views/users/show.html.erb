@@ -278,6 +278,24 @@
       <% end %>
     </ul>
   </div>
+  <div class="reviews-section">
+    <h3>User Reviews</h3>
+    <% reviews = Review.joins(:listing).where(listings: { user_id: current_user.id }) %>
+    <% if reviews.any? %>
+      <p> Average Rating: <%= reviews.sum(:rating) / reviews.count %></p>
+      <ul>
+        <% reviews.each do |review| %>
+          <li>
+            <p><strong>Rating:</strong> <%= review.rating %></p>
+            <p><strong>Content:</strong> <%= review.content %></p>
+            <p><strong>Created at:</strong> <%= review.created_at.strftime("%B %d, %Y") %></p>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No reviews yet.</p>
+    <% end %>
+  </div>
 <% else %>
   <div id="order-history" class="content">
     <h2>Order History</h2>
@@ -300,6 +318,7 @@
     </ul>
   </div>
 <% end %>
+
 </div>
 
   <script>
@@ -350,9 +369,6 @@
           soldListings.style.display = 'block';
       });
   </script>
-
-
-
 </div>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
