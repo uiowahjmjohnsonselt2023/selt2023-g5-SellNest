@@ -354,6 +354,34 @@
     .details-button, .edit-button, .add-to-cart-button {
         /* If you want to have distinct styles for these buttons, add them here */
     }
+      .content-area {
+          display: flex;
+          gap: 20px;
+      }
+
+      .filters-container {
+          flex-basis: 15%; /* Reduced width */
+          max-width: 150px; /* Adjust maximum width as needed */
+          /* Additional styling for the filter container */
+      }
+
+      .listings-container {
+          flex-grow: 2; /* Allows this container to take up more available space */
+          /* Additional styling for the listings container */
+      }
+
+      @media (max-width: 768px) {
+          .content-area {
+              flex-direction: column;
+          }
+
+          .filters-container, .listings-container {
+              flex-basis: auto;
+              max-width: 100%;
+          }
+      }
+
+
 
   </style>
 </head>
@@ -372,81 +400,90 @@
 </div>
 <main>
     <div class="container">
+      <div class="content-area">
       <a href="/" class="text-logo">SellNest</a>
       <%= link_to cart_path do %>
         <i class="fas fa-shopping-cart"></i> Cart
       <% end %>
       <%= link_to 'Create New Listing', new_listing_path, class: "search-button" %>
-      <h1>Listings</h1>
       <div class="search-container">
         <%= form_tag(root_path, method: :get, class: "search-form") do %>
           <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
           <%= submit_tag "Search", name: nil, class: "search-button" %>
         <% end %>
       </div>
-      <div class="sort-links">
-        <%= link_to 'Price Low to High', root_path(sort: 'price_asc'), class: "sort-link" %>
-        <%= link_to 'Price High to Low', root_path(sort: 'price_desc'), class: "sort-link" %>
-        <%= link_to 'Newest First', root_path(sort: 'newest'), class: "sort-link" %>
-        <%= link_to 'Oldest First', root_path(sort: 'oldest'), class: "sort-link" %>
-      </div>
-      <div class="filter-form">
-        <%= form_tag(root_path, method: :get, class: "filter-form") do %>
-          <div class="form-group">
-            <%= label_tag(:min_price, "Minimum Price") %>
-            <%= text_field_tag(:min_price, nil, class: "min-price-field") %>
-          </div>
-          <div class="form-group">
-            <%= label_tag(:max_price, "Maximum Price") %>
-            <%= text_field_tag(:max_price, nil, class: "max-price-field") %>
-          </div>
-          <div class="form-group">
-            <%= label_tag(:tags, "Category") %>
-            <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true, class: "category-select" %>
-          </div>
-          <%= submit_tag "Filter", class: "filter-button" %>
-        <% end %>
-      </div>
-
-      <div class="grid-container">
-        <% @listings.each do |listing| %>
-          <div class="grid-item">
-            <div class="carousel-container">
-              <div class="carousel">
-                <% listing.photos.each do |photo| %>
-                  <%= image_tag(photo, width: '100%', height: 'auto') %>
+        <div class="filters-container">
+              <div class="sort-links">
+                <%= link_to 'Price Low to High', root_path(sort: 'price_asc'), class: "sort-link" %>
+                <%= link_to 'Price High to Low', root_path(sort: 'price_desc'), class: "sort-link" %>
+                <%= link_to 'Newest First', root_path(sort: 'newest'), class: "sort-link" %>
+                <%= link_to 'Oldest First', root_path(sort: 'oldest'), class: "sort-link" %>
+              </div>
+              <div class="filter-form">
+                <%= form_tag(root_path, method: :get, class: "filter-form") do %>
+                  <div class="form-group">
+                    <%= label_tag(:min_price, "Minimum Price") %>
+                    <%= text_field_tag(:min_price, nil, class: "min-price-field") %>
+                  </div>
+                  <div class="form-group">
+                    <%= label_tag(:max_price, "Maximum Price") %>
+                    <%= text_field_tag(:max_price, nil, class: "max-price-field") %>
+                  </div>
+                  <div class="form-group">
+                    <%= label_tag(:tags, "Category") %>
+                    <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true, class: "category-select" %>
+                  </div>
+                  <%= submit_tag "Filter", class: "filter-button" %>
                 <% end %>
               </div>
-              <% if listing.photos.length > 1 %>
-                <div class="carousel-controls">
-                  <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
-                  <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
-                </div>
-              <% end %>
+        </div>
+      </div>
+
+      <div class="listings-container">
+          <div class="grid-container">
+            <% @listings.each do |listing| %>
+              <div class="grid-item">
+                <div class="carousel-container">
+                  <div class="carousel">
+                    <div class="grid-container">
+                        <% listing.photos.each do |photo| %>
+                          <%= image_tag(photo, width: '100%', height: 'auto') %>
+                        <% end %>
+                      </div>
+                      <% if listing.photos.length > 1 %>
+                        <div class="carousel-controls">
+                          <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                          <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+                        </div>
+                      <% end %>
+                    </div>
+                    <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
+                    <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
+                    <div class="listing-created-at">
+                      <%= listing.created_at.strftime('%Y-%m-%d') %>
+                    </div>
+                    <div class="listing-buttons">
+                      <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= j listing.tags.to_json %>')">Details</button>
+                      <%= link_to 'Edit', edit_listing_path(listing), class: 'button-edit-button' %>
+                      <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
             </div>
-            <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
-            <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
-            <div class="listing-created-at">
-              <%= listing.created_at.strftime('%Y-%m-%d') %>
+            <div id="descriptionModal" class="modal">
+              <div class="modal-content">
+                <span class="close" onclick="closeDescriptionModal()">&times;</span>
+                <h2 class="listing-title" id="modalTitle"></h2>
+                <h2 class="listing-price" id="modalPrice"></h2>
+                <p id="modalDescription"></p>
+                <div id="modalTags"></div>
+              </div>
             </div>
-            <div class="listing-buttons">
-              <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= j listing.tags.to_json %>')">Details</button>
-              <%= link_to 'Edit', edit_listing_path(listing), class: 'button-edit-button' %>
-              <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
-            </div>
-          </div>
-        <% end %>
       </div>
     </div>
-    <div id="descriptionModal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeDescriptionModal()">&times;</span>
-        <h2 class="listing-title" id="modalTitle"></h2>
-        <h2 class="listing-price" id="modalPrice"></h2>
-        <p id="modalDescription"></p>
-        <div id="modalTags"></div>
-      </div>
-    </div>
+
+
 </main>
 
 <script>
