@@ -81,4 +81,11 @@ class ListingsController < ApplicationController
     end
   end
 
+  def mark_as_sold
+    self.sold = true
+    if self.save
+      Notification.create(user: self.user, content: "Your item has sold!", read: false)
+    end
+  end
+
 end
