@@ -226,13 +226,15 @@
         <div class="carousel-container">
           <div class="bookmark-button">
             <!-- The bookmark button icon and functionality -->
-            <% if current_user && !current_user.bookmarked?(listing) %>
-              <%= link_to bookmarks_path(listing_id: listing.id), method: :post, remote: true do %>
-                <i class="far fa-bookmark"></i> <!-- Add your bookmark icon here -->
-              <% end %>
-            <% else %>
-              <%= link_to bookmark_path(listing.bookmark_for(current_user)), method: :delete, remote: true do %>
-                <i class="fas fa-bookmark"></i> <!-- Add your bookmark icon here -->
+            <% if current_user %>
+              <% if current_user.bookmarked?(listing) %>
+                <button class="bookmark-button" onclick="removeBookmark(<%= listing.id %>)">
+                  Remove Bookmark
+                </button>
+              <% else %>
+                <button class="bookmark-button" onclick="addBookmark(<%= listing.id %>)">
+                  Add Bookmark
+                </button>
               <% end %>
             <% end %>
           </div>
@@ -315,6 +317,44 @@
     function closeDescriptionModal() {
         const modal = document.getElementById('descriptionModal');
         modal.style.display = 'none';
+    }
+
+    function addBookmark(listingId) {
+        fetch(`/bookmarks?listing_id=${listingId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': '<%= form_authenticity_token %>'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Handle success, maybe update UI
+                } else {
+                    // Handle error
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function removeBookmark(listingId) {
+        fetch(`/bookmarks/${listingId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': '<%= form_authenticity_token %>'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Handle success, maybe update UI
+                } else {
+                    // Handle error
+                }
+            })
+            .catch(error => console.error('Error:', error));
     }
 
     // Close modal if the user clicks outside the modal content
