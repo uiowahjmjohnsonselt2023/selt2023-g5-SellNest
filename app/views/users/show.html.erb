@@ -145,7 +145,7 @@
   </style>
 </head>
 <body>
-<div class="profile-container">
+<div class="profile-card">
   <div class="container">
     <a href="/" class="text-logo">SellNest</a>
     <h2>User Profile for:  <%= @user.email.split('@').first %> </h2>
@@ -166,7 +166,7 @@
   </div>
 </div>
 
-<div class="profile-card">
+<div class="profile-container">
   <div class="middle-section">
     <% unless @user.seller? %>
       <%= link_to "Become a Seller", become_seller_user_path(@user), method: :post, class: "btn btn-primary" %>
