@@ -129,39 +129,49 @@
     <h1>Admin Dashboard</h1>
     <p>Quick stats overview</p>
   </div>
+
   <div class="dashboard-stats">
+
     <div class="stat-card">
     <h2 class="stat-title">Total Sales</h2>
       <p class="stat-value"><%= number_to_currency(@total_sales) %></p>
     </div>
+
     <div class="stat-card">
       <h2 class="stat-title">Listed Merchandise</h2>
       <p class="stat-value"><%= number_to_currency(@listed_merchandise) %></p>
     </div>
+
     <div class="stat-card">
       <h2 class="stat-title">Total Users</h2>
       <p class="stat-value"><%= @total_users %></p>
     </div>
+
     <div class="stat-card">
       <h2 class="stat-title">Total Sellers</h2>
       <p class="stat-value"><%= @total_sellers %></p>
     </div>
+
     <div class="stat-card">
       <h2 class="stat-title">Items Listed</h2>
       <p class="stat-value"><%= @items_listed %></p>
     </div>
+
     <div class="stat-card">
       <h2 class="stat-title">Active Listings</h2>
       <p class="stat-value"><%= @active_listings %></p>
     </div>
+
     <div class="stat-card">
       <h2 class="stat-title">Sold Listings</h2>
       <p class="stat-value"><%= @sold_listings %></p>
     </div>
+
     <div class="stat-card">
       <h2 class="stat-title">Company Profits (5%)</h2>
       <p class="stat-value"><%= number_to_currency(@company_profits) %></p>
     </div>
+
     <div class="container">
       <h2>All Users</h2>
       <ul>
@@ -174,6 +184,7 @@
         <% end %>
       </ul>
     </div>
+
     <div class="container">
       <h2>All Listings</h2>
       <ul>
@@ -184,6 +195,18 @@
         <% end %>
       </ul>
     </div>
+
+    <div class="container">
+      <h2>All Orders</h2>
+      <ul>
+        <% @all_orders.each do |order| %>
+          <li><%= order.total %> (ID: <%= order.id %>)
+            <%= button_to "Refund", refund_order_path(order), method: :post, data: { confirm: "Are you sure you want to refund this order?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
   </div>
 </div>
 </body>

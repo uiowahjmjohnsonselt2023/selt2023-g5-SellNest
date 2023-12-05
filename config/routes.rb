@@ -20,7 +20,11 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  resources :orders, only: [:show]
+  resources :orders do
+    member do
+      post 'refund'
+    end
+  end
   #get 'user/:id', to: 'user#show', as: 'user'
 
   resources :listings

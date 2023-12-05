@@ -13,5 +13,6 @@ class AdminController < ApplicationController
 
     @all_users = User.all
     @all_listings = Listing.all
+    @all_orders = Order.all
   end
 end
