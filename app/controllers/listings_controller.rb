@@ -61,7 +61,7 @@ class ListingsController < ApplicationController
     @listing = Listing.find(params[:id])
     if @listing.update(listing_params)
       flash[:notice] = "#{@listing.name} was successfully updated."
-      redirect_to listings_path
+      redirect_to root_path
     else
       render 'edit'
     end
@@ -71,7 +71,7 @@ class ListingsController < ApplicationController
     @listing = Listing.find(params[:id])
     @listing.destroy
     flash[:notice] = "Listing deleted."
-    redirect_to listings_path
+    redirect_to root_path
   end
 
 end
