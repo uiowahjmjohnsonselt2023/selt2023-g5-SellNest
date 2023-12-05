@@ -272,7 +272,7 @@
             <p> Item: <%= listing.name %> </p>
             <p> Price: <%= number_to_currency(listing.price) %></p>
             <% sold_item = OrderItem.find_by(listing_id: listing.id) %>
-            <p> Sold on: <%= sold_item.created_at %></p>
+            <p> Sold on: <%= sold_item.created_at.strftime("%B %d, %Y") %></p>
           </li>
         <% end %>
       <% else %>
@@ -286,13 +286,13 @@
     <h3>User Reviews</h3>
     <% reviews = Review.where(listing_id: current_user.listings.pluck(:id)) %>
     <% if reviews.any? %>
-      <p> Average Rating: <%= reviews.sum(:rating) / reviews.count %></p>
+      <p> Average Rating: <%= reviews.sum(:rating) / reviews.count %> (<%= reviews.count %>)</p>
       <ul>
         <% reviews.each do |review| %>
           <li>
             <p><strong>Rating:</strong> <%= review.rating %></p>
-            <p><strong>Content:</strong> <%= review.content %></p>
-            <p><strong>Created at:</strong> <%= review.created_at.strftime("%B %d, %Y") %></p>
+            <p><strong>Description:</strong> <%= review.content %></p>
+            <p><strong>Date:</strong> <%= review.created_at.strftime("%B %d, %Y") %></p>
           </li>
         <% end %>
       </ul>
