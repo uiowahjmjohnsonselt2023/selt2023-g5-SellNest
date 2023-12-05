@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   has_one :cart, dependent: :destroy
   has_many :orders
   has_many :listings
+  has_many :notifications
   after_create :create_cart_for_user
 
   devise :omniauthable, :database_authenticatable, :registerable,
