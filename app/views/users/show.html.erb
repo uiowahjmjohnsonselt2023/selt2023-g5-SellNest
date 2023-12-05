@@ -286,7 +286,7 @@
     <h3>User Reviews</h3>
     <% reviews = Review.where(listing_id: current_user.listings.pluck(:id)) %>
     <% if reviews.any? %>
-      <p> Trust Rating: <%= reviews.sum(:rating) / reviews.count %> (<%= reviews.count %>)</p>
+      <p> Trust Rating: <%= reviews.sum(:rating) / reviews.count.to_f %> (<%= reviews.count %>)</p>
       <ul>
         <% reviews.each do |review| %>
           <li>

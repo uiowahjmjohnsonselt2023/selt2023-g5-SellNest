@@ -249,7 +249,7 @@
           </div>
           <div class="listing-buttons">
             <% reviews = Review.where(listing_id: listing.user.listings.pluck(:id)) %>
-            <button class="btn" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= listing.tags.to_json %>', '<%= listing.user.email.split('@').first %>', '<%= reviews.sum(:rating) / reviews.count %>')">Details</button>
+            <button class="btn" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= listing.tags.to_json %>', '<%= listing.user.email.split('@').first %>', '<%= reviews.sum(:rating) / reviews.count.to_f %>')">Details</button>
             <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn' %>
           </div>
         </div>
