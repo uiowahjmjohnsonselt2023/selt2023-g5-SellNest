@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many :orders
   has_many :bookmarks, dependent: :destroy
   has_many :listings
+  has_many :reviews
   after_create :create_cart_for_user
 
   def bookmarked?(listing)

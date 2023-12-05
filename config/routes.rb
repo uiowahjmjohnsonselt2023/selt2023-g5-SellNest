@@ -49,6 +49,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :reviews, only: [:new, :create]
+
 end
 
   # The priority is based upon order of creation: first created -> highest priority.
