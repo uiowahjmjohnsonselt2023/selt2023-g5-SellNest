@@ -56,11 +56,15 @@
           color: #666;
           font-size: 1.2rem;
       }
+      .logo {
+          width: 100px; /* Adjust the width as necessary */
+          height: auto; /* This will maintain the aspect ratio */
+      }
   </style>
 </head>
 <body>
 <div class="header">
-  <img src="assets/images/SellNestLogo.png" alt="SellNest Logo" class="logo">
+  <%= image_tag('SellNestLogo.png', alt: 'SellNest Logo', class: 'logo') %>
   <h1>SellNest</h1>
   <% if user_signed_in? %>
     <%= link_to 'Profile', user_path(current_user) %>
