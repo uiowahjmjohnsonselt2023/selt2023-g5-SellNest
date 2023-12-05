@@ -79,7 +79,7 @@
   </div>
   <div class="dashboard-stats">
     <div class="stat-card">
-      <h2 class="stat-title">Total Sales</h2>
+    <h2 class="stat-title">Total Sales</h2>
       <p class="stat-value"><%= number_to_currency(@total_sales) %></p>
     </div>
     <div class="stat-card">
@@ -105,6 +105,10 @@
     <div class="stat-card">
       <h2 class="stat-title">Sold Listings</h2>
       <p class="stat-value"><%= @sold_listings %></p>
+    </div>
+    <div class="stat-card">
+      <h2 class="stat-title">Company Profits (5%)</h2>
+      <p class="stat-value"><%= number_to_currency(@company_profits) %></p>
     </div>
   </div>
 </div>

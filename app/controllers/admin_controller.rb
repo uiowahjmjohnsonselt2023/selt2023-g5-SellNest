@@ -8,5 +8,7 @@ class AdminController < ApplicationController
     @active_listings = Listing.where(is_sold: false).count
     @sold_listings = Listing.where(is_sold: true).count
     @items_listed = Listing.count
+
+    @company_profits = @total_sales * 0.05
   end
 end
