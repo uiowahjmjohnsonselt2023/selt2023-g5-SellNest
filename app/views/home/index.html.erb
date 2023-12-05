@@ -157,15 +157,17 @@
 <main>
   <div class="listings-container">
     <% @listings.each do |listing| %>
-      <div class="grid-item">
-        <%= image_tag(listing.photos.first, width: '100%', height: 'auto') if listing.photos.any? %>
-        <h2 class="listing-title"><%= listing.name %></h2>
-        <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
-        <div class="listing-buttons">
-          <%= link_to 'Details', listing_path(listing), class: 'btn' %>
-          <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn' %>
+      <% unless listing.is_sold %>
+        <div class="grid-item">
+          <%= image_tag(listing.photos.first, width: '100%', height: 'auto') if listing.photos.any? %>
+          <h2 class="listing-title"><%= listing.name %></h2>
+          <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
+          <div class="listing-buttons">
+            <%= link_to 'Details', listing_path(listing), class: 'btn' %>
+            <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn' %>
+          </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
 </main>
