@@ -35,7 +35,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, only: [:show] do
+  resources :users, only: [:show, :destroy] do
     member do
       match 'become_seller', via: [:get, :post]
     end

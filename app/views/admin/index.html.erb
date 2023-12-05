@@ -110,6 +110,15 @@
       <h2 class="stat-title">Company Profits (5%)</h2>
       <p class="stat-value"><%= number_to_currency(@company_profits) %></p>
     </div>
+    <div class="container">
+      <h2>All Users</h2>
+      <ul>
+        <% @all_users.each do |user| %>
+          <li><%= user.email %> (ID: <%= user.id %>)</li>
+          <%= button_to "Ban", user_path(user), method: :delete, data: { confirm: "Are you sure you want to ban this user?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
+      <% end %>
+      </ul>
+    </div>
   </div>
 </div>
 </body>

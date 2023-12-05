@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:show, :become_seller]
+  before_action :authenticate_user!, only: [:show, :become_seller, :destroy]
   def login
   end
 
@@ -33,10 +33,19 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def destroy
+    @user.listings.destroy_all
+    @user.destroy
+
+    respond_to do |format|
+      format.html { redirect_to users_url, notice: 'User was successfully banned.' }
+      format.json { head :no_content }
+    end
+  end
+
   private
 
   def user_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation)
   end
-
 end
