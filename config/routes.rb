@@ -20,7 +20,11 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  resources :orders, only: [:show]
+  resources :orders do
+    member do
+      post 'refund'
+    end
+  end
   #get 'user/:id', to: 'user#show', as: 'user'
 
   resources :listings
@@ -35,7 +39,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, only: [:show] do
+  resources :users, only: [:show, :destroy] do
     member do
       match 'become_seller', via: [:get, :post]
     end

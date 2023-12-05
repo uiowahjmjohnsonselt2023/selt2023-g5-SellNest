@@ -219,7 +219,6 @@
   <% end %>
 
 
-  <%= link_to "Admin Dashboard", admin_path %>
   <div class="grid-container">
     <% @listings.each do |listing| %>
       <div class="grid-item">
@@ -236,7 +235,7 @@
             </div>
           <% end %>
         </div>
-        <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
+        <h2 class="listing-title"><%= listing.name %></h2>
         <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
         <div class="listing-created-at">
           <%= listing.created_at.strftime('%Y-%m-%d') %>
@@ -244,7 +243,6 @@
         <div class="listing-buttons">
 
           <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= j listing.tags.to_json %>')">Details</button>
-          <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
           <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
         </div>
 

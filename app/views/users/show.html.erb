@@ -190,25 +190,26 @@
         </label>
       </div>
 
-      <div id="order-history" class="content">
-        <h2>Order History</h2>
-        <ul>
-          <% order_listings = @user.orders %>
-          <% if order_listings.any? %>
-            <% order_listings.each do |order| %>
-              <li>
-                <p>Items: <%= order.order_items.count %></p>
-                <p>Total: <%= number_to_currency(order.total) %></p>
-                <p>Bought: <%= order.created_at %> </p>
-              </li>
-            <% end %>
-          <% else %>
-            <li>
-              <p>No Orders Placed</p>
-            </li>
-          <% end %>
-        </ul>
-      </div>
+  <div id="order-history" class="content">
+    <h2>Order History</h2>
+    <ul>
+      <% order_listings = @user.orders %>
+      <% if order_listings.any? %>
+        <% order_listings.each do |order| %>
+          <li>
+            <p>Items: <%= order.order_items.count %></p>
+            <p>Total: <%= number_to_currency(order.total) %></p>
+            <p>Bought: <%= order.created_at %> </p>
+            <p>Status: <%= order.status %></p>
+          </li>
+        <% end %>
+      <% else %>
+        <li>
+          <p>No Orders Placed</p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 
 
       <div id="active-listings" class="content" style="display: none;">
@@ -244,61 +245,61 @@
         </ul>
       </div>
 
-      <div id="sold-listings" class="content" style="display: none;">
-        <h2>Sold Listings</h2>
-        <ul>
-          <% sold_listings = Listing.where(user_id: @user.id, is_sold: true) %>
-          <% if sold_listings.any? %>
-            <% sold_listings.each do |listing| %>
-              <li>
-                <div class="carousel-container">
-                  <div class="carousel">
-                    <% listing.photos.each do |photo| %>
-                      <%= image_tag(photo, width: '100%', height: 'auto') %>
-                    <% end %>
-                  </div>
-                  <% if listing.photos.length > 1 %>
-                    <div class="carousel-controls">
-                      <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
-                      <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
-                    </div>
-                  <% end %>
+  <div id="sold-listings" class="content" style="display: none;">
+    <h2>Sold Listings</h2>
+    <ul>
+      <% sold_listings = Listing.where(user_id: @user.id, is_sold: true) %>
+      <% if sold_listings.any? %>
+        <% sold_listings.each do |listing| %>
+          <li>
+            <div class="carousel-container">
+              <div class="carousel">
+                <% listing.photos.each do |photo| %>
+                  <%= image_tag(photo, width: '100%', height: 'auto') %>
+                <% end %>
+              </div>
+              <% if listing.photos.length > 1 %>
+                <div class="carousel-controls">
+                  <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                  <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
                 </div>
-                <p> Item: <%= listing.name %> </p>
-                <p> Price: <%= number_to_currency(listing.price) %></p>
-                <% sold_item = OrderItem.find_by(listing_id: listing.id) %>
-                <p> Sold on: <%= sold_item.created_at %></p>
-              </li>
-            <% end %>
-          <% else %>
-            <li>
-              <p>No sold listings</p>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    <% else %>
-      <div id="order-history" class="content">
-        <h2>Order History</h2>
-        <ul>
-          <% order_listings = @user.orders %>
-          <% if order_listings.any? %>
-            <% order_listings.each do |order| %>
-              <li>
-                <p>Items: <%= order.order_items.count %></p>
-                <p>Total: <%= number_to_currency(order.total) %></p>
-              </li>
-            <% end %>
-          <% else %>
-            <li>
-              <p>No Orders Placed</p>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+              <% end %>
+            </div>
+            <p> Item: <%= listing.name %> </p>
+            <p> Price: <%= number_to_currency(listing.price) %></p>
+            <% sold_item = OrderItem.find_by(listing_id: listing.id) %>
+            <p> Sold on: <%= sold_item.created_at %></p>
+          </li>
+        <% end %>
+      <% else %>
+        <li>
+          <p>No sold listings</p>
+        </li>
+      <% end %>
+    </ul>
   </div>
-</div>
+<% else %>
+  <div id="order-history" class="content">
+    <h2>Order History</h2>
+    <ul>
+      <% order_listings = @user.orders %>
+      <% if order_listings.any? %>
+        <% order_listings.each do |order| %>
+          <li>
+            <p>Items: <%= order.order_items.count %></p>
+            <p>Total: <%= number_to_currency(order.total) %></p>
+            <p>Bought: <%= order.created_at %> </p>
+            <p>Status: <%= order.status %></p>
+          </li>
+        <% end %>
+      <% else %>
+        <li>
+          <p>No Orders Placed</p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
   <script>
       document.querySelectorAll('input[name="toggle-section"]').forEach(input => {
