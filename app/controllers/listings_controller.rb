@@ -22,7 +22,7 @@ class ListingsController < ApplicationController
 
     if @listing.save
       flash[:notice] = "#{@listing.name} was successfully created."
-      redirect_to listings_path
+      redirect_to root_path
     else
       render 'new'
     end
