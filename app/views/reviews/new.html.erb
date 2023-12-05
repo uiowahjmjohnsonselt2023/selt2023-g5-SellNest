@@ -1,6 +1,6 @@
 <h2>Review Seller</h2>
-<%# listing = Listing.find_by_id(@listing_id) %>
-<!--<h2><%#= listing.user.email.split('@').first %></h2>-->
+<% listing = Listing.find_by_id(@listing_id) %>
+<h2><%= listing.user.email.split('@').first %></h2>
 
 <%= form_for @review, url: reviews_path, method: :post do |f| %>
   <% if @review.errors.any? %>
