@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'orders/show'
+    get 'orders/show'
     root 'home#index'
 
     get 'user/index'
@@ -35,6 +35,8 @@ Rails.application.routes.draw do
       end
     end
     resources :users, only: [:show]
+    resources :bookmarks, only: [:create, :destroy]
+
 
 end
 
