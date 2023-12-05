@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:show, :become_seller, :destroy]
+  before_action :authenticate_user!, only: [:show, :become_seller]
+  before_action :set_user, only: [:destroy]
   def login
+  end
+
+  def set_user
+    @user = User.find(params[:id])
   end
 
   def index
@@ -34,13 +39,15 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.listings.destroy_all
+    admin_user = User.find_by(email: "admin@email")
+
+    @user.listings.where(is_sold: false).destroy_all
+    @user.listings.where(is_sold: true).each do |listing|
+      listing.update(user_id: admin_user.id)
+    end
     @user.destroy
 
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully banned.' }
-      format.json { head :no_content }
-    end
+    redirect_to root_path
   end
 
   private
