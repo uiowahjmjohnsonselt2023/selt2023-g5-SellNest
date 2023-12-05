@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://kit.fontawesome.com/d968c2f6ce.js" crossorigin="anonymous"></script>
   <title>Listings - SellNest</title>
   <style>
       body {
@@ -224,20 +225,15 @@
     <% @listings.each do |listing| %>
       <div class="grid-item">
         <div class="carousel-container">
-          <div class="bookmark-button">
-            <!-- The bookmark button icon and functionality -->
-            <% if current_user %>
-              <% if current_user.bookmarked?(listing) %>
-                <button class="bookmark-button" onclick="removeBookmark(<%= listing.id %>)">
-                  Remove Bookmark
-                </button>
-              <% else %>
-                <button class="bookmark-button" onclick="addBookmark(<%= listing.id %>)">
-                  Add Bookmark
-                </button>
-              <% end %>
-            <% end %>
-          </div>
+          <% if current_user && current_user.bookmarked?(listing) %>
+            <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)">
+              <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
+            </div>
+          <% else %>
+            <div class="bookmark-icon" onclick="addBookmark(<%= listing.id %>)">
+              <i class="fa-regular fa-bookmark"></i> <!-- Use your bookmark icon here -->
+            </div>
+          <% end %>
           <div class="carousel">
             <% listing.photos.each do |photo| %>
               <%= image_tag(photo, width: '100%', height: 'auto') %>
@@ -278,7 +274,9 @@
 </div>
 
 <script>
-    function prevSlide(button) {
+
+
+function prevSlide(button) {
         const carousel = button.parentElement.previousElementSibling;
         carousel.appendChild(carousel.firstElementChild);
     }
