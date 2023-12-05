@@ -40,8 +40,9 @@
       <% if order_listings.any? %>
         <% order_listings.each do |order| %>
           <li>
-            <p> ID: <%= order.id %> </p>
+            <p>Items: <%= order.order_items.count %></p>
             <p>Total: <%= number_to_currency(order.total) %></p>
+            <p>Bought: <%= order.created_at %> </p>
           </li>
         <% end %>
       <% else %>
@@ -76,6 +77,7 @@
             <p> ID: <%= listing.id %></p>
             <p> Item: <%= listing.name %> </p>
             <p> Price: <%= number_to_currency(listing.price) %></p>
+            <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
           </li>
         <% end %>
       <% else %>
@@ -106,7 +108,6 @@
                 </div>
               <% end %>
             </div>
-            <p> ID: <%= listing.id %></p>
             <p> Item: <%= listing.name %> </p>
             <p> Price: <%= number_to_currency(listing.price) %></p>
             <% sold_item = OrderItem.find_by(listing_id: listing.id) %>
@@ -128,7 +129,7 @@
       <% if order_listings.any? %>
         <% order_listings.each do |order| %>
           <li>
-            <p> Order ID: <%= order.id %> </p>
+            <p>Items: <%= order.order_items.count %></p>
             <p>Total: <%= number_to_currency(order.total) %></p>
           </li>
         <% end %>
