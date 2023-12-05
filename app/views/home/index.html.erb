@@ -4,63 +4,150 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SellNest</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <style>
+      /* Global Styles */
+      *, *::before, *::after {
+          box-sizing: border-box;
+      }
       body {
-          font-family: 'Helvetica Neue', sans-serif;
+          font-family: 'Arial', sans-serif;
           margin: 0;
           padding: 0;
-          background-color: #eef2f3;
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          flex-direction: column;
-          height: 100vh;
+          background-color: #1a1a1a;
+          color: #d4af37;
       }
+
+      /* Header Styles */
       .header {
-          width: 100%;
-          background-color: #ffffff;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          background-color: #0a0a0a;
           padding: 10px 20px;
           display: flex;
           justify-content: space-between;
           align-items: center;
       }
       .header h1 {
-          color: #333;
-          margin: 1px;
+          margin: 0;
+          color: #d4af37;
       }
-      .buttons {
+      .header .button-group {
           display: flex;
           gap: 10px;
       }
-      button {
-          background-color: #ffbd00;
-          color: black;
-          border: none;
-          padding: 10px 15px;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: background-color 0.3s, box-shadow 0.3s;
-      }
-      button:hover {
-          background-color: #3949AB;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      }
-      main {
-          flex-grow: 1;
+
+      /* Search and Filters */
+      .search-and-filter {
           display: flex;
-          justify-content: center;
-          align-items: center;
+          justify-content: space-between;
+          padding: 20px;
+          background-color: #0a0a0a;
       }
-      main p {
-          color: #666;
-          font-size: 1.2rem;
+      .search-form {
+          flex-grow: 2;
+          margin-right: 10px;
+      }
+      .filter-form {
+          flex-grow: 1;
+      }
+      .search-field, .min-price-field, .max-price-field, .category-select {
+          width: 100%;
+          padding: 10px;
+          border-radius: 5px;
+          border: 1px solid #d4af37;
+          background-color: #000000;
+          color: #d4af37;
+      }
+
+      /* Listings Container */
+      .listings-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          padding: 20px;
+      }
+      .grid-item {
+          background-color: #222;
+          border: 1px solid #d4af37;
+          padding: 10px;
+          margin: 10px;
+          width: calc(33.333% - 20px);
+          box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4);
+      }
+
+      /* Buttons */
+      .btn, .button-login, .button-signup, .search-button {
+          padding: 10px 20px;
+          background-color: #d4af37;
+          color: #0a0a0a;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.2s;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+          .search-and-filter {
+              flex-direction: column;
+          }
+          .grid-item {
+              width: calc(50% - 20px);
+          }
+      }
+
+      @media (max-width: 480px) {
+          .grid-item {
+              width: calc(100% - 20px);
+          }
+          .header {
+              flex-direction: column;
+              align-items: center;
+          }
       }
   </style>
 </head>
 <body>
 <div class="header">
   <h1>SellNest</h1>
+  <div class="button-group">
+    <% if user_signed_in? %>
+      <%= link_to 'Profile', user_path(current_user), class: 'btn' %>
+      <%= button_to "Log Out", destroy_user_session_path, data: {turbo: "false"}, method: :delete %>
+    <% else %>
+      <%= button_to 'Login', new_user_session_path, class: "button-login" %>
+      <%= link_to 'Signup', new_user_registration_path, class: 'button-signup' %>
+    <% end %>
+    <%= link_to cart_path do %>
+      <i class="fas fa-shopping-cart"></i> Cart
+    <% end %>
+    <%= link_to 'Create New Listing', new_listing_path, class: "search-button" %>
+  </div>
+</div>
+<div class="search-and-filter">
+  <div class="search-container">
+    <%= form_tag(root_path, method: :get, class: "search-form") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
+      <%= submit_tag "Search", name: nil, class: "search-button" %>
+    <% end %>
+  </div>
+  <div class="filters-container">
+    <%= form_tag(root_path, method: :get, class: "filter-form") do %>
+      <div class="form-group">
+        <%= label_tag(:min_price, "Minimum Price") %>
+        <%= text_field_tag(:min_price, nil, class: "min-price-field") %>
+      </div>
+      <div class="form-group">
+        <%= label_tag(:max_price, "Maximum Price") %>
+        <%= text_field_tag(:max_price, nil, class: "max-price-field") %>
+      </div>
+      <div class="form-group">
+        <%= label_tag(:tags, "Category") %>
+        <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true, class: "category-select" %>
+      </div>
+      <%= submit_tag "Filter", class: "filter-button" %>
+    <% end %>
+  </div>
   <% if user_signed_in? %>
     <% if current_user.email.eql? 'admin@email' %>
       <%= link_to 'Admin Page', admin_path, class: 'button admin-button' %>
@@ -73,7 +160,20 @@
   <% end %>
 </div>
 <main>
-  <p>An online platform where Hawkeyes can buy and sell online</p>
+  <div class="listings-container">
+    <% @listings.each do |listing| %>
+      <div class="grid-item">
+        <%= image_tag(listing.photos.first, width: '100%', height: 'auto') if listing.photos.any? %>
+        <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
+        <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
+        <div class="listing-buttons">
+          <%= link_to 'Details', listing_path(listing), class: 'btn' %>
+          <%= link_to 'Edit', edit_listing_path(listing), class: 'btn' %>
+          <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </main>
 </body>
 </html>
