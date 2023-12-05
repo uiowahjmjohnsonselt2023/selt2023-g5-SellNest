@@ -9,6 +9,7 @@
 </div>
 
 <%= link_to "Edit Email", edit_user_registration_path %>
+<%= link_to "Change Password", edit_user_registration_path(anchor: 'password') %>
 
 <% unless @user.seller? %>
   <%= link_to "Become a Seller", become_seller_user_path(@user), method: :post, class: "btn btn-primary" %>
