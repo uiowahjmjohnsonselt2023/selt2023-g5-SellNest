@@ -241,11 +241,11 @@
       <div class="grid-item">
         <div class="carousel-container">
           <% if current_user && current_user.bookmarked?(listing) %>
-            <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)">
+            <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
               <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
             </div>
           <% else %>
-            <div class="bookmark-icon" onclick="addBookmark(<%= listing.id %>)">
+            <div class="bookmark-icon" onclick="addBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
               <i class="fa-regular fa-bookmark"></i> <!-- Use your bookmark icon here -->
             </div>
           <% end %>
@@ -332,54 +332,54 @@ function prevSlide(button) {
         modal.style.display = 'none';
     }
 
-    function addBookmark(listingId) {
-        fetch(`/bookmarks?listing_id=${listingId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-Token': '<%= form_authenticity_token %>'
-            },
-            credentials: 'same-origin'
-        })
-            .then(response => {
-                if (response.ok) {
-                    updateBookmarkIcon(listingId, true);
-                } else {
-                    // Handle error
+function addBookmark(listingId) {
+    fetch(`/bookmarks?listing_id=${listingId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': '<%= form_authenticity_token %>'
+        },
+        credentials: 'same-origin'
+    })
+        .then(response => {
+            if (response.ok) {
+                // Handle success
+                const bookmarkIcon = document.querySelector(`.bookmark-icon[data-listing-id="${listingId}"]`);
+                if (bookmarkIcon) {
+                    bookmarkIcon.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
+                    bookmarkIcon.setAttribute('onclick', `removeBookmark(${listingId})`);
                 }
-            })
-            .catch(error => console.error('Error:', error));
-    }
-
-    function removeBookmark(listingId) {
-        fetch(`/bookmarks/${listingId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-Token': '<%= form_authenticity_token %>'
-            },
-            credentials: 'same-origin'
-        })
-            .then(response => {
-                if (response.ok) {
-                    updateBookmarkIcon(listingId, false);
-                } else {
-                    // Handle error
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    }
-
-    function updateBookmarkIcon(listingId, isBookmarked) {
-        const iconElement = document.querySelector(`[onclick*="${listingId}"] i`);
-        if (iconElement) {
-            if (isBookmarked) {
-                iconElement.className = 'fa-solid fa-bookmark'; // Show bookmarked icon
             } else {
-                iconElement.className = 'fa-regular fa-bookmark'; // Show not bookmarked icon
+                // Handle error
             }
-        }
-    }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function removeBookmark(listingId) {
+    fetch(`/bookmarks/${listingId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': '<%= form_authenticity_token %>'
+        },
+        credentials: 'same-origin'
+    })
+        .then(response => {
+            if (response.ok) {
+                // Handle success
+                const bookmarkIcon = document.querySelector(`.bookmark-icon[data-listing-id="${listingId}"]`);
+                if (bookmarkIcon) {
+                    bookmarkIcon.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+                    bookmarkIcon.setAttribute('onclick', `addBookmark(${listingId})`);
+                }
+            } else {
+                // Handle error
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
 
     // Close modal if the user clicks outside the modal content
     window.onclick = function(event) {
