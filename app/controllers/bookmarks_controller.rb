@@ -4,17 +4,17 @@ class BookmarksController < ApplicationController
   def create
     @bookmark = current_user.bookmarks.build(bookmark_params)
     if @bookmark.save
-      # Handle successful bookmark creation, maybe redirect somewhere
+      head :no_content
     else
       # Handle error in bookmark creation
     end
   end
 
   def destroy
-    @bookmark = current_user.bookmarks.find_by(id: params[:id])
+    @bookmark = current_user.bookmarks.find_by(listing_id: params[:id])
     if @bookmark
       @bookmark.destroy
-      # Handle successful bookmark deletion, maybe redirect somewhere
+      head :no_content
     else
       # Handle error if bookmark to delete is not found
     end
