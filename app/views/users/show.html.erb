@@ -43,6 +43,7 @@
             <p>Items: <%= order.order_items.count %></p>
             <p>Total: <%= number_to_currency(order.total) %></p>
             <p>Bought: <%= order.created_at %> </p>
+            <p>Status: <%= order.status %></p>
           </li>
         <% end %>
       <% else %>
@@ -131,6 +132,8 @@
           <li>
             <p>Items: <%= order.order_items.count %></p>
             <p>Total: <%= number_to_currency(order.total) %></p>
+            <p>Bought: <%= order.created_at %> </p>
+            <p>Status: <%= order.status %></p>
           </li>
         <% end %>
       <% else %>
