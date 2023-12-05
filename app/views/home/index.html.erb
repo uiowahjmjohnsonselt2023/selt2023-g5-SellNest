@@ -4,86 +4,79 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SellNest</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <style>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     body {
-          font-family: 'Arial', sans-serif;
-          margin: 0;
-          padding: 0;
-          background-color: #F7F8FA;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          height: 100vh;
-          background-size: cover;
-          background-position: center;
-      }
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #1a1a1a; /* Dark background for the body */
+        color: #d4af37; /* Gold text color */
+    }
 
-      .header {
-          width: 100%;
-          background-color: #ffffff;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-          padding: 10px 20px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-      }
+    .header {
+        width: 100%;
+        background-color: #0a0a0a; /* Slightly lighter black for the header */
+        box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4); /* Gold colored shadow */
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-      .header h1 {
-          color: #333;
-          margin: 0;
-      }
+    .header h1 {
+        color: #d4af37; /* Gold color for the header title */
+        margin: 0;
+    }
 
     .btn {
-        padding: 0.5em 1em; /* Add some padding inside the button */
-        background-color: #ffbd00; /* Use a nice green shade for the button */
-        color: #000000; /* Use white color for text to stand out */
-        text-align: center; /* Center-align the text */
-        text-decoration: none; /* Remove the underline from links */
-        border: none; /* Remove borders */
-        border-radius: 0.25em; /* Slightly round the corners */
-        font-size: 1em; /* Set a standard font size */
-        cursor: pointer; /* Change mouse cursor to indicate it's clickable */
-        transition: background-color 0.2s, transform 0.2s; /* Smooth background color change on hover */
+        padding: 0.5em 1em;
+        background-color: #d4af37; /* Gold background for buttons */
+        color: #0a0a0a; /* Black text for buttons */
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        border-radius: 0.25em;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.2s;
     }
 
     .btn:hover, .btn:focus {
-        background-color: #449d44; /* Darken the button when hovered or focused */
-        text-decoration: none; /* Ensure no underline appears on hover */
-        transform: translateY(-2px); /* Slightly lift the button */
-        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2); /* Add a subtle shadow to lift effect */
+        background-color: #b29700; /* Darker gold on hover */
+        color: #ffffff; /* White text on hover */
+        transform: translateY(-2px);
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
     }
 
-    .btn-signup {
-        font-weight: bold; /* Make the 'Sign Up' text bold */
-    }
-    /* Add this to your existing CSS */
     .button-group {
         display: flex;
-        gap: 10px; /* This will create space between your buttons */
+        gap: 10px;
     }
 
-      main {
-          flex-grow: 1;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          padding: 20px;
-      }
+    main {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
 
-      main p {
-          color: #fff;
-          font-size: 1.4rem;
-          background: rgba(0, 0, 0, 0.5);
-          padding: 20px;
-          border-radius: 4px;
-      }
+    main p {
+        color: #fff;
+        font-size: 1.4rem;
+        background: rgba(22, 22, 22, 0.8); /* Semi-transparent background for the text */
+        padding: 20px;
+        border-radius: 4px;
+    }
+
     .container {
         text-align: center;
         width: 80%;
     }
+
     .grid-container {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -92,14 +85,16 @@
         align-items: stretch;
         max-height: 80vh;
         overflow-y: auto;
+        padding: 20px; /* Added padding */
     }
 
     .grid-item {
         text-align: left;
-        border: 1px solid #ddd;
+        border: 1px solid #d4af37; /* Gold border for items */
         padding: 10px;
-        background-color: white;
-        height: 100%;
+        background-color: #000000; /* Black background for items */
+        color: #d4af37; /* Gold text for items */
+        box-shadow: 0 2px 4px rgba(255, 215, 0, 0.2); /* Gold shadow for depth */
     }
 
     .carousel-container {
@@ -107,15 +102,10 @@
         overflow: hidden;
     }
 
-    .carousel {
-        display: flex;
-        transition: transform 0.3s ease-in-out;
-    }
-
     .carousel img {
         max-width: 100%;
         height: auto;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid #d4af37; /* Gold border under image */
         margin-bottom: 10px;
     }
 
@@ -133,13 +123,15 @@
         border: none;
         cursor: pointer;
         font-size: 20px;
+        color: #d4af37; /* Gold arrows */
     }
+
     .text-logo {
         display: block;
         text-align: center;
         font-size: 24px;
         font-weight: bold;
-        color: #ffd700;
+        color: #d4af37;
         text-decoration: none;
         margin-bottom: 20px;
     }
@@ -172,7 +164,8 @@
     }
 
     .modal-content {
-        background-color: white;
+        background-color: #000000;
+        color: #d4af37;
         padding: 20px;
         border-radius: 5px;
         max-width: 600px;
@@ -181,7 +174,7 @@
     }
 
     .close {
-        color: #aaa;
+        color: #d4af37;
         float: right;
         font-size: 28px;
         font-weight: bold;
@@ -189,35 +182,36 @@
     }
 
     .close:hover {
-        color: black;
+        color: #fff;
     }
 
     .fa-shopping-cart {
-        margin-right: 5px; /* Adds spacing between the icon and text */
+        margin-right: 5px;
     }
 
     .view-cart-button {
         display: inline-block;
-        margin-left: 20px; /* Adjust as needed */
+        margin-left: 20px;
         vertical-align: middle;
     }
 
     .button.view-cart-button {
         text-decoration: none;
-        padding: 10px 15px; /* Adjust padding as needed */
-        background-color: #333; /* Adjust background color as needed */
-        color: white; /* Adjust text color as needed */
-        border-radius: 5px; /* Adjust border radius as needed */
+        padding: 10px 15px;
+        background-color: #333;
+        color: white;
+        border-radius: 5px;
         transition: background-color 0.3s;
     }
 
     .button.view-cart-button:hover {
-        background-color: #555; /* Adjust hover color as needed */
+        background-color: #555;
     }
 
     .listing-created-at {
         display: none;
     }
+
     .button-edit-button {
         background-color: #333;
         color: white;
@@ -228,9 +222,64 @@
         cursor: pointer;
         transition: background-color 0.3s;
     }
+    form {
+        margin-bottom: 20px; /* Adds space below each form */
+        color: #d4af37; /* Gold text for the labels */
+    }
+
+    label {
+        display: block; /* Makes the label display on a new line */
+        margin-bottom: 5px; /* Adds space below the label */
+    }
+
+    input[type="text"], select {
+        width: 100%; /* Full width */
+        padding: 10px; /* Padding inside the text fields and select box */
+        margin-bottom: 10px; /* Space below the input/select */
+        border-radius: 5px; /* Rounded corners */
+        border: 1px solid #d4af37; /* Gold border */
+        background-color: #000000; /* Black background */
+        color: #d4af37; /* Gold text color */
+    }
+
+    input[type="text"]:focus, select:focus {
+        outline: none; /* Removes the default focus outline */
+        border-color: #b29700; /* Changes the border color on focus */
+    }
+
+    input[type="submit"] {
+        background-color: #d4af37; /* Gold background for submit buttons */
+        color: #0a0a0a; /* Black text color */
+        border: none; /* Removes border */
+        padding: 10px 20px; /* Padding inside the button */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.2s, transform 0.2s; /* Transition for interaction */
+    }
+
+    input[type="submit"]:hover {
+        background-color: #b29700; /* Darker gold on hover */
+        color: #fff; /* White text color */
+    }
+
+    /* Styling for links */
+    a {
+        color: #d4af37; /* Gold text color */
+        text-decoration: none; /* Removes underline */
+        padding: 5px 10px; /* Padding around the links */
+        transition: background-color 0.2s, color 0.2s; /* Smooth transition for hover effect */
+        display: inline-block; /* Allows padding and background color */
+        margin-right: 10px; /* Space between the links */
+        border-radius: 5px; /* Rounded corners */
+    }
+
+    a:hover {
+        background-color: #d4af37; /* Gold background on hover */
+        color: #0a0a0a; /* Black text color on hover */
+    }
+
   </style>
 </head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <body>
 <div class="header">
   <h1>SellNest</h1>
@@ -252,27 +301,35 @@
         <i class="fas fa-shopping-cart"></i> Cart
       <% end %>
       <h1>Listings</h1>
-      <%= form_tag(listings_path, method: :get) do %>
-        <%= text_field_tag :search, params[:search], placeholder: "Search Listings" %>
-        <%= submit_tag "Search", name: nil %>
-      <% end %>
-      <%= link_to 'Price Low to High', listings_path(sort: 'price_asc') %>
-      <%= link_to 'Price High to Low', listings_path(sort: 'price_desc') %>
-      <%= link_to 'Newest First', listings_path(sort: 'newest') %>
-      <%= link_to 'Oldest First', listings_path(sort: 'oldest') %>
-
-      <%= form_tag(listings_path, method: :get) do %>
-        <%= label_tag(:min_price, "Minimum Price") %>
-        <%= text_field_tag(:min_price) %>
-
-        <%= label_tag(:max_price, "Maximum Price") %>
-        <%= text_field_tag(:max_price) %>
-
-        <%= label_tag(:tags, "Category") %>
-        <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true %>
-
-        <%= submit_tag "Filter" %>
-      <% end %>
+      <div class="search-container">
+        <%= form_tag(root_path, method: :get, class: "search-form") do %>
+          <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
+          <%= submit_tag "Search", name: nil, class: "search-button" %>
+        <% end %>
+      </div>
+      <div class="sort-links">
+        <%= link_to 'Price Low to High', root_path(sort: 'price_asc'), class: "sort-link" %>
+        <%= link_to 'Price High to Low', root_path(sort: 'price_desc'), class: "sort-link" %>
+        <%= link_to 'Newest First', root_path(sort: 'newest'), class: "sort-link" %>
+        <%= link_to 'Oldest First', root_path(sort: 'oldest'), class: "sort-link" %>
+      </div>
+      <div class="filter-form">
+        <%= form_tag(root_path, method: :get, class: "filter-form") do %>
+          <div class="form-group">
+            <%= label_tag(:min_price, "Minimum Price") %>
+            <%= text_field_tag(:min_price, nil, class: "min-price-field") %>
+          </div>
+          <div class="form-group">
+            <%= label_tag(:max_price, "Maximum Price") %>
+            <%= text_field_tag(:max_price, nil, class: "max-price-field") %>
+          </div>
+          <div class="form-group">
+            <%= label_tag(:tags, "Category") %>
+            <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true, class: "category-select" %>
+          </div>
+          <%= submit_tag "Filter", class: "filter-button" %>
+        <% end %>
+      </div>
 
       <div class="grid-container">
         <% @listings.each do |listing| %>
@@ -357,7 +414,6 @@
         const modal = document.getElementById('descriptionModal');
         modal.style.display = 'none';
     }
-
     window.onclick = function(event) {
         const modal = document.getElementById('descriptionModal');
         if (event.target === modal) {
