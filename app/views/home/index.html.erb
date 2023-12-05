@@ -112,16 +112,19 @@
   <h1>SellNest</h1>
   <div class="button-group">
     <% if user_signed_in? %>
+      <% if current_user.email.eql? 'admin@email' %>
+        <%= link_to 'Admin Page', admin_path, class: 'btn' %>
+      <% end %>
+      <%= link_to cart_path do %>
+        <i class="fas fa-shopping-cart btn">Cart</i>
+      <% end %>
+      <%= link_to 'Create New Listing', new_listing_path, class: "search-button" %>
       <%= link_to 'Profile', user_path(current_user), class: 'btn' %>
-      <%= button_to "Log Out", destroy_user_session_path, data: {turbo: "false"}, method: :delete %>
+      <%= button_to "Log Out", destroy_user_session_path, data: {turbo: "false"}, method: :delete, class: 'btn' %>
     <% else %>
       <%= button_to 'Login', new_user_session_path, class: "button-login" %>
       <%= link_to 'Signup', new_user_registration_path, class: 'button-signup' %>
     <% end %>
-    <%= link_to cart_path do %>
-      <i class="fas fa-shopping-cart"></i> Cart
-    <% end %>
-    <%= link_to 'Create New Listing', new_listing_path, class: "search-button" %>
   </div>
 </div>
 <div class="search-and-filter">
@@ -148,16 +151,6 @@
       <%= submit_tag "Filter", class: "filter-button" %>
     <% end %>
   </div>
-  <% if user_signed_in? %>
-    <% if current_user.email.eql? 'admin@email' %>
-      <%= link_to 'Admin Page', admin_path, class: 'button admin-button' %>
-    <% end %>
-    <%= link_to 'Profile', user_path(current_user) %>
-    <%= button_to "Logout", destroy_user_session_path, data: {turbo: "false"}, method: :delete %>
-  <% else %>
-    <%= link_to 'Login', new_user_session_path %>
-    <%= link_to 'Create Login', new_user_registration_path %>
-  <% end %>
 </div>
 <main>
   <div class="listings-container">
