@@ -183,6 +183,10 @@
       .button.view-cart-button:hover {
           background-color: #555; /* Adjust hover color as needed */
       }
+
+      .listing-created-at {
+          display: none;
+      }
   </style>
 </head>
 <body>
@@ -208,8 +212,8 @@
     <%= label_tag(:max_price, "Maximum Price") %>
     <%= text_field_tag(:max_price) %>
 
-    <%= label_tag(:tags, "Tags") %>
-    <%= text_field_tag(:tags) %>
+    <%= label_tag(:tags, "Category") %>
+    <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true %>
 
     <%= submit_tag "Filter" %>
   <% end %>
@@ -234,11 +238,16 @@
         </div>
         <h2 class="listing-title"><%= link_to listing.name, edit_listing_path(listing) %></h2>
         <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
-        <div class="listing-buttons">
-          <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= listing.user.email.split('@').first %>')">Details</button>
-          <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
+        <div class="listing-created-at">
+          <%= listing.created_at.strftime('%Y-%m-%d') %>
         </div>
-        <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
+        <div class="listing-buttons">
+
+          <button class="button details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= j listing.tags.to_json %>')">Details</button>
+          <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
+          <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post %>
+        </div>
+
       </div>
     <% end %>
   </div>
@@ -250,9 +259,10 @@
     <h2 class="listing-title" id="modalTitle"></h2>
     <h2 class="listing-price" id="modalPrice"></h2>
     <p id="modalDescription"></p>
-    <p id="modalSeller"></p>
+    <div id="modalTags"></div>
   </div>
 </div>
+
 <script>
     function prevSlide(button) {
         const carousel = button.parentElement.previousElementSibling;
@@ -264,19 +274,31 @@
         carousel.prepend(carousel.lastElementChild);
     }
 
-    function showDescriptionModal(title, price, description, name) {
+    function showDescriptionModal(title, price, description, tags) {
         const modal = document.getElementById('descriptionModal');
         const modalTitle = document.getElementById('modalTitle');
         const modalPrice = document.getElementById('modalPrice');
         const modalDescription = document.getElementById('modalDescription');
-        const modalSeller = document.getElementById('modalSeller'); // Assuming there's an element for displaying the seller
+        const modalTags = document.getElementById('modalTags');
+        const parsedTags = JSON.parse(tags);
 
         modalTitle.innerHTML = title;
         modalPrice.innerHTML = price;
-        modalDescription.innerHTML = `Description: ${description}`;
-        modalSeller.innerHTML = `Seller: ${name}`; // Displaying the seller's name
+        modalDescription.innerHTML = description;
+
+        // Clear previous tags before adding new ones
+        modalTags.innerHTML = '';
+
+        // Check if tags is defined and not empty before processing
+        if (parsedTags && parsedTags.length > 0) {
+            const isPlural = parsedTags.length > 1 ? 'Categories:' : 'Category:';
+            modalTags.textContent = `${isPlural} ${parsedTags.map((tag, index) => (index === 0 ? tag.name : ` ${tag.name}`)).join(',')}`;
+        }
+
         modal.style.display = 'flex';
     }
+
+
 
     function closeDescriptionModal() {
         const modal = document.getElementById('descriptionModal');

@@ -120,7 +120,7 @@
   <a href="/" class="text-logo">SellNest</a>
   <h1>Create Listing</h1>
 
-  <%= form_for(@listing, url: listings_path, html: { class: "form-horizontal", multipart: true}) do |f| %>
+  <%= form_for(@listing, url: listings_path, html: { id:'newListingForm', class: "form-horizontal", multipart: true}) do |f| %>
 
     <div class="form-group">
       <%= f.label :name %>
@@ -141,12 +141,18 @@
     <div class="form-group">
       <div class="selected-tags-list horizontal-tags-list"></div>
       <% f.object.tags.each do |tag| %>
+        <div class="form-group">
+          <div class="selected-tags-list horizontal-tags-list">
+            <% f.object.tags.each do |tag| %>
       <span class="selected-tag">
         <%= tag.name %>
-        <%= f.hidden_field :tag_ids, multiple: true, value: tag.id %>
         <button type="button" class="remove-tag" data-tag-id="<%= tag.id %>">x</button>
       </span>
-      <% end %>
+            <% end %>
+          </div>
+        </div>
+
+    <% end %>
     </div>
 
     <div class="form-group">
@@ -175,6 +181,7 @@
         const addTagBtn = document.querySelector('.add-tag-btn');
         const selectedTagsList = document.querySelector('.selected-tags-list');
         const tagDropdown = document.querySelector('.tag-dropdown');
+        const form = document.getElementById('newListingForm');
 
         addTagBtn.addEventListener('click', function() {
             const selectedOption = tagDropdown.options[tagDropdown.selectedIndex];
@@ -186,18 +193,20 @@
                 const tagListItem = document.createElement('div');
                 tagListItem.classList.add('selected-tag');
                 tagListItem.innerHTML = `
-        ${tagName}
-        <input type="hidden" name="listing[tag_ids][]" value="${selectedValue}">
-        <button type="button" class="remove-tag" data-tag-id="${selectedValue}">x</button>
-      `;
+    ${tagName}
+    <input type="hidden" name="listing[tag_ids][]" value="${selectedValue}" data-tagName="${tagName}">
+    <button type="button" class="remove-tag" data-tag-id="${selectedValue}">x</button>
+`;
+
                 selectedTagsList.appendChild(tagListItem);
             }
         });
 
-        function isTagAlreadyAdded(tagId) {
+        function isTagAlreadyAdded(tagId, tagName) {
             const tagInputs = document.querySelectorAll('input[name="listing[tag_ids][]"]');
-            return Array.from(tagInputs).some(input => input.value === tagId);
+            return Array.from(tagInputs).some(input => input.value === tagId && input.dataset.tagName === tagName);
         }
+
 
         selectedTagsList.addEventListener('click', function(event) {
             if (event.target.classList.contains('remove-tag')) {
@@ -208,6 +217,22 @@
                     tagToRemove.parentElement.remove();
                 }
             }
+        });
+
+        form.addEventListener('submit', function(event) {
+            // Prevent the default form submission
+            event.preventDefault();
+
+            // Remove the last tag ID from the array before submitting the form
+            const tagInputs = document.querySelectorAll('input[name="listing[tag_ids][]"]');
+            if (tagInputs.length > 0) {
+                // Remove the last tag input from the NodeList
+                const lastTagInput = tagInputs[tagInputs.length - 1];
+                lastTagInput.parentElement.remove();
+            }
+
+            // Submit the form
+            form.submit();
         });
     });
 
