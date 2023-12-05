@@ -1,1 +1,171 @@
 <h1>User Profile</h1>
+
+<%= link_to "Back to Home", root_path, class: "btn btn-primary" %>
+
+<div class="user-info">
+  <p> Username: <%= @user.email.split('@').first %> </p>
+  <p> Email: <%= @user.email %> </p>
+  <p> Joined: <%= @user.created_at %></p>
+</div>
+
+<%= link_to "Edit Email", edit_user_registration_path %>
+<%= link_to "Change Password", edit_user_registration_path(anchor: 'password') %>
+
+<% unless @user.seller? %>
+  <%= link_to "Become a Seller", become_seller_user_path(@user), method: :post, class: "btn btn-primary" %>
+<% else %>
+  <%= link_to 'Create New Listing', new_listing_path, class: "button" %>
+<% end %>
+
+<% if @user.seller? %>
+  <div class="toggle-container">
+    <label class="toggle-label">
+      <input type="radio" name="toggle-section" id="toggle-orders" checked>
+      Order History
+    </label>
+    <label class="toggle-label">
+      <input type="radio" name="toggle-section" id="toggle-active-listings">
+      Active Listings
+    </label>
+    <label class="toggle-label">
+      <input type="radio" name="toggle-section" id="toggle-sold-listings">
+      Sold Listings
+    </label>
+  </div>
+
+  <div id="order-history" class="content">
+    <h2>Order History</h2>
+    <ul>
+      <% order_listings = @user.orders %>
+      <% if order_listings.any? %>
+        <% order_listings.each do |order| %>
+          <li>
+            <p>Items: <%= order.order_items.count %></p>
+            <p>Total: <%= number_to_currency(order.total) %></p>
+            <p>Bought: <%= order.created_at %> </p>
+          </li>
+        <% end %>
+      <% else %>
+        <li>
+          <p>No Orders Placed</p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+
+  <div id="active-listings" class="content" style="display: none;">
+    <h2>Active Listings</h2>
+    <ul>
+      <% active_listings = Listing.where(user_id: @user.id, is_sold: false) %>
+      <% if active_listings.any? %>
+        <% active_listings.each do |listing| %>
+          <li>
+            <div class="carousel-container">
+              <div class="carousel">
+                <% listing.photos.each do |photo| %>
+                  <%= image_tag(photo, width: '100%', height: 'auto') %>
+                <% end %>
+              </div>
+              <% if listing.photos.length > 1 %>
+                <div class="carousel-controls">
+                  <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                  <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+                </div>
+              <% end %>
+            </div>
+            <p> ID: <%= listing.id %></p>
+            <p> Item: <%= listing.name %> </p>
+            <p> Price: <%= number_to_currency(listing.price) %></p>
+            <%= link_to 'Edit', edit_listing_path(listing), class: 'button edit-button' %>
+          </li>
+        <% end %>
+      <% else %>
+        <li>
+          <p>No active listings</p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div id="sold-listings" class="content" style="display: none;">
+    <h2>Sold Listings</h2>
+    <ul>
+      <% sold_listings = Listing.where(user_id: @user.id, is_sold: true) %>
+      <% if sold_listings.any? %>
+        <% sold_listings.each do |listing| %>
+          <li>
+            <div class="carousel-container">
+              <div class="carousel">
+                <% listing.photos.each do |photo| %>
+                  <%= image_tag(photo, width: '100%', height: 'auto') %>
+                <% end %>
+              </div>
+              <% if listing.photos.length > 1 %>
+                <div class="carousel-controls">
+                  <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                  <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+                </div>
+              <% end %>
+            </div>
+            <p> Item: <%= listing.name %> </p>
+            <p> Price: <%= number_to_currency(listing.price) %></p>
+            <% sold_item = OrderItem.find_by(listing_id: listing.id) %>
+            <p> Sold on: <%= sold_item.created_at %></p>
+          </li>
+        <% end %>
+      <% else %>
+        <li>
+          <p>No sold listings</p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% else %>
+  <div id="order-history" class="content">
+    <h2>Order History</h2>
+    <ul>
+      <% order_listings = @user.orders %>
+      <% if order_listings.any? %>
+        <% order_listings.each do |order| %>
+          <li>
+            <p>Items: <%= order.order_items.count %></p>
+            <p>Total: <%= number_to_currency(order.total) %></p>
+          </li>
+        <% end %>
+      <% else %>
+        <li>
+          <p>No Orders Placed</p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<script>
+    const toggleOrders = document.getElementById('toggle-orders');
+    const toggleActiveListings = document.getElementById('toggle-active-listings');
+    const toggleSoldListings = document.getElementById('toggle-sold-listings');
+
+    const orderHistory = document.getElementById('order-history');
+    const activeListings = document.getElementById('active-listings');
+    const soldListings = document.getElementById('sold-listings');
+
+    toggleOrders.addEventListener('change', () => {
+        orderHistory.style.display = 'block';
+        activeListings.style.display = 'none';
+        soldListings.style.display = 'none';
+    });
+
+    toggleActiveListings.addEventListener('change', () => {
+        orderHistory.style.display = 'none';
+        activeListings.style.display = 'block';
+        soldListings.style.display = 'none';
+    });
+
+    toggleSoldListings.addEventListener('change', () => {
+        orderHistory.style.display = 'none';
+        activeListings.style.display = 'none';
+        soldListings.style.display = 'block';
+    });
+</script>

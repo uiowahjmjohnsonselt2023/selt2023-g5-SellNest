@@ -1,44 +1,47 @@
 Rails.application.routes.draw do
   get 'orders/show'
-    root 'home#index'
+  root 'home#index'
 
-    get 'user/index'
-    get '/admin', to: 'admin#index'
-    get '/cart', to: 'cart#show', as: 'cart_show'
-    post '/cart/add_item/:id', to: 'cart#add_item', as: 'cart_add_item'
-    delete '/cart/remove_item/:id', to: 'cart#remove_item', as: 'cart_remove_item'
-    get 'cart/add_item'
-    get 'cart/remove_item'
-    post '/cart/checkout', to: 'cart#checkout', as: 'cart_checkout'
-
-
+  get 'user/index'
+  get '/admin', to: 'admin#index'
+  get '/cart', to: 'cart#show', as: 'cart_show'
+  post '/cart/add_item/:id', to: 'cart#add_item', as: 'cart_add_item'
+  delete '/cart/remove_item/:id', to: 'cart#remove_item', as: 'cart_remove_item'
+  get 'cart/add_item'
+  get 'cart/remove_item'
+  post '/cart/checkout', to: 'cart#checkout', as: 'cart_checkout'
   #get 'signup', to: 'user#signup', as: 'signup'
-    #post 'users', to: 'user#create'
-    #get 'login', to: 'user#login', as: 'login'
-    devise_for :users, controllers: {
-      omniauth_callbacks: 'users/omniauth_callbacks',
-      sessions: 'users/sessions',
-      registrations: 'users/registrations'
-    }
+  #post 'users', to: 'user#create'
+  #get 'login', to: 'user#login', as: 'login'
 
-    resources :orders, only: [:show]
-    #get 'user/:id', to: 'user#show', as: 'user'
+  devise_for :users, controllers: {
+    omniauth_callbacks: 'users/omniauth_callbacks',
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
 
-    resources :listings
-    post 'listings', to: 'listing#create'
-    post '/admin', to: 'admin#index'
-    # post 'update', to: 'listing#update', as: 'update'
+  resources :orders, only: [:show]
+  #get 'user/:id', to: 'user#show', as: 'user'
 
-    resource :cart, only: [:show] do
-      member do
-        post 'add_item/:id', to: 'cart#add_item', as: :add_item_to
-        delete 'remove_item/:id', to: 'cart#remove_item', as: :remove_item_from
-      end
+  resources :listings
+  post 'listings', to: 'listing#create'
+  post '/admin', to: 'admin#index'
+  # post 'update', to: 'listing#update', as: 'update'
+  #
+  resource :cart, only: [:show] do
+    member do
+      post 'add_item/:id', to: 'cart#add_item', as: :add_item_to
+      delete 'remove_item/:id', to: 'cart#remove_item', as: :remove_item_from
     end
-    resources :users, only: [:show]
+  end
+
+  resources :users, only: [:show] do
+    member do
+      match 'become_seller', via: [:get, :post]
+    end
+  end
 
 end
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

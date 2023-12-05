@@ -32,7 +32,7 @@ class ListingsController < ApplicationController
 
   def index
     # Start with all listings or search results
-    @listings = params[:search] ? Listing.search_by_title(params[:search]) : Listing.all
+    @listings = params[:search] ? Listing.search_by_title(params[:search]).where(is_sold: false) : Listing.where(is_sold: false)
 
     # Sorting logic
     case params[:sort]
