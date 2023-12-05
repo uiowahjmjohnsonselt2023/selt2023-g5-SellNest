@@ -49,8 +49,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :notifications, only: [:index, :show]
-
+  resources :notifications, only: [:index] do
+    member do
+      patch :mark_as_read
+    end
+  end
 end
 
   # The priority is based upon order of creation: first created -> highest priority.
