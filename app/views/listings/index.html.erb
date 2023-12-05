@@ -224,6 +224,18 @@
     <% @listings.each do |listing| %>
       <div class="grid-item">
         <div class="carousel-container">
+          <div class="bookmark-button">
+            <!-- The bookmark button icon and functionality -->
+            <% if current_user && !current_user.bookmarked?(listing) %>
+              <%= link_to bookmarks_path(listing_id: listing.id), method: :post, remote: true do %>
+                <i class="far fa-bookmark"></i> <!-- Add your bookmark icon here -->
+              <% end %>
+            <% else %>
+              <%= link_to bookmark_path(listing.bookmark_for(current_user)), method: :delete, remote: true do %>
+                <i class="fas fa-bookmark"></i> <!-- Add your bookmark icon here -->
+              <% end %>
+            <% end %>
+          </div>
           <div class="carousel">
             <% listing.photos.each do |photo| %>
               <%= image_tag(photo, width: '100%', height: 'auto') %>
