@@ -45,6 +45,10 @@ class UsersController < ApplicationController
     @user.listings.where(is_sold: true).each do |listing|
       listing.update(user_id: admin_user.id)
     end
+    @user.orders.each do |order|
+      order.update(user_id: admin_user.id)
+    end
+
     @user.destroy
 
     redirect_to root_path
