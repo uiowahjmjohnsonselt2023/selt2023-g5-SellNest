@@ -201,6 +201,10 @@
             <p>Total: <%= number_to_currency(order.total) %></p>
             <p>Bought: <%= order.created_at %> </p>
             <p>Status: <%= order.status %></p>
+            <% order.order_items.each do |order_item| %>
+              <p><%= order_item.listing.name %></p>
+              <%= link_to "Review Seller", new_review_path(listing_id: order_item.listing.id), class: "btn btn-primary review-button" %>
+            <% end %>
           </li>
         <% end %>
       <% else %>
@@ -280,7 +284,7 @@
   </div>
   <div class="reviews-section">
     <h3>User Reviews</h3>
-    <% reviews = Review.joins(:listing).where(listings: { user_id: current_user.id }) %>
+    <% reviews = Review.where(listing_id: current_user.listings.pluck(:id)) %>
     <% if reviews.any? %>
       <p> Average Rating: <%= reviews.sum(:rating) / reviews.count %></p>
       <ul>
