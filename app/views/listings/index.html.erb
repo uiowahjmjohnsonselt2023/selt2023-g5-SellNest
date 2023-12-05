@@ -50,6 +50,21 @@
       .carousel-container {
           position: relative;
           overflow: hidden;
+          display: inline-block;
+      }
+
+      .bookmark-icon {
+          position: absolute;
+          top: 10px; /* Adjust top position as needed */
+          right: 10px; /* Adjust right position as needed */
+          z-index: 1; /* Ensure it's above the picture */
+          cursor: pointer;
+          background: #fff; /* Background color for the icon */
+          border-radius: 50%; /* Rounded shape for the icon */
+          padding: 5px;
+      }
+      .bookmark-icon i {
+          color: #FFD700; /* Adjust the icon color */
       }
 
       .carousel {
