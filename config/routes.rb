@@ -49,6 +49,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :notifications, only: [:index, :show]
+
 end
 
   # The priority is based upon order of creation: first created -> highest priority.
