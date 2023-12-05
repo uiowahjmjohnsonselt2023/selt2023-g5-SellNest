@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-    get 'orders/show'
-    root 'home#index'
+  root to: 'home#index'
+  get 'orders/show'
 
     get 'user/index'
     get '/admin', to: 'admin#index'
@@ -21,8 +21,12 @@ Rails.application.routes.draw do
       registrations: 'users/registrations'
     }
 
-    resources :orders, only: [:show]
-    #get 'user/:id', to: 'user#show', as: 'user'
+  resources :orders do
+    member do
+      post 'refund'
+    end
+  end
+  #get 'user/:id', to: 'user#show', as: 'user'
 
     resources :listings
     post 'listings', to: 'listing#create'
@@ -39,8 +43,13 @@ Rails.application.routes.draw do
     resources :bookmarks, only: [:create, :destroy]
 
 
-end
+  resources :users, only: [:show, :destroy] do
+    member do
+      match 'become_seller', via: [:get, :post]
+    end
+  end
 
+end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

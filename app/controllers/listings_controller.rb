@@ -22,7 +22,7 @@ class ListingsController < ApplicationController
 
     if @listing.save
       flash[:notice] = "#{@listing.name} was successfully created."
-      redirect_to listings_path
+      redirect_to root_path
     else
       render 'new'
     end
@@ -32,7 +32,7 @@ class ListingsController < ApplicationController
 
   def index
     # Start with all listings or search results
-    @listings = params[:search] ? Listing.search_by_title(params[:search]) : Listing.all
+    @listings = params[:search] ? Listing.search_by_title(params[:search]).where(is_sold: false) : Listing.where(is_sold: false)
 
     # Sorting logic
     case params[:sort]
@@ -61,7 +61,7 @@ class ListingsController < ApplicationController
     @listing = Listing.find(params[:id])
     if @listing.update(listing_params)
       flash[:notice] = "#{@listing.name} was successfully updated."
-      redirect_to listings_path
+      redirect_to root_path
     else
       render 'edit'
     end
@@ -71,7 +71,7 @@ class ListingsController < ApplicationController
     @listing = Listing.find(params[:id])
     @listing.destroy
     flash[:notice] = "Listing deleted."
-    redirect_to listings_path
+    redirect_to root_path
   end
 
 end

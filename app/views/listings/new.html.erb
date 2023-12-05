@@ -127,7 +127,8 @@
       <%= f.text_field :name, class: 'form-control', required: true %>
     </div>
 
-
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.hidden_field :is_sold, value: false %>
 
     <!-- Add dropdown for selecting category tag -->
     <div class="field">
@@ -166,8 +167,25 @@
 
     <div class="form-group">
       <%= f.label :price %>
-      <%= f.text_field :price, class: 'form-control', step: '0.01', pattern: '\d+(\.\d{1,2})?', required: true %>
+      <%= f.text_field :price, id: 'priceInput', class: 'form-control', step: '0.01', pattern: '\d+(\.\d{1,2})?', required: true %>
     </div>
+
+    <div>
+      <h3>Estimated Profit:</h3>
+      <p id="estimatedProfit">0.00</p>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            function updateEstimatedProfit() {
+                var priceInput = document.getElementById('priceInput');
+                var priceValue = parseFloat(priceInput.value);
+                var estimatedProfit = priceValue * 0.95 || 0;
+                document.getElementById('estimatedProfit').innerText = estimatedProfit.toFixed(2);
+            }
+
+            document.getElementById('priceInput').addEventListener('input', updateEstimatedProfit);
+        });
+    </script>
 
     <div class="form-group">
       <%= f.submit "Create Listing", class: 'btn btn-primary' %>

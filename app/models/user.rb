@@ -2,10 +2,8 @@ class User < ActiveRecord::Base
   has_one :cart, dependent: :destroy
   has_many :orders
   has_many :bookmarks, dependent: :destroy
+  has_many :listings
   after_create :create_cart_for_user
-  def seller?
-    seller == true
-  end
 
   def bookmarked?(listing)
     bookmarks.exists?(listing_id: listing.id)
