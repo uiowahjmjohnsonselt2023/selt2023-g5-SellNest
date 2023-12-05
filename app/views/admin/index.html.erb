@@ -166,10 +166,12 @@
       <h2>All Users</h2>
       <ul>
         <% @all_users.each do |user| %>
-          <li><%= user.email %> (ID: <%= user.id %>)
-          <%= button_to "Ban", user_path(user), method: :delete, data: { confirm: "Are you sure you want to ban this user?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
-          </li>
-      <% end %>
+          <% unless user.email == 'admin@email' %>
+            <li><%= user.email %> (ID: <%= user.id %>)
+            <%= button_to "Ban", user_path(user), method: :delete, data: { confirm: "Are you sure you want to ban this user?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
+            </li>
+          <% end %>
+        <% end %>
       </ul>
     </div>
     <div class="container">
