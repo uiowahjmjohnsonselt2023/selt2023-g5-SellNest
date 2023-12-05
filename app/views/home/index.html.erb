@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SellNest</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://kit.fontawesome.com/d968c2f6ce.js" crossorigin="anonymous"></script>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <style>
       /* Global Styles */
@@ -59,6 +60,21 @@
           color: #d4af37;
       }
 
+      /*.bookmark-icon {*/
+      /*    position: absolute;*/
+      /*    top: 10px; !* Adjust top position as needed *!*/
+      /*    right: 10px; !* Adjust right position as needed *!*/
+      /*    z-index: 1; !* Ensure it's above the picture *!*/
+      /*    cursor: pointer;*/
+      /*    background: #fff; !* Background color for the icon *!*/
+      /*    border-radius: 50%; !* Rounded shape for the icon *!*/
+      /*    padding: 5px;*/
+      /*}*/
+      .bookmark-icon i {
+          color: #FFD700; /* Adjust the icon color */
+      }
+
+
       /* Listings Container */
       .listings-container {
           display: flex;
@@ -73,6 +89,15 @@
           margin: 10px;
           width: calc(33.333% - 20px);
           box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4);
+      }
+
+      .listing-created-at {
+          display: none;
+      }
+
+      .listing-buttons {
+          display: flex;
+          justify-content: space-between;
       }
 
       /* Buttons */
@@ -116,8 +141,11 @@
         <%= link_to 'Admin Page', admin_path, class: 'btn' %>
       <% end %>
       <%= link_to cart_path do %>
-        <i class="fas fa-shopping-cart btn">Cart</i>
+        <i class="fas fa-shopping-cart btn"></i>
       <% end %>
+      <%= link_to bookmarks_path do %>
+        <i class="fa-solid fa-bookmark btn"></i>
+        <%end %>
       <% if current_user.seller %>
         <%= link_to 'Create New Listing', new_listing_path, class: "search-button" %>
       <% end %>
@@ -159,9 +187,33 @@
     <% @listings.each do |listing| %>
       <% unless listing.is_sold %>
         <div class="grid-item">
-          <%= image_tag(listing.photos.first, width: '100%', height: 'auto') if listing.photos.any? %>
+          <div class="carousel-container">
+            <% if current_user && current_user.bookmarked?(listing) %>
+              <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
+                <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
+              </div>
+            <% else %>
+              <div class="bookmark-icon" onclick="addBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
+                <i class="fa-regular fa-bookmark"></i> <!-- Use your bookmark icon here -->
+              </div>
+            <% end %>
+            <div class="carousel">
+              <% listing.photos.each do |photo| %>
+                <%= image_tag(photo, width: '100%', height: 'auto') %>
+              <% end %>
+            </div>
+            <% if listing.photos.length > 1 %>
+              <div class="carousel-controls">
+                <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+              </div>
+            <% end %>
+          </div>
           <h2 class="listing-title"><%= listing.name %></h2>
           <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
+          <div class="listing-created-at">
+            <%= listing.created_at.strftime('%Y-%m-%d') %>
+          </div>
           <div class="listing-buttons">
             <%= link_to 'Details', listing_path(listing), class: 'btn' %>
             <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn' %>
@@ -171,5 +223,106 @@
     <% end %>
   </div>
 </main>
+<script>
+
+
+    function prevSlide(button) {
+        const carousel = button.parentElement.previousElementSibling;
+        carousel.appendChild(carousel.firstElementChild);
+    }
+
+    function nextSlide(button) {
+        const carousel = button.parentElement.previousElementSibling;
+        carousel.prepend(carousel.lastElementChild);
+    }
+
+    function showDescriptionModal(title, price, description, tags) {
+        const modal = document.getElementById('descriptionModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalTags = document.getElementById('modalTags');
+        const parsedTags = JSON.parse(tags);
+
+        modalTitle.innerHTML = title;
+        modalPrice.innerHTML = price;
+        modalDescription.innerHTML = description;
+
+        // Clear previous tags before adding new ones
+        modalTags.innerHTML = '';
+
+        // Check if tags is defined and not empty before processing
+        if (parsedTags && parsedTags.length > 0) {
+            const isPlural = parsedTags.length > 1 ? 'Categories:' : 'Category:';
+            modalTags.textContent = `${isPlural} ${parsedTags.map((tag, index) => (index === 0 ? tag.name : ` ${tag.name}`)).join(',')}`;
+        }
+
+        modal.style.display = 'flex';
+    }
+
+
+
+    function closeDescriptionModal() {
+        const modal = document.getElementById('descriptionModal');
+        modal.style.display = 'none';
+    }
+
+    function addBookmark(listingId) {
+        fetch(`/bookmarks?listing_id=${listingId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': '<%= form_authenticity_token %>'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Handle success
+                    const bookmarkIcon = document.querySelector(`.bookmark-icon[data-listing-id="${listingId}"]`);
+                    if (bookmarkIcon) {
+                        bookmarkIcon.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
+                        bookmarkIcon.setAttribute('onclick', `removeBookmark(${listingId})`);
+                    }
+                } else {
+                    // Handle error
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function removeBookmark(listingId) {
+        fetch(`/bookmarks/${listingId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': '<%= form_authenticity_token %>'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Handle success
+                    const bookmarkIcon = document.querySelector(`.bookmark-icon[data-listing-id="${listingId}"]`);
+                    if (bookmarkIcon) {
+                        bookmarkIcon.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+                        bookmarkIcon.setAttribute('onclick', `addBookmark(${listingId})`);
+                    }
+                } else {
+                    // Handle error
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+
+    // Close modal if the user clicks outside the modal content
+    window.onclick = function(event) {
+        const modal = document.getElementById('descriptionModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+</script>
 </body>
 </html>

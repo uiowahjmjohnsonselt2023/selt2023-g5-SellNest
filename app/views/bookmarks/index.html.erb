@@ -1,0 +1,8 @@
+<h1>Your Bookmarks</h1>
+
+<% @bookmarks.each do |bookmark| %>
+  <div class="bookmark-item">
+    <%= link_to bookmark.listing.name, listing_path(bookmark.listing) %>
+    <!-- Display other details of the bookmarked listing -->
+  </div>
+<% end %>
