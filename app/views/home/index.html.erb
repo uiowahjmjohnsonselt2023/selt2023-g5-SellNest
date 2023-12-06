@@ -280,17 +280,19 @@
             <%= listing.created_at.strftime('%Y-%m-%d') %>
           </div>
           <div class="listing-buttons">
-            <% reviews = Review.where(listing_id: listing.user.listings.pluck(:id)) %>
-            <% if reviews.any? %>
-              <% full_eggs = reviews.sum(:rating) / reviews.count %>
-              <% remaining_eggs = 5 - full_eggs - 1 %>
-              <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
-              <% num_reviews = reviews.count %>
-            <% else %>
-              <% full_eggs = 0 %>
-              <% remaining_eggs = 5 %>
-              <% partial_egg = 100 %>
-              <% num_reviews = 0 %>
+              <% if listing.user.present? %>
+              <% reviews = Review.where(listing_id: listing.user.listings.pluck(:id)) %>
+              <% if reviews.any? %>
+                <% full_eggs = reviews.sum(:rating) / reviews.count %>
+                <% remaining_eggs = 5 - full_eggs - 1 %>
+                <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
+                <% num_reviews = reviews.count %>
+              <% else %>
+                <% full_eggs = 0 %>
+                <% remaining_eggs = 5 %>
+                <% partial_egg = 100 %>
+                <% num_reviews = 0 %>
+              <% end %>
             <% end %>
             <button class="btn" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= listing.tags.to_json %>', '<%= listing.user.email.split('@').first %>', '<%= num_reviews %>', '<%= full_eggs %>', '<%= remaining_eggs %>', '<%= partial_egg %>')">Details</button>
             <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn' %>
