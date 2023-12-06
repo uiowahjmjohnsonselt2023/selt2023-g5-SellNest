@@ -228,6 +228,11 @@ input[type="text"], select {
     text-align: center; /* Center the text inside buttons */
 }
 
+.Create{
+    align-content: center;
+    width: 100%;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .grid-item {

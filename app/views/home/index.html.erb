@@ -66,9 +66,11 @@
   <%= submit_tag "Filter", class: "btn filter-button" %>
 <% end %>
 </div>
-<% if current_user.seller %>
-  <%= link_to 'Create New Listing', new_listing_path, class: "btn account-buttons" %>
-<% end %>
+<div class="Create">
+  <% if current_user.seller %>
+    <%= link_to 'Create New Listing', new_listing_path, class: "btn account-buttons listing-button" %>
+  <% end %>
+</div>
 <main>
   <div class="listings-container">
     <% @listings.each do |listing| %>
