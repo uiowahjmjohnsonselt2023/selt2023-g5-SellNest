@@ -146,7 +146,7 @@
       <%= link_to bookmarks_path do %>
         <i class="fa-solid fa-bookmark btn"></i>
         <%end %>
-      <% if current_user.seller %>
+      <% if current_user.seller? %>
         <%= link_to 'Create New Listing', new_listing_path, class: "search-button" %>
       <% end %>
       <%= link_to 'Profile', user_path(current_user), class: 'btn' %>
