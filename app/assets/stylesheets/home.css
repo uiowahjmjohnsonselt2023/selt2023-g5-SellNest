@@ -5,15 +5,15 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #1a1a1a;
-    color: #d4af37;
+    background-color: #1a1a1a; /* Dark background */
+    color: #d4af37; /* Gold text */
     margin: 0;
     padding: 0;
 }
 
 /* Header */
 .header {
-    background-color: #0a0a0a;
+    background-color: #0a0a0a; /* Dark header */
     padding: 1rem;
     display: flex;
     justify-content: space-between;
@@ -21,7 +21,7 @@ body {
 }
 
 .header h1 {
-    color: #d4af37;
+    color: #d4af37; /* Gold text */
 }
 
 /* Button group */
@@ -37,7 +37,7 @@ body {
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
-    background-color: #0a0a0a;
+    background-color: #0a0a0a; /* Dark container */
 }
 
 /* Search container */
@@ -49,30 +49,29 @@ body {
 .search-form {
     flex-grow: 1;
     margin-right: 1rem;
-    position: relative; /* Add relative positioning */
+    position: relative;
 }
 
 .search-field {
     width: 100%;
     padding: 1rem;
     font-size: 1.25rem;
-    border: 1px solid #d4af37;
-    background-color: #000;
-    color: #d4af37;
-    text-align: center; /* Center-align the text */
+    border: 1px solid #d4af37; /* Gold border */
+    background-color: #000; /* Dark input field */
+    color: #d4af37; /* Gold text */
+    text-align: center;
 }
 
-/* Add a pseudo-element for the placeholder text */
 .search-field::placeholder {
-    text-align: center; /* Center-align the placeholder text */
+    color: #d4af37; /* Gold placeholder text */
 }
 
 .search-button {
     width: 100%;
     padding: 1rem;
     font-size: 1.25rem;
-    background-color: #d4af37;
-    color: #0a0a0a;
+    background-color: #d4af37; /* Gold button */
+    color: #0a0a0a; /* Dark text */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -91,14 +90,13 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    background-color: #0a0a0a;
-    flex-wrap: wrap;
+    background-color: #0a0a0a; /* Dark container */
 }
 
 .filter-button, .btn {
     padding: 0.5rem 1rem;
-    background-color: #d4af37;
-    color: #0a0a0a;
+    background-color: #d4af37; /* Gold button */
+    color: #0a0a0a; /* Dark text */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -108,7 +106,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    background-color: #f5f5f5;
+    background-color: #333; /* Dark container */
     padding: 20px;
     align-items: center;
 }
@@ -122,63 +120,16 @@ input[type="text"], select {
     padding: 10px;
     margin: 5px 0;
     display: inline-block;
-    border: 1px solid #ccc;
-    background-color: #000; /* Change background color to black */
-    color: #d4af37;
+    border: 1px solid #d4af37; /* Gold border */
+    background-color: #000; /* Dark field */
+    color: #d4af37; /* Gold text */
     border-radius: 4px;
     box-sizing: border-box;
 }
 
-.filter-button {
-    width: calc(100%); /* Adjust for padding */
-    background-color: #d4af37;
-    color: #000000;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: block;
-    /* Full width */
-    text-align: center; /* Center the text inside the button */
-    margin: 1rem 0 10px;
-    font-size: 1.25rem;
-}
-
-.filter-button:hover {
-    background-color: #ffbd00;
-}
-
-.search-button:hover {
-    background-color: #ffbd00;
-}
-
-.btn:hover {
-    background-color: #ffbd00;
-}
-
-@media (max-width: 600px) {
-    .filter-button {
-        width: 100%;
-    }
-}
-
-.carousel-container {
-    position: relative; /* This allows absolute positioning inside */
-}
-
-/* Bookmark icon styles */
-.bookmark-icon {
-    position: absolute; /* Position absolutely inside the relative container */
-    top: 10px; /* Adjust as needed */
-    right: 10px; /* Adjust as needed */
-    cursor: pointer;
-    background: #000000; /* Adjust color as needed */
-    border-radius: 50%;
-    padding: 5px;
-}
-
-.bookmark-icon i {
-    color: #FFD700;
+.filter-button:hover, .search-button:hover, .btn:hover {
+    background-color: #ffbd00; /* Lighter gold on hover */
+    color: #0a0a0a;
 }
 
 /* Listings styles */
@@ -190,44 +141,16 @@ input[type="text"], select {
 }
 
 .grid-item {
-    background-color: #222;
-    border: 1px solid #d4af37;
+    background-color: #222; /* Dark item background */
+    border: 1px solid #d4af37; /* Gold border */
     padding: 0.5rem;
     width: calc(33.333% - 2rem);
-    box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4); /* Gold shadow */
 }
 
-/* Modal styles */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background-color: white;
-    padding: 1rem;
-    border-radius: 5px;
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    cursor: pointer;
-}
-
-.close:hover {
-    color: black;
+.grid-item:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.5); /* Gold shadow */
 }
 
 /* Responsive design */
