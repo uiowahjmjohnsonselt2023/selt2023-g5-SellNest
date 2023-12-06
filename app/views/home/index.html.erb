@@ -60,16 +60,16 @@
           color: #d4af37;
       }
 
-      /*.bookmark-icon {*/
-      /*    position: absolute;*/
-      /*    top: 10px; !* Adjust top position as needed *!*/
-      /*    right: 10px; !* Adjust right position as needed *!*/
-      /*    z-index: 1; !* Ensure it's above the picture *!*/
-      /*    cursor: pointer;*/
-      /*    background: #fff; !* Background color for the icon *!*/
-      /*    border-radius: 50%; !* Rounded shape for the icon *!*/
-      /*    padding: 5px;*/
-      /*}*/
+      .bookmark-icon {
+          position: absolute;
+          top: 10px; /* Adjust top position as needed */
+          right: 10px; /* Adjust right position as needed */
+          z-index: 999; /* Ensure it's above the picture */
+          cursor: pointer;
+          background: #fff; /* Background color for the icon */
+          border-radius: 50%; /* Rounded shape for the icon */
+          padding: 5px;
+      }
       .bookmark-icon i {
           color: #FFD700; /* Adjust the icon color */
       }
@@ -111,6 +111,12 @@
           transition: background-color 0.2s;
       }
 
+      .carousel-container {
+          position: relative;
+          overflow: hidden;
+          display: inline-block;
+      }
+
       .modal {
           display: none;
           position: fixed;
@@ -142,6 +148,12 @@
 
       .close:hover {
           color: black;
+      }
+      .carousel-container {
+          position: relative;
+          overflow: hidden;
+          display: inline-block;
+
       }
 
       /* Responsive Design */
@@ -208,6 +220,10 @@
       <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
       <%= submit_tag "Search", name: nil, class: "search-button" %>
     <% end %>
+    <%= link_to 'Price Low to High', listings_path(sort: 'price_asc') %>
+    <%= link_to 'Price High to Low', listings_path(sort: 'price_desc') %>
+    <%= link_to 'Newest First', listings_path(sort: 'newest') %>
+    <%= link_to 'Oldest First', listings_path(sort: 'oldest') %>
   </div>
   <div class="filters-container">
     <%= form_tag(root_path, method: :get, class: "filter-form") do %>
@@ -230,18 +246,22 @@
 <main>
   <div class="listings-container">
     <% @listings.each do |listing| %>
+
       <% unless listing.is_sold %>
         <div class="grid-item">
           <div class="carousel-container">
-            <% if current_user && current_user.bookmarked?(listing) %>
-              <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
-                <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
-              </div>
-            <% else %>
-              <div class="bookmark-icon" onclick="addBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
-                <i class="fa-regular fa-bookmark"></i> <!-- Use your bookmark icon here -->
-              </div>
+            <%if user_signed_in? %>
+              <% if current_user && current_user.bookmarked?(listing) %>
+                <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
+                  <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
+                </div>
+              <% else %>
+                <div class="bookmark-icon" onclick="addBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
+                  <i class="fa-regular fa-bookmark"></i> <!-- Use your bookmark icon here -->
+                </div>
+              <% end %>
             <% end %>
+
             <div class="carousel">
               <% listing.photos.each do |photo| %>
                 <%= image_tag(photo, width: '100%', height: 'auto') %>
