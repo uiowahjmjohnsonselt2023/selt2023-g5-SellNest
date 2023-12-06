@@ -54,6 +54,8 @@ Rails.application.routes.draw do
       patch :mark_as_read
     end
   end
+  resources :reviews, only: [:new, :create]
+
 end
 
   # The priority is based upon order of creation: first created -> highest priority.

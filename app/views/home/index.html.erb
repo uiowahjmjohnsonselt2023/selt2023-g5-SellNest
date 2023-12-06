@@ -152,8 +152,9 @@
         <span class="notification-count"><%= current_user.notifications.unread.count %></span>
       </span>
       <% end %>
-
-      <%= link_to 'Create New Listing', new_listing_path, class: "search-button" %>
+      <% if current_user.seller %>
+        <%= link_to 'Create New Listing', new_listing_path, class: "search-button" %>
+      <% end %>
       <%= link_to 'Profile', user_path(current_user), class: 'btn' %>
       <%= button_to "Log Out", destroy_user_session_path, data: {turbo: "false"}, method: :delete, class: 'btn' %>
     <% else %>
@@ -190,39 +191,41 @@
 <main>
   <div class="listings-container">
     <% @listings.each do |listing| %>
-      <div class="grid-item">
-        <div class="carousel-container">
-          <% if current_user && current_user.bookmarked?(listing) %>
-            <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
-              <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
+      <% unless listing.is_sold %>
+        <div class="grid-item">
+          <div class="carousel-container">
+            <% if current_user && current_user.bookmarked?(listing) %>
+              <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
+                <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
+              </div>
+            <% else %>
+              <div class="bookmark-icon" onclick="addBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
+                <i class="fa-regular fa-bookmark"></i> <!-- Use your bookmark icon here -->
+              </div>
+            <% end %>
+            <div class="carousel">
+              <% listing.photos.each do |photo| %>
+                <%= image_tag(photo, width: '100%', height: 'auto') %>
+              <% end %>
             </div>
-          <% else %>
-            <div class="bookmark-icon" onclick="addBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
-              <i class="fa-regular fa-bookmark"></i> <!-- Use your bookmark icon here -->
-            </div>
-          <% end %>
-          <div class="carousel">
-            <% listing.photos.each do |photo| %>
-              <%= image_tag(photo, width: '100%', height: 'auto') %>
+            <% if listing.photos.length > 1 %>
+              <div class="carousel-controls">
+                <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+              </div>
             <% end %>
           </div>
-          <% if listing.photos.length > 1 %>
-            <div class="carousel-controls">
-              <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
-              <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
-            </div>
-          <% end %>
+          <h2 class="listing-title"><%= listing.name %></h2>
+          <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
+          <div class="listing-created-at">
+            <%= listing.created_at.strftime('%Y-%m-%d') %>
+          </div>
+          <div class="listing-buttons">
+            <%= link_to 'Details', listing_path(listing), class: 'btn' %>
+            <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn' %>
+          </div>
         </div>
-        <h2 class="listing-title"><%= listing.name %></h2>
-        <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
-        <div class="listing-created-at">
-          <%= listing.created_at.strftime('%Y-%m-%d') %>
-        </div>
-        <div class="listing-buttons">
-          <%= link_to 'Details', listing_path(listing), class: 'btn' %>
-          <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn' %>
-        </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
 </main>
