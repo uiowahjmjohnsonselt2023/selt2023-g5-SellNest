@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile</title>
+  <script src="https://kit.fontawesome.com/d968c2f6ce.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
       body {
@@ -201,6 +202,10 @@
             <p>Total: <%= number_to_currency(order.total) %></p>
             <p>Bought: <%= order.created_at %> </p>
             <p>Status: <%= order.status %></p>
+            <% order.order_items.each do |order_item| %>
+              <p><%= order_item.listing.name %></p>
+              <%= link_to "Review Seller", new_review_path(listing_id: order_item.listing.id), class: "btn btn-primary review-button" %>
+            <% end %>
           </li>
         <% end %>
       <% else %>
@@ -268,7 +273,7 @@
             <p> Item: <%= listing.name %> </p>
             <p> Price: <%= number_to_currency(listing.price) %></p>
             <% sold_item = OrderItem.find_by(listing_id: listing.id) %>
-            <p> Sold on: <%= sold_item.created_at %></p>
+            <p> Sold on: <%= sold_item.created_at.strftime("%B %d, %Y") %></p>
           </li>
         <% end %>
       <% else %>
@@ -277,6 +282,44 @@
         </li>
       <% end %>
     </ul>
+  </div>
+  <div class="reviews-section">
+    <h3>User Reviews</h3>
+    <% reviews = Review.where(listing_id: current_user.listings.pluck(:id)) %>
+    <% if reviews.any? %>
+      <p> Trust Rating: <%= reviews.sum(:rating) / reviews.count.to_f %> (<%= reviews.count %>)</p>
+
+
+
+      <% full_eggs = reviews.sum(:rating) / reviews.count %>
+      <% remaining_eggs = 5 - full_eggs - 1 %>
+      <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
+      <p>
+        <% full_eggs.times do %>
+          <i class="fa-solid fa-egg"></i>
+        <% end %>
+        <% if full_eggs < 5 %>
+          <i class="fa-solid fa-egg" style="filter: invert(<%= partial_egg %>%);"></i>
+        <% end %>
+        <% remaining_eggs.times do %>
+          <i class="fa-solid fa-egg" style="filter: invert(100%);"></i>
+        <% end %>
+      </p>
+
+
+
+      <ul>
+        <% reviews.each do |review| %>
+          <li>
+            <p><strong>Rating:</strong> <%= review.rating %></p>
+            <p><strong>Description:</strong> <%= review.content %></p>
+            <p><strong>Date:</strong> <%= review.created_at.strftime("%B %d, %Y") %></p>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No reviews yet.</p>
+    <% end %>
   </div>
 <% else %>
   <div id="order-history" class="content">
@@ -300,6 +343,7 @@
     </ul>
   </div>
 <% end %>
+
 </div>
 
   <script>
@@ -350,9 +394,6 @@
           soldListings.style.display = 'block';
       });
   </script>
-
-
-
 </div>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

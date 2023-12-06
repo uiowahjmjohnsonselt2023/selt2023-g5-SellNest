@@ -35,6 +35,11 @@ class CartController < ApplicationController
           order.order_items.create!(listing: item.listing, quantity: item.quantity)
           # Remove the listing from the active listings
           item.listing.update(is_sold: true)
+          Notification.create!(
+            user: item.listing.user,
+            content: "Your item '#{item.listing}' has been sold!",
+            read: false
+          )
         end
 
         # Clear the cart items after checkout
