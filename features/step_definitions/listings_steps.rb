@@ -44,8 +44,8 @@ When('I assign the following tags to the listings:') do |table|
   end
   end
 
-Given("I am on the listings page") do
-  visit listings_path
+Given("I am on the home page") do
+  visit root_path
 end
 
 When("I set the minimum price to {string}") do |min_price|

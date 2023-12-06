@@ -39,33 +39,33 @@ Feature: Listings Page
     Then I should see a list of available listings
 
   Scenario: Filtering listings by price range
-    Given I am on the listings page
+    Given I am on the home page
     When I set the minimum price to "100"
     And I set the maximum price to "500"
     Then I should see filtered listings within the specified price range
 
   Scenario: Filtering listings by tag
-    Given I am on the listings page
+    Given I am on the home page
     When I select the tag "Electronics" from the filter dropdown
     And I apply the tag filter
     Then I should see listings tagged as "Electronics"
 
   Scenario: Sorting listings by price (low to high)
-    Given I am on the listings page
+    Given I am on the home page
     When I click on "Price Low to High"
     Then I should see listings sorted by price from low to high
 
   Scenario: Sorting listings by price (high to low)
-    Given I am on the listings page
+    Given I am on the home page
     When I click on "Price High to Low"
     Then I should see listings sorted by price from high to low
 
   Scenario: Sorting listings by newest first
-    Given I am on the listings page
+    Given I am on the home page
     When I click on "Newest First"
     Then I should see listings sorted by newest first
 
   Scenario: Sorting listings by oldest first
-    Given I am on the listings page
+    Given I am on the home page
     When I click on "Oldest First"
     Then I should see listings sorted by oldest first
