@@ -11,28 +11,28 @@
           font-family: Arial, sans-serif;
           margin: 0;
           padding: 0;
-          background-color: #f7f7f7;
+          background-color: #1a1a1a; /* Updated background color */
           display: flex;
           justify-content: center;
           align-items: center;
           height: 100vh;
           flex-direction: column;
+          color: #d4af37; /* Updated text color */
       }
       .container {
           text-align: center;
-          width: 400px; /* Adjust width as needed */
-          background-color: white;
+          background-color: #333; /* Updated background color for containers */
           padding: 20px;
           border-radius: 10px;
-          box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+          box-shadow: 0px 0px 10px 0px rgba(255, 215, 0, 0.5); /* Updated shadow color */
           position: relative;
       }
       h2 {
-          color: #333;
+          color: #d4af37; /* Updated text color */
       }
       .btn-primary {
-          background-color: #ffd700;
-          color: white;
+          background-color: #ffd700; /* Updated button colors */
+          color: #0a0a0a;
           border: none;
           padding: 10px 20px;
           border-radius: 5px;
@@ -40,106 +40,68 @@
           transition: background-color 0.3s;
       }
       .btn-primary:hover {
-          background-color: #ffd700;
+          background-color: #e6c300; /* Darken on hover */
       }
       .text-logo {
-          display: block;
-          text-align: center;
-          font-size: 24px;
-          font-weight: bold;
-          color: #ffd700;
-          text-decoration: none;
+          color: #ffd700; /* Updated text color */
           margin-bottom: 20px;
       }
       .user-info {
           margin-bottom: 20px;
       }
       .action-button {
-          margin-bottom: 10px; /* Spacing between buttons */
+          margin-bottom: 10px;
       }
-
       .middle-section {
-          text-align: center; /* Center the content */
-          width: 100%; /* Take full width */
-      }
-      html, body {
-          height: 100%; /* Adjust this to auto if you still face issues */
-          margin: 0;
-          padding: 0;
-          /* other styles */
+          width: 100%;
       }
       .main-container {
-          display: flex; /* Or 'grid' depending on your preference */
-          gap: 20px; /* Adjust the space between elements */
-          align-items: start; /* Align items to the start of the container */
-          justify-content: center; /* Center the items horizontally */
-          padding: 20px; /* Add some padding around the container */
+          padding: 20px;
       }
       .button-container {
-          margin-bottom: 20px; /* Add some space below the button container */
+          margin-bottom: 20px;
       }
-
-
-
       .profile-container{
-          /* Ensure these containers can grow with the content */
-          min-height: 100px; /* Adjust as needed */
-          overflow: visible; /* Allows the container to expand with the content */
-          /* other styles */
+          min-height: 100px;
+          overflow: visible;
       }
       .profile-card {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 400px;
+          width: 100%; /* Set to full width */
       }
-
-      .content {
-          display: none; /* Initially hidden */
-          /* Ensure the content can expand and doesn't have a fixed height */
-          min-height: 100px; /* Adjust as needed */
-          overflow: auto; /* Allows scrolling within the container */
-      }
-
-      .content.active {
-          display: block; /* Shown when active */
-      }
-      .carousel-container {
-          width: 100%; /* Adjust width as necessary */
-          height: auto; /* Adjust height as necessary */
-          overflow: hidden; /* Prevents images from overflowing */
-      }
-
       .carousel img {
-          max-width: 100%; /* Ensures image width does not exceed container width */
-          max-height: 300px; /* Adjust maximum height as needed */
-          object-fit: contain; /* Keeps the aspect ratio of the image */
-          width: auto; /* Scales the width to maintain aspect ratio */
-          height: auto; /* Scales the height to maintain aspect ratio */
+          object-fit: cover; /* Update to cover to ensure images fill the element */
       }
-
+      .toggle-container {
+          display: flex; /* Use flexbox for toggle buttons */
+          justify-content: center; /* Center the toggle buttons */
+          gap: 10px; /* Space them out a bit */
+      }
+      .toggle-label {
+          background-color: #333; /* Match the background */
+          color: #d4af37; /* Match the text color */
+          padding: 5px 10px;
+          border-radius: 5px;
+      }
+      .content {
+          background-color: #222; /* Dark background for content */
+          color: #d4af37; /* Text color */
+          padding: 10px; /* Padding inside content areas */
+          margin-top: 10px; /* Space above content areas */
+          border-radius: 5px; /* Rounded corners for content areas */
+      }
+      .review-button, .edit-button {
+          background-color: #444; /* Darker background for buttons */
+          color: #ffd700; /* Golden text */
+          margin: 5px 0; /* Space around buttons */
+      }
       @media (max-width: 768px) {
           .profile-container {
               flex-direction: column;
-              align-items: center;
           }
       }
-      .content {
-          display: none; /* Initially hidden */
-          /* Rest of the styles */
-      }
-
-      .content.active {
-          display: block; /* Shown when active */
-      }
-
-
-      /* Styles for your toggled sections */
       #order-history, #active-listings, #sold-listings {
           display: none; /* Initially hidden */
       }
-
-      /* Example of how to display a section (handled by your script) */
       #active-listings.active, #order-history.active, #sold-listings.active {
           display: block; /* Shown when active */
       }
