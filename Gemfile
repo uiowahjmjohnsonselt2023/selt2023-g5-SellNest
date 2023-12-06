@@ -32,12 +32,14 @@ gem 'jbuilder'
 
 gem 'carrierwave'
 
+
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 1.1.0', group: :doc
 gem 'devise'
 
 gem 'omniauth-google-oauth2'
 gem "omniauth-rails_csrf_protection"
+gem 'dotenv-rails', groups: [:development, :test]
 
 
 gem 'image_processing', '~> 1.2'
