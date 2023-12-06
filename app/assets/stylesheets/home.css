@@ -140,6 +140,26 @@ input[type="text"], select {
     padding: 1rem;
 }
 
+.carousel-container {
+    position: relative; /* This allows absolute positioning inside */
+}
+
+/* Bookmark icon styles */
+.bookmark-icon {
+    position: absolute; /* Position absolutely inside the relative container */
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 8px; /* Increased padding for a larger area */
+    box-shadow: 0 2px 4px rgb(255, 189, 0); /* Optional: add shadow for depth */
+}
+
+.bookmark-icon i {
+    color: #f6cb3f; /* Dark text for contrast */
+    font-size: 24px; /* Increased font size for a larger icon */
+}
+
 .grid-item {
     background-color: #222; /* Dark item background */
     border: 1px solid #d4af37; /* Gold border */
@@ -190,6 +210,24 @@ input[type="text"], select {
 .close:hover {
     color: black;
 }
+
+.listing-buttons {
+    display: flex; /* Use flexbox to align buttons */
+    justify-content: space-around; /* This will place equal space around items */
+    padding: 10px; /* Add padding as necessary */
+}
+
+.details-button, .add-to-cart-button {
+    flex: 1; /* Each button will take up equal space */
+    margin: 5px; /* Add margin for spacing between buttons */
+}
+
+/* If you want buttons to have a specific maximum width you can set it here */
+.btn {
+    max-width: 140px; /* Example max-width, adjust as needed */
+    text-align: center; /* Center the text inside buttons */
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .grid-item {
