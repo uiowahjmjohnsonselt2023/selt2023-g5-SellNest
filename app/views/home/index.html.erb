@@ -60,16 +60,16 @@
           color: #d4af37;
       }
 
-      /*.bookmark-icon {*/
-      /*    position: absolute;*/
-      /*    top: 10px; !* Adjust top position as needed *!*/
-      /*    right: 10px; !* Adjust right position as needed *!*/
-      /*    z-index: 1; !* Ensure it's above the picture *!*/
-      /*    cursor: pointer;*/
-      /*    background: #fff; !* Background color for the icon *!*/
-      /*    border-radius: 50%; !* Rounded shape for the icon *!*/
-      /*    padding: 5px;*/
-      /*}*/
+      .bookmark-icon {
+          position: absolute;
+          top: 10px; /* Adjust top position as needed */
+          right: 10px; /* Adjust right position as needed */
+          z-index: 999; /* Ensure it's above the picture */
+          cursor: pointer;
+          background: #fff; /* Background color for the icon */
+          border-radius: 50%; /* Rounded shape for the icon */
+          padding: 5px;
+      }
       .bookmark-icon i {
           color: #FFD700; /* Adjust the icon color */
       }
@@ -109,6 +109,12 @@
           border-radius: 5px;
           cursor: pointer;
           transition: background-color 0.2s;
+      }
+
+      .carousel-container {
+          position: relative;
+          overflow: hidden;
+          display: inline-block;
       }
 
       /* Responsive Design */
@@ -185,14 +191,16 @@
     <% @listings.each do |listing| %>
       <div class="grid-item">
         <div class="carousel-container">
-          <% if current_user && current_user.bookmarked?(listing) %>
-            <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
-              <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
-            </div>
-          <% else %>
-            <div class="bookmark-icon" onclick="addBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
-              <i class="fa-regular fa-bookmark"></i> <!-- Use your bookmark icon here -->
-            </div>
+          <%if user_signed_in? %>
+            <% if current_user && current_user.bookmarked?(listing) %>
+              <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
+                <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
+              </div>
+            <% else %>
+              <div class="bookmark-icon" onclick="addBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
+                <i class="fa-regular fa-bookmark"></i> <!-- Use your bookmark icon here -->
+              </div>
+            <% end %>
           <% end %>
           <div class="carousel">
             <% listing.photos.each do |photo| %>
