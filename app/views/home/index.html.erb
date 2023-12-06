@@ -146,6 +146,12 @@
       <%= link_to bookmarks_path do %>
         <i class="fa-solid fa-bookmark btn"></i>
         <%end %>
+      <%= link_to notifications_path, class: "btn notification-btn" do %>
+      <span class="icon">
+        <i class="fa-solid fa-bell"></i>
+        <span class="notification-count"><%= current_user.notifications.unread.count %></span>
+      </span>
+      <% end %>
       <% if current_user.seller %>
         <%= link_to 'Create New Listing', new_listing_path, class: "search-button" %>
       <% end %>
@@ -314,7 +320,15 @@
             })
             .catch(error => console.error('Error:', error));
     }
-
+    document.addEventListener('ajax:success', function(event) {
+        var element = event.target;
+        if(element.classList.contains('mark-as-read')) {
+            element.closest('.notification-item').remove();
+            // Update notification count somewhere in your header
+            var notificationCount = document.querySelector('.notification-count');
+            notificationCount.textContent = parseInt(notificationCount.textContent) - 1;
+        }
+    });
 
     // Close modal if the user clicks outside the modal content
     window.onclick = function(event) {
