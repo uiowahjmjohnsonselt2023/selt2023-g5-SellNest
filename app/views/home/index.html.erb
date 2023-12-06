@@ -102,11 +102,11 @@
 
       /* Buttons */
       .btn, .button-login, .button-signup, .search-button {
-          padding: 10px 20px;
+          padding: 10px 15px;
           background-color: #d4af37;
           color: #0a0a0a;
           border: none;
-          border-radius: 5px;
+          border-radius: 10px;
           cursor: pointer;
           transition: background-color 0.2s;
       }
@@ -220,10 +220,6 @@
       <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
       <%= submit_tag "Search", name: nil, class: "search-button" %>
     <% end %>
-    <%= link_to 'Price Low to High', listings_path(sort: 'price_asc') %>
-    <%= link_to 'Price High to Low', listings_path(sort: 'price_desc') %>
-    <%= link_to 'Newest First', listings_path(sort: 'newest') %>
-    <%= link_to 'Oldest First', listings_path(sort: 'oldest') %>
   </div>
   <div class="filters-container">
     <%= form_tag(root_path, method: :get, class: "filter-form") do %>
@@ -239,8 +235,12 @@
         <%= label_tag(:tags, "Category") %>
         <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true, class: "category-select" %>
       </div>
-      <%= submit_tag "Filter", class: "filter-button" %>
+      <%= submit_tag "Filter", class: "btn" %>
     <% end %>
+    <%= link_to 'Price Low to High', root_path(sort: 'price_asc'), class: 'btn' %>
+    <%= link_to 'Price High to Low', root_path(sort: 'price_desc'), class: 'btn' %>
+    <%= link_to 'Newest First', root_path(sort: 'newest'), class: 'btn' %>
+    <%= link_to 'Oldest First', root_path(sort: 'oldest'), class: 'btn' %>
   </div>
 </div>
 <main>

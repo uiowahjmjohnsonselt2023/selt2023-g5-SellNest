@@ -1,8 +1,75 @@
-<h1>Your Bookmarks</h1>
+<style>
+    body {
+        background-color: #1a1a1a; /* Black background */
+    }
+    .header {
+        color: #d4af37;
+        text-align: center;
+        padding: 20px 0;
+    }
+    .continue-shopping {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .btn {
+        background-color: #d4af37;
+        color: #0a0a0a;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 10px;
+    }
+    .listings-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+    }
+    .grid-item {
+        background-color: #222;
+        color: #d4af37;
+        border: 1px solid #d4af37;
+        padding: 10px;
+        margin: 10px;
+        width: calc(33.333% - 20px);
+        box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4);
+    }
+    .listing-title {
+        color: #d4af37;
+        text-decoration: none;
+    }
+    .listing-price {
+        color: #d4af37;
+    }
+    .listing-description {
+        color: #d4af37;
+    }
+    @media (max-width: 768px) {
+        .grid-item {
+            width: calc(50% - 20px);
+        }
+    }
+    @media (max-width: 480px) {
+        .grid-item {
+            width: calc(100% - 20px);
+        }
+    }
+</style>
 
-<% @bookmarks.each do |bookmark| %>
-  <div class="bookmark-item">
-    <%= link_to bookmark.listing.name, listing_path(bookmark.listing) %>
-    <!-- Display other details of the bookmarked listing -->
+<h1 class="header">Your Bookmarks</h1>
+<div class="continue-shopping">
+  <%= link_to 'Continue Shopping', root_path, class: 'btn' %>
+</div>
+<% if @bookmarks.empty? %>
+  <p style="color: #d4af37; text-align: center;">You have no bookmarks.</p>
+<% else %>
+  <div class="listings-container">
+    <% @bookmarks.each do |bookmark| %>
+      <div class="grid-item">
+        <%= link_to bookmark.listing.name, listing_path(bookmark.listing), class: "listing-title" %>
+        <p class="listing-price"><%= number_to_currency(bookmark.listing.price, unit: "$", precision: 2) %></p>
+        <p class="listing-description"><%= truncate(bookmark.listing.description, length: 100) %></p>
+        <!-- Add more details as needed -->
+      </div>
+    <% end %>
   </div>
 <% end %>
