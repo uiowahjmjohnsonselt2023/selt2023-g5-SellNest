@@ -20,6 +20,6 @@ class AdminController < ApplicationController
       [date.to_date.strftime("%Y-%m-%d"), total.to_f]
     end
 
-    @tag_listings = Tag.joins(:listings).group('tags.name').count
+    @tagged_listings = Tag.joins(:listings).group('tags.name').count
   end
 end
