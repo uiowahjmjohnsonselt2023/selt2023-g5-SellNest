@@ -4,6 +4,7 @@ class Listing < ActiveRecord::Base
   has_many :tags, through: :listing_tags
   has_many :cart_items, dependent: :destroy
   has_many :order_items, dependent: :destroy
+  has_many :reviews
   has_many_attached :photos
 
   scope :search_by_title, -> (query) { where('name LIKE ?', "%#{query}%")}
