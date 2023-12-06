@@ -1,0 +1,25 @@
+<h1>Notifications</h1>
+
+<ul>
+  <% @notifications.each do |notification| %>
+    <li class="notification-item">
+      <%= notification.content %>
+      <%= form_with url: mark_as_read_notification_path(notification), method: :patch, remote: true do |form| %>
+        <%= form.submit 'Mark as read' %>
+      <% end %>
+    </li>
+  <% end %>
+
+</ul>
+
+<script>
+    document.addEventListener('ajax:success', function(event) {
+    var element = event.target;
+    if(element.classList.contains('mark-as-read')) {
+    element.closest('.notification-item').remove();
+    // Update notification count somewhere in your header
+    var notificationCount = document.querySelector('.notification-count');
+    notificationCount.textContent = parseInt(notificationCount.textContent) - 1;
+    }
+    });
+</script>
