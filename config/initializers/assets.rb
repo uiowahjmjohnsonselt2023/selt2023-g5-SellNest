@@ -7,6 +7,8 @@ Rails.application.config.assets.version = "1.0"
 # Rails.application.config.assets.paths << Emoji.images_path
 # config/initializers/assets.rb
 Rails.application.config.assets.precompile += %w( cart.css )
+Rails.application.config.assets.precompile += %w( chartkick.js )
+
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
