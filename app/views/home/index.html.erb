@@ -148,6 +148,12 @@
 
       .close:hover {
           color: black;
+=========
+      .carousel-container {
+          position: relative;
+          overflow: hidden;
+          display: inline-block;
+>>>>>>>>> Temporary merge branch 2
       }
 
       /* Responsive Design */
@@ -236,11 +242,12 @@
 <main>
   <div class="listings-container">
     <% @listings.each do |listing| %>
+<<<<<<<<< Temporary merge branch 1
       <% unless listing.is_sold %>
-    <div class="grid-item">
+        <div class="grid-item">
           <div class="carousel-container">
-          <%if user_signed_in? %>
-            <% if current_user && current_user.bookmarked?(listing) %>
+            <%if user_signed_in? %>
+              <% if current_user && current_user.bookmarked?(listing) %>
                 <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
                   <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
                 </div>
@@ -250,6 +257,7 @@
                 </div>
               <% end %>
             <% end %>
+<<<<<<<<< Temporary merge branch 1
             <div class="carousel">
               <% listing.photos.each do |photo| %>
                 <%= image_tag(photo, width: '100%', height: 'auto') %>
