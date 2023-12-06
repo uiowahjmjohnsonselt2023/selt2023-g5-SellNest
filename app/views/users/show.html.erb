@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile</title>
+  <script src="https://kit.fontawesome.com/d968c2f6ce.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
       body {
@@ -286,7 +287,27 @@
     <h3>User Reviews</h3>
     <% reviews = Review.where(listing_id: current_user.listings.pluck(:id)) %>
     <% if reviews.any? %>
-      <p> Average Rating: <%= reviews.sum(:rating) / reviews.count %> (<%= reviews.count %>)</p>
+      <p> Trust Rating: <%= reviews.sum(:rating) / reviews.count.to_f %> (<%= reviews.count %>)</p>
+
+
+
+      <% full_eggs = reviews.sum(:rating) / reviews.count %>
+      <% remaining_eggs = 5 - full_eggs - 1 %>
+      <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
+      <p>
+        <% full_eggs.times do %>
+          <i class="fa-solid fa-egg"></i>
+        <% end %>
+        <% if full_eggs < 5 %>
+          <i class="fa-solid fa-egg" style="filter: invert(<%= partial_egg %>%);"></i>
+        <% end %>
+        <% remaining_eggs.times do %>
+          <i class="fa-solid fa-egg" style="filter: invert(100%);"></i>
+        <% end %>
+      </p>
+
+
+
       <ul>
         <% reviews.each do |review| %>
           <li>

@@ -111,6 +111,39 @@
           transition: background-color 0.2s;
       }
 
+      .modal {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          justify-content: center;
+          align-items: center;
+      }
+
+      .modal-content {
+          background-color: white;
+          padding: 20px;
+          border-radius: 5px;
+          max-width: 600px;
+          margin: 0 auto;
+          text-align: center;
+      }
+
+      .close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+          cursor: pointer;
+      }
+
+      .close:hover {
+          color: black;
+      }
+
       /* Responsive Design */
       @media (max-width: 768px) {
           .search-and-filter {
@@ -129,6 +162,12 @@
               flex-direction: column;
               align-items: center;
           }
+      }
+
+      .listing-eggs {
+          padding: 10px;
+          border-radius: 5px;
+          color: #1a1a1a;
       }
   </style>
 </head>
@@ -221,17 +260,30 @@
             <%= listing.created_at.strftime('%Y-%m-%d') %>
           </div>
           <div class="listing-buttons">
-            <%= link_to 'Details', listing_path(listing), class: 'btn' %>
+            <% reviews = Review.where(listing_id: listing.user.listings.pluck(:id)) %>
+            <% full_eggs = reviews.sum(:rating) / reviews.count %>
+            <% remaining_eggs = 5 - full_eggs - 1 %>
+            <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
+            <button class="btn" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= listing.tags.to_json %>', '<%= listing.user.email.split('@').first %>', '<%= reviews.sum(:rating) / reviews.count.to_f %>', '<%= full_eggs %>', '<%= remaining_eggs %>', '<%= partial_egg %>')">Details</button>
             <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn' %>
           </div>
         </div>
       <% end %>
     <% end %>
   </div>
+  <div id="descriptionModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeDescriptionModal()">&times;</span>
+    <h2 class="listing-title" id="modalTitle"></h2>
+    <h2 class="listing-price" id="modalPrice"></h2>
+    <h2 class="listing-seller" id="modalSeller"></h2>
+    <div class="listing-eggs" id="modalEggs"></div>
+    <p id="modalDescription"></p>
+    <div id="modalTags"></div>
+  </div>
+  </div>
 </main>
 <script>
-
-
     function prevSlide(button) {
         const carousel = button.parentElement.previousElementSibling;
         carousel.appendChild(carousel.firstElementChild);
@@ -242,17 +294,32 @@
         carousel.prepend(carousel.lastElementChild);
     }
 
-    function showDescriptionModal(title, price, description, tags) {
+    function showDescriptionModal(title, price, description, tags, seller, seller_rating, full_eggs, remaining_eggs, partial_egg) {
         const modal = document.getElementById('descriptionModal');
         const modalTitle = document.getElementById('modalTitle');
         const modalPrice = document.getElementById('modalPrice');
         const modalDescription = document.getElementById('modalDescription');
+        const modalSeller = document.getElementById('modalSeller')
         const modalTags = document.getElementById('modalTags');
         const parsedTags = JSON.parse(tags);
 
         modalTitle.innerHTML = title;
         modalPrice.innerHTML = price;
-        modalDescription.innerHTML = description;
+        modalDescription.innerHTML = 'Description: ' + description;
+        modalSeller.innerText = 'Seller: ' + seller;
+
+        const eggsContainer = document.getElementById('modalEggs');
+        eggsContainer.innerHTML = '';
+
+        for (let i = 0; i < full_eggs; i++) {
+            eggsContainer.innerHTML += '<i class="fa-solid fa-egg"></i>';
+        }
+        if (full_eggs < 5) {
+            eggsContainer.innerHTML += `<i class="fa-solid fa-egg" style="filter: invert(${partial_egg}%);"></i>`;
+        }
+        for (let i = 0; i < remaining_eggs; i++) {
+            eggsContainer.innerHTML += '<i class="fa-solid fa-egg" style="filter: invert(100%);"></i>';
+        }
 
         // Clear previous tags before adding new ones
         modalTags.innerHTML = '';
@@ -265,8 +332,6 @@
 
         modal.style.display = 'flex';
     }
-
-
 
     function closeDescriptionModal() {
         const modal = document.getElementById('descriptionModal');
@@ -320,6 +385,7 @@
             })
             .catch(error => console.error('Error:', error));
     }
+
     document.addEventListener('ajax:success', function(event) {
         var element = event.target;
         if(element.classList.contains('mark-as-read')) {
