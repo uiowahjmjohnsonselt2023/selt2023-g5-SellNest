@@ -131,13 +131,8 @@
 
 <div class="profile-container">
   <div class="middle-section">
-    <% unless @user.seller? %>
-      <%= link_to "Become a Seller", become_seller_user_path(@user), method: :post, class: "btn btn-primary" %>
-    <% else %>
-      <%= link_to 'Create New Listing', new_listing_path, class: "btn btn-primary" %>
-    <% end %>
-
     <% if @user.seller? %>
+      <%= link_to 'Create New Listing', new_listing_path, class: "btn btn-primary" %>
       <div class="toggle-container">
         <label class="toggle-label">
           <input type="radio" name="toggle-section" id="toggle-orders" checked>
