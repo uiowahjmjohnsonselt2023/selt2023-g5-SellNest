@@ -78,7 +78,7 @@ Then("I should see filtered listings within the specified price range") do
 
   click_button 'Filter'
 
-  within('.grid-container') do
+  within('.listings-container') do
     all('.listing-price').each do |price_element|
       price = price_element.text.delete('$').to_f
       expect(price).to be >= min_price
@@ -88,7 +88,7 @@ Then("I should see filtered listings within the specified price range") do
 end
 
 Then("I should see listings tagged as {string}") do |tag_name|
-  within('.grid-container') do
+  within('.listings-container') do
     all('.listing').each do |listing|
       expect(listing).to have_content(tag_name)
     end
