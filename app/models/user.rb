@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :listings
   has_many :reviews
   after_create :create_cart_for_user
+  validates :seller, inclusion: { in: [true, false] }
 
   def bookmarked?(listing)
     bookmarks.exists?(listing_id: listing.id)
