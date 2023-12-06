@@ -299,7 +299,7 @@
           <i class="fa-solid fa-egg"></i>
         <% end %>
         <% if full_eggs < 5 %>
-          <i class="fa-solid fa-egg" style="filter: invert(50%);"></i>
+          <i class="fa-solid fa-egg" style="filter: invert(<%= partial_egg %>%);"></i>
         <% end %>
         <% remaining_eggs.times do %>
           <i class="fa-solid fa-egg" style="filter: invert(100%);"></i>
