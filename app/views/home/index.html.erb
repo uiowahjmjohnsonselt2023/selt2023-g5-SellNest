@@ -220,6 +220,10 @@
       <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
       <%= submit_tag "Search", name: nil, class: "search-button" %>
     <% end %>
+    <%= link_to 'Price Low to High', listings_path(sort: 'price_asc') %>
+    <%= link_to 'Price High to Low', listings_path(sort: 'price_desc') %>
+    <%= link_to 'Newest First', listings_path(sort: 'newest') %>
+    <%= link_to 'Oldest First', listings_path(sort: 'oldest') %>
   </div>
   <div class="filters-container">
     <%= form_tag(root_path, method: :get, class: "filter-form") do %>
@@ -242,7 +246,7 @@
 <main>
   <div class="listings-container">
     <% @listings.each do |listing| %>
-<<<<<<<<< Temporary merge branch 1
+
       <% unless listing.is_sold %>
         <div class="grid-item">
           <div class="carousel-container">
@@ -257,7 +261,7 @@
                 </div>
               <% end %>
             <% end %>
-<<<<<<<<< Temporary merge branch 1
+
             <div class="carousel">
               <% listing.photos.each do |photo| %>
                 <%= image_tag(photo, width: '100%', height: 'auto') %>

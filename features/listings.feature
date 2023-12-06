@@ -35,7 +35,7 @@ Feature: Listings Page
       | Smartwatch        | Electronics               |
 
   Scenario: Viewing all listings
-    Given I am on the listings page
+    Given I am on the home page
     Then I should see a list of available listings
 
   Scenario: Filtering listings by price range
