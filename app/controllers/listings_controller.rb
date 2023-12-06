@@ -73,7 +73,7 @@ class ListingsController < ApplicationController
     reviews = @listing.reviews
     if reviews.any?
       reviews.each do |review|
-        review.update(listing_id: 18)
+        review.update(listing_id: 19)
       end
     end
 

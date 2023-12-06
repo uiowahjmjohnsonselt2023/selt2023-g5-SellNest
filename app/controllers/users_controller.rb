@@ -41,9 +41,20 @@ class UsersController < ApplicationController
   def destroy
     admin_user = User.find_by(email: "admin@email")
 
+    # reviews user left
+    @user.reviews.each do |review|
+      review.update(user_id: admin_user.id)
+    end
+
+    # unsold listings when getting rid of user
     @user.listings.where(is_sold: false).destroy_all
+
+    # sold listings when getting rid of user
     @user.listings.where(is_sold: true).each do |listing|
       listing.update(user_id: admin_user.id)
+      if listing.reviews.any?
+        listing.reviews.destroy_all
+      end
     end
     @user.orders.each do |order|
       order.update(user_id: admin_user.id)
