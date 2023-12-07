@@ -1,60 +1,15 @@
-<style>
-    body {
-        background-color: #1a1a1a; /* Black background */
-    }
-    .header {
-        color: #d4af37;
-        text-align: center;
-        padding: 20px 0;
-    }
-    .continue-shopping {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    .btn {
-        background-color: #d4af37;
-        color: #0a0a0a;
-        padding: 10px 15px;
-        text-decoration: none;
-        border-radius: 10px;
-    }
-    .listings-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 20px;
-    }
-    .grid-item {
-        background-color: #222;
-        color: #d4af37;
-        border: 1px solid #d4af37;
-        padding: 10px;
-        margin: 10px;
-        width: calc(33.333% - 20px);
-        box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4);
-    }
-    .listing-title {
-        color: #d4af37;
-        text-decoration: none;
-    }
-    .listing-price {
-        color: #d4af37;
-    }
-    .listing-description {
-        color: #d4af37;
-    }
-    @media (max-width: 768px) {
-        .grid-item {
-            width: calc(50% - 20px);
-        }
-    }
-    @media (max-width: 480px) {
-        .grid-item {
-            width: calc(100% - 20px);
-        }
-    }
-</style>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SellNest</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://kit.fontawesome.com/d968c2f6ce.js" crossorigin="anonymous"></script>
+  <%= stylesheet_link_tag 'home', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
 <h1 class="header">Your Bookmarks</h1>
 <div class="continue-shopping">
   <%= link_to 'Continue Shopping', root_path, class: 'btn' %>
@@ -64,12 +19,167 @@
 <% else %>
   <div class="listings-container">
     <% @bookmarks.each do |bookmark| %>
-      <div class="grid-item">
-        <%= link_to bookmark.listing.name, listing_path(bookmark.listing), class: "listing-title" %>
-        <p class="listing-price"><%= number_to_currency(bookmark.listing.price, unit: "$", precision: 2) %></p>
-        <p class="listing-description"><%= truncate(bookmark.listing.description, length: 100) %></p>
-        <!-- Add more details as needed -->
-      </div>
+      <% listing = bookmark.listing %>
+      <% unless listing.is_sold %>
+        <div class="grid-item" data-listing-id="<%= listing.id %>">
+          <div class="carousel-container">
+            <%if user_signed_in? %>
+              <% if current_user && current_user.bookmarked?(listing) %>
+                <div class="bookmark-icon" onclick="removeListing(<%= listing.id %>)" id="solidBookmark" data-listing-id="<%= listing.id %>">
+                  <i class="fa-solid fa-bookmark"></i>
+                </div>
+              <% end %>
+            <% end %>
+
+            <div class="carousel">
+              <% listing.photos.each do |photo| %>
+                <%= image_tag(photo, width: '100%', height: 'auto') %>
+              <% end %>
+            </div>
+            <% if listing.photos.length > 1 %>
+              <div class="carousel-controls">
+                <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+              </div>
+            <% end %>
+          </div>
+          <h2 class="listing-title"><%= listing.name %></h2>
+          <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
+          <div class="listing-created-at">
+            <%= listing.created_at.strftime('%Y-%m-%d') %>
+          </div>
+          <div class="listing-buttons">
+            <% reviews = Review.where(listing_id: listing.user.listings.pluck(:id)) %>
+            <% if reviews.any? %>
+              <% full_eggs = reviews.sum(:rating) / reviews.count %>
+              <% remaining_eggs = 5 - full_eggs - 1 %>
+              <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
+              <% num_reviews = reviews.count %>
+            <% else %>
+              <% full_eggs = 0 %>
+              <% remaining_eggs = 5 %>
+              <% partial_egg = 100 %>
+              <% num_reviews = 0 %>
+            <% end %>
+            <button class="btn" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= listing.tags.to_json %>', '<%= listing.user.email.split('@').first %>', '<%= num_reviews %>', '<%= full_eggs %>', '<%= remaining_eggs %>', '<%= partial_egg %>')">Details</button>
+            <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn' %>
+          </div>
+        </div>
+      <% end %>
     <% end %>
   </div>
+  <div id="descriptionModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeDescriptionModal()">&times;</span>
+      <h2 class="listing-title" id="modalTitle"></h2>
+      <h2 class="listing-price" id="modalPrice"></h2>
+      <h2 class="listing-seller" id="modalSeller"></h2>
+      <div class="listing-eggs" id="modalEggs"></div>
+      <p id="modalDescription"></p>
+      <div id="modalTags"></div>
+    </div>
+  </div>
 <% end %>
+
+<script>
+    function prevSlide(button) {
+        const carousel = button.parentElement.previousElementSibling;
+        carousel.appendChild(carousel.firstElementChild);
+    }
+
+    function nextSlide(button) {
+        const carousel = button.parentElement.previousElementSibling;
+        carousel.prepend(carousel.lastElementChild);
+    }
+
+    function showDescriptionModal(title, price, description, tags, seller, num_reviews, full_eggs, remaining_eggs, partial_egg) {
+        const modal = document.getElementById('descriptionModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalSeller = document.getElementById('modalSeller')
+        const modalTags = document.getElementById('modalTags');
+        const parsedTags = JSON.parse(tags);
+
+        modalTitle.innerHTML = title;
+        modalPrice.innerHTML = price;
+        modalDescription.innerHTML = 'Description: ' + description;
+        modalSeller.innerText = 'Seller: ' + seller;
+
+        const eggsContainer = document.getElementById('modalEggs');
+        eggsContainer.innerHTML = '';
+
+        for (let i = 0; i < full_eggs; i++) {
+            eggsContainer.innerHTML += '<i class="fa-solid fa-egg"></i>';
+        }
+        if (full_eggs < 5) {
+            eggsContainer.innerHTML += `<i class="fa-solid fa-egg" style="filter: invert(${partial_egg}%);"></i>`;
+        }
+        for (let i = 0; i < remaining_eggs; i++) {
+            eggsContainer.innerHTML += '<i class="fa-solid fa-egg" style="filter: invert(100%);"></i>';
+        }
+
+        eggsContainer.innerHTML += (' (' + num_reviews + ')')
+
+        // Clear previous tags before adding new ones
+        modalTags.innerHTML = '';
+
+        // Check if tags is defined and not empty before processing
+        if (parsedTags && parsedTags.length > 0) {
+            const isPlural = parsedTags.length > 1 ? 'Categories:' : 'Category:';
+            modalTags.textContent = `${isPlural} ${parsedTags.map((tag, index) => (index === 0 ? tag.name : ` ${tag.name}`)).join(',')}`;
+        }
+
+        modal.style.display = 'flex';
+    }
+
+    function closeDescriptionModal() {
+        const modal = document.getElementById('descriptionModal');
+        modal.style.display = 'none';
+    }
+
+
+    function removeListing(listingId) {
+        fetch(`/bookmarks/${listingId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': '<%= form_authenticity_token %>'
+            },
+            credentials: 'same-origin'
+        })
+          .then(response => {
+              if (response.ok) {
+                  // Handle success by removing the listing container from the DOM
+                  const listingContainer = document.querySelector(`.grid-item[data-listing-id="${listingId}"]`);
+                  if (listingContainer) {
+                      listingContainer.remove();
+                  }
+              } else {
+                  // Handle error
+              }
+          })
+          .catch(error => console.error('Error:', error));
+    }
+
+
+    document.addEventListener('ajax:success', function(event) {
+        var element = event.target;
+        if(element.classList.contains('mark-as-read')) {
+            element.closest('.notification-item').remove();
+            // Update notification count somewhere in your header
+            var notificationCount = document.querySelector('.notification-count');
+            notificationCount.textContent = parseInt(notificationCount.textContent) - 1;
+        }
+    });
+
+    // Close modal if the user clicks outside the modal content
+    window.onclick = function(event) {
+        const modal = document.getElementById('descriptionModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+</script>
+</body>
+</html>

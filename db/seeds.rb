@@ -9,17 +9,72 @@ tags = Tag.create([{ name: 'Art & Crafts'}, { name: 'Beauty & Personal Care'}, {
                    { name: 'Electronics'}, { name: 'Furniture'}, { name: 'Health & Fitness'}, { name: 'Home & Kitchen'},
                    { name: 'Sports & Outdoors'}, { name: 'Toys & Games'}])
 
-10.times do
-  user_id = User.pluck(:id).sample  # Replace User with your actual user model
-  total = Faker::Commerce.price(range: 10..500, as_string: false)
-  status = ['complete'].sample
-  created_at = Faker::Date.between(from: 10.days.ago, to: Date.today)
+admin = User.create!(
+  email: 'admin@email',
+  password: 'adminpass',
+  seller: true
+)
 
-  Order.create(
-    user_id: user_id,
-    total: total,
-    status: status,
-    created_at: created_at,
-    updated_at: created_at
+admin_listing = Listing.create!(
+  name: 'admin',
+  description: 'admin',
+  price: 0.0,
+  user: admin
+)
+
+users = []
+50.times do |i|
+  users << User.create!(
+    email: "user#{i + 3}@example.com",
+    password: 'password',
+    full_name: "User #{i + 3}",
+    seller: i.even?
   )
 end
+
+listings = []
+users.each do |user|
+  created_at = Faker::Date.between(from: 10.days.ago, to: Date.today)
+  listings << Listing.create!(
+    name: "Item for #{user.full_name}",
+    description: "Description for Item of #{user.full_name}",
+    price: rand(20.0..100.0).round(2),
+    user: user,
+    created_at: created_at,
+  )
+end
+
+# Create Orders
+orders = []
+users.sample(10).each do |user|
+  created_at = Faker::Date.between(from: 10.days.ago, to: Date.today)
+  orders << Order.create!(
+    user: user,
+    total: listings.sample(rand(1..3)).sum(&:price),
+    status: 'complete',
+    created_at: created_at,
+  )
+end
+
+# Add Order Items
+orders.each do |order|
+  order_listings = listings.sample(rand(1..3))
+  order_listings.each do |listing|
+    OrderItem.create!(order: order, listing: listing, quantity: rand(1..3))
+  end
+end
+
+# 10.times do
+#   user_id = User.pluck(:id).sample  # Replace User with your actual user model
+#   total = Faker::Commerce.price(range: 10..500, as_string: false)
+#   status = ['complete'].sample
+#   created_at = Faker::Date.between(from: 10.days.ago, to: Date.today)
+#
+#   Order.create(
+#     user_id: user_id,
+#     total: total,
+#     status: status,
+#     created_at: created_at,
+#     updated_at: created_at
+#   )
+# end

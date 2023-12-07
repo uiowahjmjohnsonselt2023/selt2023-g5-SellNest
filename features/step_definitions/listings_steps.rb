@@ -119,3 +119,56 @@ Then("I should see listings sorted by oldest first") do
   expect(sorted_dates).to eq(sorted_dates.sort)
 end
 
+
+When("I am logged in as user with email {string}") do |user_email|
+  visit new_user_session_path
+  fill_in 'Email', with: user_email
+  fill_in 'Password', with: 'password'
+  click_button 'Log in'
+end
+
+Then("I should see the {string} bookmark icon be solid") do |listing_name|
+  within('.listings-container') do
+    listing = find('.grid-item', text: listing_name)
+
+    # Check if the bookmark icon within the listing has the solidBookmark ID
+    within(listing) do
+      expect(find('.bookmark-icon')).to have_id('#solidBookmark')
+    end
+  end
+end
+
+When("I click on the bookmark icon for {string}") do |listing_name|
+  within('.listings-container') do
+    # Locate the specific listing by its name within the grid
+    listing = find('.grid-item', text: listing_name)
+
+    # Click on the bookmark icon within that listing
+    within(listing) do
+      find('.bookmark-icon').click
+    end
+  end
+end
+
+Then(/^I wait for (\d+) seconds$/) do |seconds|
+  sleep(seconds.to_i)
+end
+
+When("I navigate to my bookmarks") do
+  visit bookmarks_path
+end
+
+Then("I should see the {string} listing") do |listing_name|
+  # Logic to check if the listing is present in the bookmarks section
+  expect(page).to have_content(listing_name)
+end
+
+When("I click on the bookmark icon in the bookmarks page for {string}") do |listing_name|
+  # Logic to find and click the bookmark icon for a specific listing in the bookmarks page
+  # You can use Capybara to simulate clicking, for example:
+  within('.carousel-container') do
+    find('.bookmark-icon', text: listing_name).click
+  end
+end
+
+
