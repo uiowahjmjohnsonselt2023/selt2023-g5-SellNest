@@ -9,25 +9,19 @@
 <div class="container">
   <a href="/" class="text-logo">SellNest</a>
   <h1>Create Listing</h1>
-
   <%= form_for(@listing, url: listings_path, html: { id:'newListingForm', class: "form-horizontal", multipart: true}) do |f| %>
-
     <div class="form-group">
       <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control', required: true %>
     </div>
-
     <%= f.hidden_field :user_id, value: current_user.id %>
     <%= f.hidden_field :is_sold, value: false %>
-
-    <!-- Add dropdown for selecting category tag -->
     <div class="field">
-      <%= f.label :tag_ids, 'Select Tags' %>
+      <div class="tag-names"><%= f.label :tag_ids, 'Select Tags' %></div>
       <%= f.select :tag_ids, Tag.all.collect { |t| [t.name, t.id] }, { include_blank: true }, { multiple: true, class: 'tag-dropdown' } %>
 
       <%= f.button "Add tag", type: 'button', class: 'add-tag-btn' %>
     </div>
-
     <div class="form-group">
       <div class="selected-tags-list horizontal-tags-list"></div>
       <% f.object.tags.each do |tag| %>
@@ -41,49 +35,41 @@
             <% end %>
           </div>
         </div>
-
     <% end %>
     </div>
-
     <div class="form-group">
       <%= f.label :photos, 'Upload Photos:' %>
       <%= f.file_field :photos, accept: 'image/*', multiple: true %>
     </div>
-
     <div class="form-group">
-      <%= f.label :description %>
-      <%= f.text_area :description, class: 'form-control', rows: 4, required: true %>
+        <%= f.label :description %>
+        <%= f.text_area :description, class: 'form-control', rows: 4, required: true %>
     </div>
-
     <div class="form-group">
       <%= f.label :price %>
       <%= f.text_field :price, id: 'priceInput', class: 'form-control', step: '0.01', pattern: '\d+(\.\d{1,2})?', required: true %>
     </div>
-
-    <div>
+    <div class="profit">
       <h3>Estimated Profit:</h3>
       <p id="estimatedProfit">0.00</p>
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            function updateEstimatedProfit() {
-                var priceInput = document.getElementById('priceInput');
-                var priceValue = parseFloat(priceInput.value);
-                var estimatedProfit = priceValue * 0.95 || 0;
-                document.getElementById('estimatedProfit').innerText = estimatedProfit.toFixed(2);
-            }
-
-            document.getElementById('priceInput').addEventListener('input', updateEstimatedProfit);
-        });
-    </script>
-
     <div class="form-group">
-      <%= f.submit "Create Listing", class: 'btn btn-primary' %>
+      <%= f.submit "Create Listing", class: 'add-tag-btn' %>
     </div>
   <% end %>
-
 </div>
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function updateEstimatedProfit() {
+            var priceInput = document.getElementById('priceInput');
+            var priceValue = parseFloat(priceInput.value);
+            var estimatedProfit = priceValue * 0.95 || 0;
+            document.getElementById('estimatedProfit').innerText = estimatedProfit.toFixed(2);
+        }
+
+        document.getElementById('priceInput').addEventListener('input', updateEstimatedProfit);
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         const addTagBtn = document.querySelector('.add-tag-btn');
         const selectedTagsList = document.querySelector('.selected-tags-list');

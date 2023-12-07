@@ -1,0 +1,60 @@
+body {
+    background-color: #1a1a1a; /* Black background */
+}
+h1 {
+    color: #d4af37;
+    text-align: center;
+    padding: 20px 0;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+.notification-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+.notification-item {
+    background: #222; /* Darker cards */
+    border: 1px solid #d4af37; /* Gold border */
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #d4af37; /* Gold text */
+    width: 30%;
+}
+
+.notification-content {
+    text-align: left;
+}
+
+.mark-as-read {
+    margin-left: auto; /* Push the button to the right */
+}
+.notification-item:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.5); /* Gold shadow */
+}
+form {
+    display: inline;
+}
+input[type="submit"] {
+    background-color: #d4af37;
+    color: #0a0a0a;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+.btn {
+    background-color: #d4af37;
+    color: #0a0a0a;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 10px;
+}

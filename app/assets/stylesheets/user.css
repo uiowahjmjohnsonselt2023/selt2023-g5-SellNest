@@ -1,0 +1,246 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a; /* Updated background color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    color: #d4af37; /* Updated text color */
+}
+.container {
+    text-align: center;
+    background-color: #333; /* Updated background color for containers */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(255, 215, 0, 0.5); /* Updated shadow color */
+    position: relative;
+}
+h2 {
+    color: #d4af37; /* Updated text color */
+}
+.btn-primary {
+    background-color: #ffd700; /* Updated button colors */
+    color: #0a0a0a;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.btn-primary:hover {
+    background-color: #e6c300; /* Darken on hover */
+}
+.text-logo {
+    color: #ffd700; /* Updated text color */
+    margin-bottom: 20px;
+}
+.user-info {
+    margin-bottom: 20px;
+}
+.action-button {
+    margin-bottom: 10px;
+}
+.middle-section {
+    width: 100%;
+}
+.main-container {
+    padding: 20px;
+}
+.button-container {
+    margin-bottom: 20px;
+}
+.profile-container{
+    min-height: 100px;
+    overflow: visible;
+}
+.profile-card {
+    width: 100%; /* Set to full width */
+}
+.carousel img {
+    width: 50%;
+    height: 50%;
+    object-fit: cover; /* Update to cover to ensure images fill the element */
+}
+.toggle-container {
+    display: flex; /* Use flexbox for toggle buttons */
+    justify-content: center; /* Center the toggle buttons */
+    gap: 10px; /* Space them out a bit */
+}
+.toggle-label {
+    background-color: #333; /* Match the background */
+    color: #d4af37; /* Match the text color */
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.content {
+    background-color: #222; /* Dark background for content */
+    color: #d4af37; /* Text color */
+    padding: 10px; /* Padding inside content areas */
+    margin-top: 10px; /* Space above content areas */
+    border-radius: 5px; /* Rounded corners for content areas */
+}
+.review-button, .edit-button {
+    background-color: #444; /* Darker background for buttons */
+    color: #ffd700; /* Golden text */
+    margin: 5px 0; /* Space around buttons */
+}
+@media (max-width: 768px) {
+    .profile-container {
+        flex-direction: column;
+    }
+}
+#order-history, #active-listings, #sold-listings {
+    display: none; /* Initially hidden */
+}
+#active-listings.active, #order-history.active, #sold-listings.active {
+    display: block; /* Shown when active */
+}
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.stat-card {
+    background: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.stat-title {
+    font-size: 1.5rem;
+    color: #f6cb3f;
+    margin: 10px 0;
+}
+.container {
+    background-color: #333; /* Dark background for content */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    padding: 20px; /* Add padding */
+}
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* User profile matching admin styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1a1a1a; /* Dark background */
+    color: #d4af37; /* Gold text */
+    /* ... other body styles ... */
+}
+
+.container {
+    background-color: #222; /* Darker background for containers */
+    border: 1px solid #d4af37; /* Gold border */
+    border-radius: 8px;
+    padding: 20px;
+    width: 100%;
+    /* ... other container styles ... */
+}
+
+h2 {
+    color: #d4af37; /* Gold text */
+    /* ... other h2 styles ... */
+}
+
+.btn-primary {
+    background-color: #d4af37; /* Gold background for buttons */
+    color: #0a0a0a; /* Dark text for buttons */
+    /* ... other btn-primary styles ... */
+}
+
+.btn-primary:hover {
+    background-color: #f6cb3f; /* Lighter gold on hover */
+    /* ... other btn-primary hover styles ... */
+}
+
+.text-logo {
+    color: #d4af37; /* Gold text for the logo */
+    /* ... other text-logo styles ... */
+}
+
+/* ... other styles ... */
+
+/* Grid styling for stat cards */
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.stat-card {
+    background: #222; /* Darker cards */
+    border: 1px solid #d4af37; /* Gold border */
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    color: #d4af37; /* Gold text */
+}
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.5); /* Gold shadow */
+}
+.value{
+    color: #f6cb3f;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+/* Style adjustments for headings */
+.container h2 {
+    background-color: #0a0a0a; /* Dark background for headers */
+    color: #d4af37; /* Gold text */
+    padding: 10px;
+    margin: 0;
+}
+
+/* Style adjustments for lists */
+.container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.container li {
+    border-bottom: 1px solid #d4af37; /* Gold border */
+    padding: 10px 0; /* Add vertical padding */
+    display: block; /* Ensure it's a block element */
+    margin-bottom: 10px; /* Add space between list items */
+    /* other styles... */
+}
+
+/* Style adjustments for buttons */
+.container li button {
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out; /* Smooth transition for hover */
+}
+
+.container li button:hover {
+    background-color: #d4af37; /* Gold background on hover */
+    color: #0a0a0a; /* Dark text on hover */
+}
+
+/* Hover effect for list items */
+.container li:hover {
+    background-color: #1a1a1a; /* Dark background on hover */
+}

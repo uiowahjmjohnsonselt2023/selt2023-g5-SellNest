@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f7f7f7;
+    background-color: #000000;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,18 +12,21 @@ body {
 .container {
     text-align: center;
     width: 400px; /* Adjust width as needed */
-    background-color: white;
+    background-color: #1a1a1a;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
     margin-top: -50px; /* Adjust as needed */
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.5); /* Gold shadow */
 }
+
 h1 {
-    color: #333;
+    color: #f6cb3f;
 }
 .form-group {
     margin-bottom: 15px;
     text-align: left;
+    color: #f6cb3f;
 }
 label {
     display: block;
@@ -36,12 +39,13 @@ textarea {
     width: 100%;
     padding: 8px;
     border-radius: 4px;
-    border: 1px solid #ccc;
-    box-sizing: border-box; /* Added to keep width as 100% including padding */
+    border: 1px solid #f6cb3f;
+    box-sizing: border-box;
+    background-color: #000000;
 }
 input[type="submit"] {
     background-color: #ffd700;
-    color: white;
+    color: #000000;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -58,9 +62,12 @@ input[type="submit"]:hover {
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    color: #ffd700;
+    color: #f6cb3f;
     text-decoration: none;
     margin-bottom: 20px;
+}
+.text-logo:hover{
+    color: #fff200;
 }
 .horizontal-tags-list {
     display: flex;
@@ -78,7 +85,7 @@ input[type="submit"]:hover {
 
 .add-tag-btn {
     background-color: #ffd700;
-    color: white;
+    color: #000000;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -93,7 +100,7 @@ input[type="submit"]:hover {
 
 .remove-tag {
     background-color: #d9534f; /* Lighter shade of red */
-    color: white; /* Text color */
+    color: #000000; /* Text color */
     border: none;
     padding: 4px 8px;
     border-radius: 4px;
@@ -105,4 +112,42 @@ input[type="submit"]:hover {
     background-color: #c9302c; /* Slightly darker shade of red on hover */
 
     transform: scale(1.05); /* Scale the button on hover */
+}
+.profit{
+    color: #f6cb3f;
+}
+.form-control{
+    background-color: black;
+    color: #f6cb3f;
+    border: 1px solid #f6cb3f;
+}
+.tag-dropdown{
+    background-color: black;
+    color: #f6cb3f;
+    border: 1px solid #f6cb3f;
+}
+.tag-names{
+    color: #f6cb3f;
+}
+input[type="text"],
+textarea,
+select {
+    background-color: black;
+    color: #f6cb3f;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+    background-color: black;
+    color: #f6cb3f;
+}
+
+.description, select{
+    background-color: black;
+    color: #f6cb3f;
+}
+.description:focus, select:focus{
+    background-color: black;
+    color: #f6cb3f;
 }
