@@ -69,9 +69,31 @@ class ListingsController < ApplicationController
 
   def destroy
     @listing = Listing.find(params[:id])
+
+    reviews = @listing.reviews
+    if reviews.any?
+      reviews.each do |review|
+        review.update(listing_id: 19)
+      end
+    end
+
     @listing.destroy
     flash[:notice] = "Listing deleted."
     redirect_to root_path
+  end
+
+  def mark_as_sold
+    self.sold = true
+    if self.save
+      Notification.create(user: self.user, content: "Your item has sold!", read: false)
+    end
+  end
+
+  def mark_as_sold
+    self.sold = true
+    if self.save
+      Notification.create(user: self.user, content: "Your item has sold!", read: false)
+    end
   end
 
 end

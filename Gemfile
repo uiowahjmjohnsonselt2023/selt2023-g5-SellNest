@@ -57,6 +57,9 @@ gem 'bootsnap'
 gem 'bootstrap-sass', '~> 3.4.1'
 gem 'bootstrap-datepicker-rails'
 
+gem 'chartkick'
+gem 'groupdate'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -67,6 +70,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'launchy'
   gem 'spring'
+  gem 'faker'
 end
 
 group :development do

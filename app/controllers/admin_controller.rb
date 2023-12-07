@@ -14,5 +14,12 @@ class AdminController < ApplicationController
     @all_users = User.all
     @all_listings = Listing.all
     @all_orders = Order.all
+
+    @total_sales_over_time = Order.where(status: 'complete').group_by_day(:created_at).sum(:total)
+    @chart_data = @total_sales_over_time.map do |date, total|
+      [date.to_date.strftime("%Y-%m-%d"), total.to_f]
+    end
+
+    @tagged_listings = Tag.joins(:listings).group('tags.name').count
   end
 end
