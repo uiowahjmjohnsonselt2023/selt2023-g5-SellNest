@@ -25,7 +25,10 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = current_user
+    @total_profit = Listing.where(user_id: @user.id, is_sold: true).sum(:price) * 0.95
+    @active_listings =  Listing.where(user_id: @user.id, is_sold: false).count
+    @items_listed = Listing.where(user_id: @user.id,).count
   end
 
   def become_seller
@@ -41,9 +44,20 @@ class UsersController < ApplicationController
   def destroy
     admin_user = User.find_by(email: "admin@email")
 
+    # reviews user left
+    @user.reviews.each do |review|
+      review.update(user_id: admin_user.id)
+    end
+
+    # unsold listings when getting rid of user
     @user.listings.where(is_sold: false).destroy_all
+
+    # sold listings when getting rid of user
     @user.listings.where(is_sold: true).each do |listing|
       listing.update(user_id: admin_user.id)
+      if listing.reviews.any?
+        listing.reviews.destroy_all
+      end
     end
     @user.orders.each do |order|
       order.update(user_id: admin_user.id)

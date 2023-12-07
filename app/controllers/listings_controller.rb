@@ -69,6 +69,14 @@ class ListingsController < ApplicationController
 
   def destroy
     @listing = Listing.find(params[:id])
+
+    reviews = @listing.reviews
+    if reviews.any?
+      reviews.each do |review|
+        review.update(listing_id: 1)
+      end
+    end
+
     @listing.destroy
     flash[:notice] = "Listing deleted."
     redirect_to root_path

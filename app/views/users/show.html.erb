@@ -105,6 +105,39 @@
       #active-listings.active, #order-history.active, #sold-listings.active {
           display: block; /* Shown when active */
       }
+
+      .dashboard-stats {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+          gap: 1rem;
+          margin-top: 2rem;
+      }
+
+      .stat-card {
+          background: #fff;
+          border: 1px solid #eaeaea;
+          border-radius: 8px;
+          padding: 20px;
+          text-align: center;
+          transition: transform 0.3s ease-in-out;
+      }
+
+      .stat-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+
+      .stat-title {
+          font-size: 1.5rem;
+          color: #333;
+          margin: 10px 0;
+      }
+
+      .stat-value {
+          font-size: 2.5rem;
+          font-weight: bold;
+          color: #333;
+      }
   </style>
 </head>
 <body>
@@ -131,13 +164,8 @@
 
 <div class="profile-container">
   <div class="middle-section">
-    <% unless @user.seller? %>
-      <%= link_to "Become a Seller", become_seller_user_path(@user), method: :post, class: "btn btn-primary" %>
-    <% else %>
-      <%= link_to 'Create New Listing', new_listing_path, class: "btn btn-primary" %>
-    <% end %>
-
     <% if @user.seller? %>
+      <%= link_to 'Create New Listing', new_listing_path, class: "btn btn-primary" %>
       <div class="toggle-container">
         <label class="toggle-label">
           <input type="radio" name="toggle-section" id="toggle-orders" checked>
@@ -245,31 +273,47 @@
       <% end %>
     </ul>
   </div>
+  <div class="dashboard-stats">
+  <div class="stat-card">
+    <h2 class="stat-title">Total Profits</h2>
+    <p class="stat-value"><%= number_to_currency(@total_profit) %></p>
+  </div>
+
+  <div class="stat-card">
+    <h2 class="stat-title">Active Listings</h2>
+    <p class="stat-value"><%= @active_listings %></p>
+  </div>
+
+  <div class="stat-card">
+    <h2 class="stat-title">Total Items Listed</h2>
+    <p class="stat-value"><%= @items_listed %></p>
+  </div>
+
+  <div class="stat-card">
+    <% reviews = Review.where(listing_id: current_user.listings.pluck(:id)) %>
+    <% full_eggs = reviews.sum(:rating) / reviews.count %>
+    <% remaining_eggs = 5 - full_eggs - 1 %>
+    <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
+    <h2 class="stat-title">Trust Rating: <%= reviews.sum(:rating) / reviews.count.to_f %></h2>
+    <p class="stat-value">
+      <% full_eggs.times do %>
+        <i class="fa-solid fa-egg"></i>
+      <% end %>
+      <% if full_eggs < 5 %>
+        <i class="fa-solid fa-egg" style="filter: invert(<%= partial_egg %>%);"></i>
+      <% end %>
+      <% remaining_eggs.times do %>
+        <i class="fa-solid fa-egg" style="filter: invert(100%);"></i>
+      <% end %>
+      (<%= reviews.count %>)
+    </p>
+  </div>
+  </div>
+
   <div class="reviews-section">
     <h3>User Reviews</h3>
     <% reviews = Review.where(listing_id: current_user.listings.pluck(:id)) %>
     <% if reviews.any? %>
-      <p> Trust Rating: <%= reviews.sum(:rating) / reviews.count.to_f %> (<%= reviews.count %>)</p>
-
-
-
-      <% full_eggs = reviews.sum(:rating) / reviews.count %>
-      <% remaining_eggs = 5 - full_eggs - 1 %>
-      <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
-      <p>
-        <% full_eggs.times do %>
-          <i class="fa-solid fa-egg"></i>
-        <% end %>
-        <% if full_eggs < 5 %>
-          <i class="fa-solid fa-egg" style="filter: invert(<%= partial_egg %>%);"></i>
-        <% end %>
-        <% remaining_eggs.times do %>
-          <i class="fa-solid fa-egg" style="filter: invert(100%);"></i>
-        <% end %>
-      </p>
-
-
-
       <ul>
         <% reviews.each do |review| %>
           <li>
@@ -283,7 +327,7 @@
       <p>No reviews yet.</p>
     <% end %>
   </div>
-<% else %>
+<% end %>
   <div id="order-history" class="content">
     <h2>Order History</h2>
     <ul>
@@ -295,6 +339,10 @@
             <p>Total: <%= number_to_currency(order.total) %></p>
             <p>Bought: <%= order.created_at %> </p>
             <p>Status: <%= order.status %></p>
+            <% order.order_items.each do |order_item| %>
+              <p><%= order_item.listing.name %></p>
+              <%= link_to "Review Seller", new_review_path(listing_id: order_item.listing.id), class: "btn btn-primary review-button" %>
+            <% end %>
           </li>
         <% end %>
       <% else %>
@@ -304,56 +352,49 @@
       <% end %>
     </ul>
   </div>
-<% end %>
 
 </div>
 
   <script>
-      document.querySelectorAll('input[name="toggle-section"]').forEach(input => {
-          input.addEventListener('change', function() {
-              const sectionId = this.id.replace('toggle-', '');
-              document.querySelectorAll('.content').forEach(section => {
-                  section.classList.remove('active'); // Remove active class from all sections
+      document.addEventListener('DOMContentLoaded', function () {
+          // Set "Order History" as active by default
+          document.getElementById('order-history').classList.add('active');
+
+          document.querySelectorAll('input[name="toggle-section"]').forEach(input => {
+              input.addEventListener('change', function () {
+                  const sectionId = this.id.replace('toggle-', '');
+                  document.querySelectorAll('.content').forEach(section => {
+                      section.classList.remove('active'); // Remove active class from all sections
+                  });
+                  document.getElementById(sectionId).classList.add('active'); // Add active class to the selected section
               });
-              document.getElementById(sectionId).classList.add('active'); // Add active class to the selected section
-          });
-      });
-
-      function showSection(sectionId) {
-          const sections = document.querySelectorAll('.content');
-          sections.forEach(section => {
-              section.style.display = 'none'; // Hide all sections
           });
 
-          const activeSection = document.getElementById(sectionId);
-          activeSection.style.display = 'block'; // Show the active section
-      }
+          const toggleOrders = document.getElementById('toggle-orders');
+          const toggleActiveListings = document.getElementById('toggle-active-listings');
+          const toggleSoldListings = document.getElementById('toggle-sold-listings');
 
+          const orderHistory = document.getElementById('order-history');
+          const activeListings = document.getElementById('active-listings');
+          const soldListings = document.getElementById('sold-listings');
 
-      const toggleOrders = document.getElementById('toggle-orders');
-      const toggleActiveListings = document.getElementById('toggle-active-listings');
-      const toggleSoldListings = document.getElementById('toggle-sold-listings');
+          toggleOrders.addEventListener('change', () => {
+              orderHistory.style.display = 'block';
+              activeListings.style.display = 'none';
+              soldListings.style.display = 'none';
+          });
 
-      const orderHistory = document.getElementById('order-history');
-      const activeListings = document.getElementById('active-listings');
-      const soldListings = document.getElementById('sold-listings');
+          toggleActiveListings.addEventListener('change', () => {
+              orderHistory.style.display = 'none';
+              activeListings.style.display = 'block';
+              soldListings.style.display = 'none';
+          });
 
-      toggleOrders.addEventListener('change', () => {
-          orderHistory.style.display = 'block';
-          activeListings.style.display = 'none';
-          soldListings.style.display = 'none';
-      });
-
-      toggleActiveListings.addEventListener('change', () => {
-          orderHistory.style.display = 'none';
-          activeListings.style.display = 'block';
-          soldListings.style.display = 'none';
-      });
-
-      toggleSoldListings.addEventListener('change', () => {
-          orderHistory.style.display = 'none';
-          activeListings.style.display = 'none';
-          soldListings.style.display = 'block';
+          toggleSoldListings.addEventListener('change', () => {
+              orderHistory.style.display = 'none';
+              activeListings.style.display = 'none';
+              soldListings.style.display = 'block';
+          });
       });
   </script>
 </div>
