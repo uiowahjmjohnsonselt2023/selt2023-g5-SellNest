@@ -69,3 +69,22 @@ Feature: Listings Page
     Given I am on the home page
     When I click on "Oldest First"
     Then I should see listings sorted by oldest first
+
+  Scenario: Bookmarking a listing
+    Given I am on the home page
+    And I am logged in as user with email "user1@example.com"
+    When I click on the bookmark icon for "Cool Desk Lamp"
+    Then I wait for 2 seconds
+    #Then I should see the "Cool Desk Lamp" bookmark icon be solid
+    And I navigate to my bookmarks
+    Then I should see the "Cool Desk Lamp" listing
+
+  Scenario: Unbookmarking a listing
+    Given I am on the home page
+    And I am logged in as user with email "user1@example.com"
+    When I view the "Vintage Chair" listing
+    And I click on the bookmark icon
+    And I navigate to my bookmarks
+    Then I should see the "Vintage Chair" listing
+    When I click on the bookmark icon in the bookmarks page for "Vintage Chair"
+    Then I should see a success message indicating the listing was removed from bookmarks

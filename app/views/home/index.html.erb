@@ -252,11 +252,11 @@
           <div class="carousel-container">
             <%if user_signed_in? %>
               <% if current_user && current_user.bookmarked?(listing) %>
-                <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
+                <div class="bookmark-icon" onclick="removeBookmark(<%= listing.id %>)" id="solidBookmark" data-listing-id="<%= listing.id %>">
                   <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
                 </div>
               <% else %>
-                <div class="bookmark-icon" onclick="addBookmark(<%= listing.id %>)" data-listing-id="<%= listing.id %>">
+                <div class="bookmark-icon" onclick="addBookmark(<%= listing.id %>)" id="regularBookmark" data-listing-id="<%= listing.id %>">
                   <i class="fa-regular fa-bookmark"></i> <!-- Use your bookmark icon here -->
                 </div>
               <% end %>
