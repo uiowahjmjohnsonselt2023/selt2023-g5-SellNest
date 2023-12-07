@@ -291,9 +291,17 @@
 
   <div class="stat-card">
     <% reviews = Review.where(listing_id: current_user.listings.pluck(:id)) %>
-    <% full_eggs = reviews.sum(:rating) / reviews.count %>
-    <% remaining_eggs = 5 - full_eggs - 1 %>
-    <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
+    <% if reviews.any? %>
+      <% full_eggs = reviews.sum(:rating) / reviews.count %>
+      <% remaining_eggs = 5 - full_eggs - 1 %>
+      <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
+      <% num_reviews = reviews.count %>
+    <% else %>
+      <% full_eggs = 0 %>
+      <% remaining_eggs = 5 %>
+      <% partial_egg = 100 %>
+      <% num_reviews = 0 %>
+    <% end %>
     <h2 class="stat-title">Trust Rating: <%= reviews.sum(:rating) / reviews.count.to_f %></h2>
     <p class="stat-value">
       <% full_eggs.times do %>
@@ -305,7 +313,7 @@
       <% remaining_eggs.times do %>
         <i class="fa-solid fa-egg" style="filter: invert(100%);"></i>
       <% end %>
-      (<%= reviews.count %>)
+      (<%= num_reviews %>)
     </p>
   </div>
   </div>
