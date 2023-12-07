@@ -278,7 +278,7 @@
       <p>No reviews yet.</p>
     <% end %>
   </div>
-<% else %>
+<% end %>
   <div id="order-history" class="content">
     <h2>Order History</h2>
     <ul>
@@ -290,6 +290,10 @@
             <p>Total: <%= number_to_currency(order.total) %></p>
             <p>Bought: <%= order.created_at %> </p>
             <p>Status: <%= order.status %></p>
+            <% order.order_items.each do |order_item| %>
+              <p><%= order_item.listing.name %></p>
+              <%= link_to "Review Seller", new_review_path(listing_id: order_item.listing.id), class: "btn btn-primary review-button" %>
+            <% end %>
           </li>
         <% end %>
       <% else %>
@@ -299,56 +303,49 @@
       <% end %>
     </ul>
   </div>
-<% end %>
 
 </div>
 
   <script>
-      document.querySelectorAll('input[name="toggle-section"]').forEach(input => {
-          input.addEventListener('change', function() {
-              const sectionId = this.id.replace('toggle-', '');
-              document.querySelectorAll('.content').forEach(section => {
-                  section.classList.remove('active'); // Remove active class from all sections
+      document.addEventListener('DOMContentLoaded', function () {
+          // Set "Order History" as active by default
+          document.getElementById('order-history').classList.add('active');
+
+          document.querySelectorAll('input[name="toggle-section"]').forEach(input => {
+              input.addEventListener('change', function () {
+                  const sectionId = this.id.replace('toggle-', '');
+                  document.querySelectorAll('.content').forEach(section => {
+                      section.classList.remove('active'); // Remove active class from all sections
+                  });
+                  document.getElementById(sectionId).classList.add('active'); // Add active class to the selected section
               });
-              document.getElementById(sectionId).classList.add('active'); // Add active class to the selected section
-          });
-      });
-
-      function showSection(sectionId) {
-          const sections = document.querySelectorAll('.content');
-          sections.forEach(section => {
-              section.style.display = 'none'; // Hide all sections
           });
 
-          const activeSection = document.getElementById(sectionId);
-          activeSection.style.display = 'block'; // Show the active section
-      }
+          const toggleOrders = document.getElementById('toggle-orders');
+          const toggleActiveListings = document.getElementById('toggle-active-listings');
+          const toggleSoldListings = document.getElementById('toggle-sold-listings');
 
+          const orderHistory = document.getElementById('order-history');
+          const activeListings = document.getElementById('active-listings');
+          const soldListings = document.getElementById('sold-listings');
 
-      const toggleOrders = document.getElementById('toggle-orders');
-      const toggleActiveListings = document.getElementById('toggle-active-listings');
-      const toggleSoldListings = document.getElementById('toggle-sold-listings');
+          toggleOrders.addEventListener('change', () => {
+              orderHistory.style.display = 'block';
+              activeListings.style.display = 'none';
+              soldListings.style.display = 'none';
+          });
 
-      const orderHistory = document.getElementById('order-history');
-      const activeListings = document.getElementById('active-listings');
-      const soldListings = document.getElementById('sold-listings');
+          toggleActiveListings.addEventListener('change', () => {
+              orderHistory.style.display = 'none';
+              activeListings.style.display = 'block';
+              soldListings.style.display = 'none';
+          });
 
-      toggleOrders.addEventListener('change', () => {
-          orderHistory.style.display = 'block';
-          activeListings.style.display = 'none';
-          soldListings.style.display = 'none';
-      });
-
-      toggleActiveListings.addEventListener('change', () => {
-          orderHistory.style.display = 'none';
-          activeListings.style.display = 'block';
-          soldListings.style.display = 'none';
-      });
-
-      toggleSoldListings.addEventListener('change', () => {
-          orderHistory.style.display = 'none';
-          activeListings.style.display = 'none';
-          soldListings.style.display = 'block';
+          toggleSoldListings.addEventListener('change', () => {
+              orderHistory.style.display = 'none';
+              activeListings.style.display = 'none';
+              soldListings.style.display = 'block';
+          });
       });
   </script>
 </div>
