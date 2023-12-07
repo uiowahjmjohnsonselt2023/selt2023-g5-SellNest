@@ -87,6 +87,15 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_06_015318) do
     t.index ["user_id"], name: "index_listings_on_user_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.text "content"
+    t.boolean "read"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "order_items", force: :cascade do |t|
     t.integer "order_id", null: false
     t.integer "listing_id", null: false
@@ -151,6 +160,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_06_015318) do
   add_foreign_key "listing_tags", "listings"
   add_foreign_key "listing_tags", "tags"
   add_foreign_key "listings", "users"
+  add_foreign_key "notifications", "users"
   add_foreign_key "order_items", "listings"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "users"

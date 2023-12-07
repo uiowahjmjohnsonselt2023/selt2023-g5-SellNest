@@ -1,0 +1,9 @@
+.field {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.25rem;
+    border: 1px solid #d4af37; /* Gold border */
+    background-color: #000; /* Dark input field */
+    color: #d4af37; /* Gold text */
+    text-align: center;
+}
