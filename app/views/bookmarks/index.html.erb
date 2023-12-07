@@ -28,28 +28,7 @@
         gap: 10px;
     }
 
-    /* Search and Filters */
-    .search-and-filter {
-        display: flex;
-        justify-content: space-between;
-        padding: 20px;
-        background-color: #0a0a0a;
-    }
-    .search-form {
-        flex-grow: 2;
-        margin-right: 10px;
-    }
-    .filter-form {
-        flex-grow: 1;
-    }
-    .search-field, .min-price-field, .max-price-field, .category-select {
-        width: 100%;
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #d4af37;
-        background-color: #000000;
-        color: #d4af37;
-    }
+
 
     .bookmark-icon {
         position: absolute;
@@ -232,6 +211,17 @@
         </div>
       <% end %>
     <% end %>
+  </div>
+  <div id="descriptionModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeDescriptionModal()">&times;</span>
+      <h2 class="listing-title" id="modalTitle"></h2>
+      <h2 class="listing-price" id="modalPrice"></h2>
+      <h2 class="listing-seller" id="modalSeller"></h2>
+      <div class="listing-eggs" id="modalEggs"></div>
+      <p id="modalDescription"></p>
+      <div id="modalTags"></div>
+    </div>
   </div>
 <% end %>
 
