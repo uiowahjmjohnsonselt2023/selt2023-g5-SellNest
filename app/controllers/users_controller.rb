@@ -25,7 +25,10 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = current_user
+    @total_profit = Listing.where(user_id: @user.id, is_sold: true).sum(:price) * 0.95
+    @active_listings =  Listing.where(user_id: @user.id, is_sold: false).count
+    @items_listed = Listing.where(user_id: @user.id,).count
   end
 
   def become_seller

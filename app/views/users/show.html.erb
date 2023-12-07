@@ -105,6 +105,39 @@
       #active-listings.active, #order-history.active, #sold-listings.active {
           display: block; /* Shown when active */
       }
+
+      .dashboard-stats {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+          gap: 1rem;
+          margin-top: 2rem;
+      }
+
+      .stat-card {
+          background: #fff;
+          border: 1px solid #eaeaea;
+          border-radius: 8px;
+          padding: 20px;
+          text-align: center;
+          transition: transform 0.3s ease-in-out;
+      }
+
+      .stat-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+
+      .stat-title {
+          font-size: 1.5rem;
+          color: #333;
+          margin: 10px 0;
+      }
+
+      .stat-value {
+          font-size: 2.5rem;
+          font-weight: bold;
+          color: #333;
+      }
   </style>
 </head>
 <body>
@@ -240,31 +273,47 @@
       <% end %>
     </ul>
   </div>
+  <div class="dashboard-stats">
+  <div class="stat-card">
+    <h2 class="stat-title">Total Profits</h2>
+    <p class="stat-value"><%= number_to_currency(@total_profit) %></p>
+  </div>
+
+  <div class="stat-card">
+    <h2 class="stat-title">Active Listings</h2>
+    <p class="stat-value"><%= @active_listings %></p>
+  </div>
+
+  <div class="stat-card">
+    <h2 class="stat-title">Total Items Listed</h2>
+    <p class="stat-value"><%= @items_listed %></p>
+  </div>
+
+  <div class="stat-card">
+    <% reviews = Review.where(listing_id: current_user.listings.pluck(:id)) %>
+    <% full_eggs = reviews.sum(:rating) / reviews.count %>
+    <% remaining_eggs = 5 - full_eggs - 1 %>
+    <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
+    <h2 class="stat-title">Trust Rating: <%= reviews.sum(:rating) / reviews.count.to_f %></h2>
+    <p class="stat-value">
+      <% full_eggs.times do %>
+        <i class="fa-solid fa-egg"></i>
+      <% end %>
+      <% if full_eggs < 5 %>
+        <i class="fa-solid fa-egg" style="filter: invert(<%= partial_egg %>%);"></i>
+      <% end %>
+      <% remaining_eggs.times do %>
+        <i class="fa-solid fa-egg" style="filter: invert(100%);"></i>
+      <% end %>
+      (<%= reviews.count %>)
+    </p>
+  </div>
+  </div>
+
   <div class="reviews-section">
     <h3>User Reviews</h3>
     <% reviews = Review.where(listing_id: current_user.listings.pluck(:id)) %>
     <% if reviews.any? %>
-      <p> Trust Rating: <%= reviews.sum(:rating) / reviews.count.to_f %> (<%= reviews.count %>)</p>
-
-
-
-      <% full_eggs = reviews.sum(:rating) / reviews.count %>
-      <% remaining_eggs = 5 - full_eggs - 1 %>
-      <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
-      <p>
-        <% full_eggs.times do %>
-          <i class="fa-solid fa-egg"></i>
-        <% end %>
-        <% if full_eggs < 5 %>
-          <i class="fa-solid fa-egg" style="filter: invert(<%= partial_egg %>%);"></i>
-        <% end %>
-        <% remaining_eggs.times do %>
-          <i class="fa-solid fa-egg" style="filter: invert(100%);"></i>
-        <% end %>
-      </p>
-
-
-
       <ul>
         <% reviews.each do |review| %>
           <li>
