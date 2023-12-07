@@ -31,6 +31,11 @@
       <% end %>
       <%= link_to 'Profile', user_path(current_user), class: 'btn account-buttons' %>
       <%= button_to "Log Out", destroy_user_session_path, data: {turbo: "false"}, method: :delete, class: 'btn account-buttons' %>
+      <div class="Create">
+        <% if current_user.seller %>
+          <%= link_to 'Create New Listing', new_listing_path, class: "btn account-buttons listing-button" %>
+        <% end %>
+      </div>
     <% else %>
       <%= button_to 'Login', new_user_session_path, class: "btn account-buttons" %>
       <%= link_to 'Signup', new_user_registration_path, class: 'btn account-buttons' %>
@@ -65,11 +70,6 @@
   </div>
   <%= submit_tag "Filter", class: "btn filter-button" %>
 <% end %>
-</div>
-<div class="Create">
-  <% if current_user.seller %>
-    <%= link_to 'Create New Listing', new_listing_path, class: "btn account-buttons listing-button" %>
-  <% end %>
 </div>
 <main>
   <div class="listings-container">
