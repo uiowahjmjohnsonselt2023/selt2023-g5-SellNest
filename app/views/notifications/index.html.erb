@@ -1,47 +1,12 @@
-<style>
-    body {
-        background-color: #1a1a1a; /* Black background */
-    }
-    h1 {
-        color: #d4af37;
-        text-align: center;
-        padding: 20px 0;
-    }
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-    .notification-item {
-        background-color: #222;
-        border: 1px solid #d4af37;
-        color: #d4af37;
-        padding: 10px;
-        margin-bottom: 10px;
-    }
-    form {
-        display: inline;
-    }
-    input[type="submit"] {
-        background-color: #d4af37;
-        color: #0a0a0a;
-        padding: 5px 10px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-    .btn {
-        background-color: #d4af37;
-        color: #0a0a0a;
-        padding: 10px 15px;
-        text-decoration: none;
-        border-radius: 10px;
-    }
-</style>
-
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Notifications</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <%= stylesheet_link_tag 'notifications', media: 'all', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
 <h1>Notifications</h1>
-<div class="continue-shopping">
-  <%= link_to 'Continue Shopping', root_path, class: 'btn' %>
-</div>
 <ul>
   <% if @notifications.any? %>
     <% @notifications.each do |notification| %>
@@ -58,7 +23,9 @@
     </li>
   <% end %>
 </ul>
-
+<div class="continue-shopping">
+  <%= link_to 'Continue Shopping', root_path, class: 'btn' %>
+</div>
 <script>
     document.addEventListener('ajax:success', function(event) {
         var element = event.target;
@@ -70,3 +37,5 @@
         }
     });
 </script>
+</body>
+</html>

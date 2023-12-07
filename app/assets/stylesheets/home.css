@@ -52,37 +52,8 @@ body {
     position: relative;
 }
 
-.search-field {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.25rem;
-    border: 1px solid #d4af37; /* Gold border */
-    background-color: #000; /* Dark input field */
-    color: #d4af37; /* Gold text */
-    text-align: center;
-}
-
 .search-field::placeholder {
     color: #d4af37; /* Gold placeholder text */
-}
-
-.search-button {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.25rem;
-    background-color: #d4af37; /* Gold button */
-    color: #0a0a0a; /* Dark text */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Filter and sort container */
-.filters-container, .sort-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
 }
 
 .filter-form, .sort-container {
@@ -252,5 +223,55 @@ input[type="text"], select {
 
     .search-and-filter, .filters-container, .sort-container {
         flex-direction: column;
+    }
+}
+
+
+
+/* Search field style */
+.search-field {
+    /* Other styles remain the same */
+    padding-right: 3rem; /* Make room for the search icon */
+}
+
+/* Search icon button */
+.search-button {
+    position: absolute;
+    right: 10px; /* Position it inside the search field */
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+}
+
+/* Sort and filter styles */
+.sort-container, .filters-container {
+    padding: 0.5rem; /* Reduce padding */
+    background-color: #333; /* Adjust to your preferred color */
+    border-radius: 5px;
+}
+
+/* Buttons and inputs style */
+.btn, .search-field, input[type="text"], select {
+    padding: 0.5rem; /* Uniform padding */
+    margin: 0.25rem; /* Reduce margins */
+}
+
+/* Grouping containers */
+.group-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Adjust spacing between elements */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+/* Responsive adjustments for better spacing */
+@media (max-width: 768px) {
+    .group-container {
+        flex-direction: column;
+    }
+
+    .btn, .search-field, input[type="text"], select {
+        width: 100%; /* Full width on small screens */
     }
 }

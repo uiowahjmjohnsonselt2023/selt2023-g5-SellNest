@@ -43,11 +43,14 @@
   </div>
 </div>
 <div class="search-container">
-    <%= form_tag(root_path, method: :get, class: "search-form") do %>
-      <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
-      <%= submit_tag "Search", name: nil, class: "search-button" %>
-    <% end %>
+  <%= form_tag(root_path, method: :get, class: "search-form") do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
+    <button type="submit" class="search-button">
+      <i class="fas fa-search"></i>
+    </button>
+  <% end %>
 </div>
+<div class="group-container">
 <div class="sort-container">
   <%= link_to 'Price Low to High', root_path(sort: 'price_asc'), class: 'btn' %>
   <%= link_to 'Price High to Low', root_path(sort: 'price_desc'), class: 'btn' %>
@@ -70,6 +73,7 @@
   </div>
   <%= submit_tag "Filter", class: "btn filter-button" %>
 <% end %>
+</div>
 </div>
 <main>
   <div class="listings-container">

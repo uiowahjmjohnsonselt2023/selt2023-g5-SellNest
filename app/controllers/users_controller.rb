@@ -68,6 +68,14 @@ class UsersController < ApplicationController
 
     redirect_to root_path
   end
+
+  @total_sales_over_time = Order.where(status: 'complete').group_by_day(:created_at).sum(:total)
+  @chart_data2 = @total_sales_over_time.map do |date, total|
+    [date.to_date.strftime("%Y-%m-%d"), total.to_f]
+  end
+
+  @tagged_listings2 = Tag.joins(:listings).group('tags.name').count
+
   private
 
   def user_params

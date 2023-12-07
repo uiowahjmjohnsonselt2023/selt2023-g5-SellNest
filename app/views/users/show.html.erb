@@ -6,139 +6,7 @@
   <title>User Profile</title>
   <script src="https://kit.fontawesome.com/d968c2f6ce.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-      body {
-          font-family: Arial, sans-serif;
-          margin: 0;
-          padding: 0;
-          background-color: #1a1a1a; /* Updated background color */
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          flex-direction: column;
-          color: #d4af37; /* Updated text color */
-      }
-      .container {
-          text-align: center;
-          background-color: #333; /* Updated background color for containers */
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0px 0px 10px 0px rgba(255, 215, 0, 0.5); /* Updated shadow color */
-          position: relative;
-      }
-      h2 {
-          color: #d4af37; /* Updated text color */
-      }
-      .btn-primary {
-          background-color: #ffd700; /* Updated button colors */
-          color: #0a0a0a;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: background-color 0.3s;
-      }
-      .btn-primary:hover {
-          background-color: #e6c300; /* Darken on hover */
-      }
-      .text-logo {
-          color: #ffd700; /* Updated text color */
-          margin-bottom: 20px;
-      }
-      .user-info {
-          margin-bottom: 20px;
-      }
-      .action-button {
-          margin-bottom: 10px;
-      }
-      .middle-section {
-          width: 100%;
-      }
-      .main-container {
-          padding: 20px;
-      }
-      .button-container {
-          margin-bottom: 20px;
-      }
-      .profile-container{
-          min-height: 100px;
-          overflow: visible;
-      }
-      .profile-card {
-          width: 100%; /* Set to full width */
-      }
-      .carousel img {
-          object-fit: cover; /* Update to cover to ensure images fill the element */
-      }
-      .toggle-container {
-          display: flex; /* Use flexbox for toggle buttons */
-          justify-content: center; /* Center the toggle buttons */
-          gap: 10px; /* Space them out a bit */
-      }
-      .toggle-label {
-          background-color: #333; /* Match the background */
-          color: #d4af37; /* Match the text color */
-          padding: 5px 10px;
-          border-radius: 5px;
-      }
-      .content {
-          background-color: #222; /* Dark background for content */
-          color: #d4af37; /* Text color */
-          padding: 10px; /* Padding inside content areas */
-          margin-top: 10px; /* Space above content areas */
-          border-radius: 5px; /* Rounded corners for content areas */
-      }
-      .review-button, .edit-button {
-          background-color: #444; /* Darker background for buttons */
-          color: #ffd700; /* Golden text */
-          margin: 5px 0; /* Space around buttons */
-      }
-      @media (max-width: 768px) {
-          .profile-container {
-              flex-direction: column;
-          }
-      }
-      #order-history, #active-listings, #sold-listings {
-          display: none; /* Initially hidden */
-      }
-      #active-listings.active, #order-history.active, #sold-listings.active {
-          display: block; /* Shown when active */
-      }
-
-      .dashboard-stats {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-          gap: 1rem;
-          margin-top: 2rem;
-      }
-
-      .stat-card {
-          background: #fff;
-          border: 1px solid #eaeaea;
-          border-radius: 8px;
-          padding: 20px;
-          text-align: center;
-          transition: transform 0.3s ease-in-out;
-      }
-
-      .stat-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      }
-
-      .stat-title {
-          font-size: 1.5rem;
-          color: #333;
-          margin: 10px 0;
-      }
-
-      .stat-value {
-          font-size: 2.5rem;
-          font-weight: bold;
-          color: #333;
-      }
-  </style>
+  <%= stylesheet_link_tag 'user', media: 'all', 'data-turbolinks-track': 'reload' %>
 </head>
 <body>
 <div class="profile-card">
@@ -180,7 +48,7 @@
           Sold Listings
         </label>
       </div>
-
+<div class="container">
   <div id="order-history" class="content">
     <h2>Order History</h2>
     <ul>
@@ -205,9 +73,7 @@
       <% end %>
     </ul>
   </div>
-
-
-      <div id="active-listings" class="content" style="display: none;">
+  <div id="active-listings" class="content" style="display: none;">
         <h2>Active Listings</h2>
         <ul>
           <% active_listings = Listing.where(user_id: @user.id, is_sold: false) %>
@@ -239,7 +105,6 @@
           <% end %>
         </ul>
       </div>
-
   <div id="sold-listings" class="content" style="display: none;">
     <h2>Sold Listings</h2>
     <ul>
@@ -273,20 +138,23 @@
       <% end %>
     </ul>
   </div>
+</div>
+
+<div class="container">
   <div class="dashboard-stats">
   <div class="stat-card">
     <h2 class="stat-title">Total Profits</h2>
-    <p class="stat-value"><%= number_to_currency(@total_profit) %></p>
+    <p class="value"><%= number_to_currency(@total_profit) %></p>
   </div>
 
   <div class="stat-card">
     <h2 class="stat-title">Active Listings</h2>
-    <p class="stat-value"><%= @active_listings %></p>
+    <p class="value"><%= @active_listings %></p>
   </div>
 
   <div class="stat-card">
     <h2 class="stat-title">Total Items Listed</h2>
-    <p class="stat-value"><%= @items_listed %></p>
+    <p class="value"><%= @items_listed %></p>
   </div>
 
   <div class="stat-card">
@@ -316,8 +184,15 @@
       (<%= num_reviews %>)
     </p>
   </div>
-  </div>
+    <div class="stat-card">
+      <%= pie_chart @tagged_listings2, id: "tag-pie-chart", library: { title: "Listings by Tag" } %>
+    </div>
 
+    <div class="stat-card">
+      <%= bar_chart @chart_data2 %>
+    </div>
+  </div>
+  </div>
   <div class="reviews-section">
     <h3>User Reviews</h3>
     <% reviews = Review.where(listing_id: current_user.listings.pluck(:id)) %>
@@ -336,6 +211,7 @@
     <% end %>
   </div>
 <% end %>
+
   <div id="order-history" class="content">
     <h2>Order History</h2>
     <ul>
@@ -360,7 +236,6 @@
       <% end %>
     </ul>
   </div>
-
 </div>
 
   <script>
