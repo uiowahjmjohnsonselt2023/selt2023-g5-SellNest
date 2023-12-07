@@ -47,10 +47,12 @@ end
 # Create Orders
 orders = []
 users.sample(10).each do |user|
+  created_at = Faker::Date.between(from: 10.days.ago, to: Date.today)
   orders << Order.create!(
     user: user,
     total: listings.sample(rand(1..3)).sum(&:price),
-    status: 'complete'
+    status: 'complete',
+    created_at: created_at,
   )
 end
 

@@ -71,18 +71,19 @@
       }
 
       .scrollable-container {
-          ; /* Set your desired fixed height */
-           /* Enable vertical scrollbar if content exceeds the container height */
+          max-height: 400px;
+          overflow-y: auto;
+          background-color: #fff;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
 
       /* Improved styling for the container */
       .container {
           background-color: #fff;
-          max-height: 400px
           border-radius: 8px;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
           margin-top: 20px;
-          overflow: hidden;
           overflow-y: auto;
       }
 
@@ -190,7 +191,7 @@
       <%= bar_chart @chart_data %>
     </div>
 
-    <div class="container">
+    <div class="scrollable-container">
       <h2>All Users</h2>
       <ul>
         <% @all_users.each do |user| %>
@@ -203,7 +204,7 @@
       </ul>
     </div>
 
-    <div class="container">
+    <div class="scrollable-container">
       <h2>All Listings</h2>
       <ul>
         <% @all_listings.each do |listing| %>
@@ -214,7 +215,7 @@
       </ul>
     </div>
 
-    <div class="container">
+    <div class="scrollable-container">
       <h2>All Orders</h2>
       <ul>
         <% @all_orders.each do |order| %>
