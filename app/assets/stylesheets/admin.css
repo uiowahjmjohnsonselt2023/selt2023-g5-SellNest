@@ -65,6 +65,14 @@ body {
     margin-bottom: 20px;
 }
 
+.scrollable-container {
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: #222;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* Style adjustments for containers */
 .container {
     background-color: #333; /* Dark background for content */

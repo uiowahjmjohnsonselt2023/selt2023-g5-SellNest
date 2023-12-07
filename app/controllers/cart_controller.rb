@@ -37,7 +37,7 @@ class CartController < ApplicationController
           item.listing.update(is_sold: true)
           Notification.create!(
             user: item.listing.user,
-            content: "Your item '#{item.listing}' has been sold!",
+            content: "Your item #{item.listing.name} has been sold!",
             read: false
           )
         end
@@ -46,7 +46,7 @@ class CartController < ApplicationController
         @cart.cart_items.destroy_all
       end
 
-      redirect_to order_path(order), notice: 'Thank you for your purchase!'
+      redirect_to user_path(current_user.id), notice: 'Thank you for your purchase!'
     else
       redirect_to cart_path, alert: 'Your cart is empty.'
     end

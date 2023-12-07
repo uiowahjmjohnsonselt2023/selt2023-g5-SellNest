@@ -68,7 +68,7 @@
       <%= bar_chart @chart_data %>
     </div>
 
-    <div class="container">
+    <div class="scrollable-container stat-card">
       <h2>All Users</h2>
       <ul>
         <% @all_users.each do |user| %>
@@ -81,7 +81,7 @@
       </ul>
     </div>
 
-    <div class="container">
+    <div class="scrollable-container stat-card">
       <h2>All Listings</h2>
       <ul>
         <% @all_listings.each do |listing| %>
@@ -92,13 +92,13 @@
       </ul>
     </div>
 
-    <div class="container">
+    <div class="scrollable-container stat-card">
       <h2>All Orders</h2>
       <ul>
         <% @all_orders.each do |order| %>
           <% if order.status == 'complete' %>
             <li>
-              <%= order.total %> (ID: <%= order.id %>)
+              <%= number_to_currency(order.total) %> (ID: <%= order.id %>)
               <%= button_to "Refund", refund_order_path(order), method: :post, data: { confirm: "Are you sure you want to refund this order?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
             </li>
           <% end %>
