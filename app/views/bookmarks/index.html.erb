@@ -186,7 +186,7 @@
     <% @bookmarks.each do |bookmark| %>
       <% listing = bookmark.listing %>
       <% unless listing.is_sold %>
-        <div class="grid-item">
+        <div class="grid-item" data-listing-id="<%= listing.id %>">
           <div class="carousel-container">
             <%if user_signed_in? %>
               <% if current_user && current_user.bookmarked?(listing) %>
@@ -304,11 +304,10 @@
         })
           .then(response => {
               if (response.ok) {
-                  // Handle success
-                  const bookmarkIcon = document.querySelector(`.bookmark-icon[data-listing-id="${listingId}"]`);
-                  if (bookmarkIcon) {
-                      bookmarkIcon.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
-                      bookmarkIcon.setAttribute('onclick', `addBookmark(${listingId})`);
+                  // Handle success by removing the listing container from the DOM
+                  const listingContainer = document.querySelector(`.grid-item[data-listing-id="${listingId}"]`);
+                  if (listingContainer) {
+                      listingContainer.remove();
                   }
               } else {
                   // Handle error
@@ -316,6 +315,7 @@
           })
           .catch(error => console.error('Error:', error));
     }
+
 
     document.addEventListener('ajax:success', function(event) {
         var element = event.target;
