@@ -37,7 +37,7 @@ class CartController < ApplicationController
           item.listing.update(is_sold: true)
           Notification.create!(
             user: item.listing.user,
-            content: "Your item '#{item.listing}' has been sold!",
+            content: "Your item #{item.listing.name} has been sold!",
             read: false
           )
         end
