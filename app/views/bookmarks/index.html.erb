@@ -1,61 +1,181 @@
 <style>
+    /* Global Styles */
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
     body {
-        background-color: #1a1a1a; /* Black background */
-    }
-    .header {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #1a1a1a;
         color: #d4af37;
-        text-align: center;
-        padding: 20px 0;
     }
-    .continue-shopping {
-        text-align: center;
-        margin-bottom: 20px;
+
+    /* Header Styles */
+    .header {
+        background-color: #0a0a0a;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
-    .btn {
-        background-color: #d4af37;
-        color: #0a0a0a;
-        padding: 10px 15px;
-        text-decoration: none;
-        border-radius: 10px;
+    .header h1 {
+        margin: 0;
+        color: #d4af37;
     }
+    .header .button-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    /* Search and Filters */
+    .search-and-filter {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        background-color: #0a0a0a;
+    }
+    .search-form {
+        flex-grow: 2;
+        margin-right: 10px;
+    }
+    .filter-form {
+        flex-grow: 1;
+    }
+    .search-field, .min-price-field, .max-price-field, .category-select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #d4af37;
+        background-color: #000000;
+        color: #d4af37;
+    }
+
+    .bookmark-icon {
+        position: absolute;
+        top: 10px; /* Adjust top position as needed */
+        right: 10px; /* Adjust right position as needed */
+        z-index: 999; /* Ensure it's above the picture */
+        cursor: pointer;
+        background: #fff; /* Background color for the icon */
+        border-radius: 50%; /* Rounded shape for the icon */
+        padding: 5px;
+    }
+    .bookmark-icon i {
+        color: #FFD700; /* Adjust the icon color */
+    }
+
+
+    /* Listings Container */
     .listings-container {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: space-around;
         padding: 20px;
     }
     .grid-item {
         background-color: #222;
-        color: #d4af37;
         border: 1px solid #d4af37;
         padding: 10px;
         margin: 10px;
         width: calc(33.333% - 20px);
         box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4);
     }
-    .listing-title {
-        color: #d4af37;
-        text-decoration: none;
+
+    .listing-created-at {
+        display: none;
     }
-    .listing-price {
-        color: #d4af37;
+
+    .listing-buttons {
+        display: flex;
+        justify-content: space-between;
     }
-    .listing-description {
-        color: #d4af37;
+
+    /* Buttons */
+    .btn, .button-login, .button-signup, .search-button {
+        padding: 10px 15px;
+        background-color: #d4af37;
+        color: #0a0a0a;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.2s;
     }
+
+    .carousel-container {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover {
+        color: black;
+    }
+    .carousel-container {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+
+    }
+
+    /* Responsive Design */
     @media (max-width: 768px) {
+        .search-and-filter {
+            flex-direction: column;
+        }
         .grid-item {
             width: calc(50% - 20px);
         }
     }
+
     @media (max-width: 480px) {
         .grid-item {
             width: calc(100% - 20px);
         }
+        .header {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    .listing-eggs {
+        padding: 10px;
+        border-radius: 5px;
+        color: #1a1a1a;
     }
 </style>
 
 <h1 class="header">Your Bookmarks</h1>
+<script src="https://kit.fontawesome.com/d968c2f6ce.js" crossorigin="anonymous"></script>
 <div class="continue-shopping">
   <%= link_to 'Continue Shopping', root_path, class: 'btn' %>
 </div>
@@ -64,12 +184,154 @@
 <% else %>
   <div class="listings-container">
     <% @bookmarks.each do |bookmark| %>
-      <div class="grid-item">
-        <%= link_to bookmark.listing.name, listing_path(bookmark.listing), class: "listing-title" %>
-        <p class="listing-price"><%= number_to_currency(bookmark.listing.price, unit: "$", precision: 2) %></p>
-        <p class="listing-description"><%= truncate(bookmark.listing.description, length: 100) %></p>
-        <!-- Add more details as needed -->
-      </div>
+      <% listing = bookmark.listing %>
+      <% unless listing.is_sold %>
+        <div class="grid-item">
+          <div class="carousel-container">
+            <%if user_signed_in? %>
+              <% if current_user && current_user.bookmarked?(listing) %>
+                <div class="bookmark-icon" onclick="removeListing(<%= listing.id %>)" id="solidBookmark" data-listing-id="<%= listing.id %>">
+                  <i class="fa-solid fa-bookmark"></i>
+                </div>
+              <% end %>
+            <% end %>
+
+            <div class="carousel">
+              <% listing.photos.each do |photo| %>
+                <%= image_tag(photo, width: '100%', height: 'auto') %>
+              <% end %>
+            </div>
+            <% if listing.photos.length > 1 %>
+              <div class="carousel-controls">
+                <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+              </div>
+            <% end %>
+          </div>
+          <h2 class="listing-title"><%= listing.name %></h2>
+          <h2 class="listing-price"><%= number_to_currency(listing.price, unit: "$", precision: 2) %></h2>
+          <div class="listing-created-at">
+            <%= listing.created_at.strftime('%Y-%m-%d') %>
+          </div>
+          <div class="listing-buttons">
+            <% reviews = Review.where(listing_id: listing.user.listings.pluck(:id)) %>
+            <% if reviews.any? %>
+              <% full_eggs = reviews.sum(:rating) / reviews.count %>
+              <% remaining_eggs = 5 - full_eggs - 1 %>
+              <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
+              <% num_reviews = reviews.count %>
+            <% else %>
+              <% full_eggs = 0 %>
+              <% remaining_eggs = 5 %>
+              <% partial_egg = 100 %>
+              <% num_reviews = 0 %>
+            <% end %>
+            <button class="btn" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= listing.tags.to_json %>', '<%= listing.user.email.split('@').first %>', '<%= num_reviews %>', '<%= full_eggs %>', '<%= remaining_eggs %>', '<%= partial_egg %>')">Details</button>
+            <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn' %>
+          </div>
+        </div>
+      <% end %>
     <% end %>
   </div>
 <% end %>
+
+<script>
+    function prevSlide(button) {
+        const carousel = button.parentElement.previousElementSibling;
+        carousel.appendChild(carousel.firstElementChild);
+    }
+
+    function nextSlide(button) {
+        const carousel = button.parentElement.previousElementSibling;
+        carousel.prepend(carousel.lastElementChild);
+    }
+
+    function showDescriptionModal(title, price, description, tags, seller, num_reviews, full_eggs, remaining_eggs, partial_egg) {
+        const modal = document.getElementById('descriptionModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalSeller = document.getElementById('modalSeller')
+        const modalTags = document.getElementById('modalTags');
+        const parsedTags = JSON.parse(tags);
+
+        modalTitle.innerHTML = title;
+        modalPrice.innerHTML = price;
+        modalDescription.innerHTML = 'Description: ' + description;
+        modalSeller.innerText = 'Seller: ' + seller;
+
+        const eggsContainer = document.getElementById('modalEggs');
+        eggsContainer.innerHTML = '';
+
+        for (let i = 0; i < full_eggs; i++) {
+            eggsContainer.innerHTML += '<i class="fa-solid fa-egg"></i>';
+        }
+        if (full_eggs < 5) {
+            eggsContainer.innerHTML += `<i class="fa-solid fa-egg" style="filter: invert(${partial_egg}%);"></i>`;
+        }
+        for (let i = 0; i < remaining_eggs; i++) {
+            eggsContainer.innerHTML += '<i class="fa-solid fa-egg" style="filter: invert(100%);"></i>';
+        }
+
+        eggsContainer.innerHTML += (' (' + num_reviews + ')')
+
+        // Clear previous tags before adding new ones
+        modalTags.innerHTML = '';
+
+        // Check if tags is defined and not empty before processing
+        if (parsedTags && parsedTags.length > 0) {
+            const isPlural = parsedTags.length > 1 ? 'Categories:' : 'Category:';
+            modalTags.textContent = `${isPlural} ${parsedTags.map((tag, index) => (index === 0 ? tag.name : ` ${tag.name}`)).join(',')}`;
+        }
+
+        modal.style.display = 'flex';
+    }
+
+    function closeDescriptionModal() {
+        const modal = document.getElementById('descriptionModal');
+        modal.style.display = 'none';
+    }
+
+
+    function removeListing(listingId) {
+        fetch(`/bookmarks/${listingId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': '<%= form_authenticity_token %>'
+            },
+            credentials: 'same-origin'
+        })
+          .then(response => {
+              if (response.ok) {
+                  // Handle success
+                  const bookmarkIcon = document.querySelector(`.bookmark-icon[data-listing-id="${listingId}"]`);
+                  if (bookmarkIcon) {
+                      bookmarkIcon.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+                      bookmarkIcon.setAttribute('onclick', `addBookmark(${listingId})`);
+                  }
+              } else {
+                  // Handle error
+              }
+          })
+          .catch(error => console.error('Error:', error));
+    }
+
+    document.addEventListener('ajax:success', function(event) {
+        var element = event.target;
+        if(element.classList.contains('mark-as-read')) {
+            element.closest('.notification-item').remove();
+            // Update notification count somewhere in your header
+            var notificationCount = document.querySelector('.notification-count');
+            notificationCount.textContent = parseInt(notificationCount.textContent) - 1;
+        }
+    });
+
+    // Close modal if the user clicks outside the modal content
+    window.onclick = function(event) {
+        const modal = document.getElementById('descriptionModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+</script>
