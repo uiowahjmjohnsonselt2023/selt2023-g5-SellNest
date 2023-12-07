@@ -1,160 +1,16 @@
-<style>
-    /* Global Styles */
-    *, *::before, *::after {
-        box-sizing: border-box;
-    }
-    body {
-        font-family: 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #1a1a1a;
-        color: #d4af37;
-    }
-
-    /* Header Styles */
-    .header {
-        background-color: #0a0a0a;
-        padding: 10px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .header h1 {
-        margin: 0;
-        color: #d4af37;
-    }
-    .header .button-group {
-        display: flex;
-        gap: 10px;
-    }
-
-
-
-    .bookmark-icon {
-        position: absolute;
-        top: 10px; /* Adjust top position as needed */
-        right: 10px; /* Adjust right position as needed */
-        z-index: 999; /* Ensure it's above the picture */
-        cursor: pointer;
-        background: #fff; /* Background color for the icon */
-        border-radius: 50%; /* Rounded shape for the icon */
-        padding: 5px;
-    }
-    .bookmark-icon i {
-        color: #FFD700; /* Adjust the icon color */
-    }
-
-
-    /* Listings Container */
-    .listings-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        padding: 20px;
-    }
-    .grid-item {
-        background-color: #222;
-        border: 1px solid #d4af37;
-        padding: 10px;
-        margin: 10px;
-        width: calc(33.333% - 20px);
-        box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4);
-    }
-
-    .listing-created-at {
-        display: none;
-    }
-
-    .listing-buttons {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    /* Buttons */
-    .btn, .button-login, .button-signup, .search-button {
-        padding: 10px 15px;
-        background-color: #d4af37;
-        color: #0a0a0a;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-
-    .carousel-container {
-        position: relative;
-        overflow: hidden;
-        display: inline-block;
-    }
-
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-content {
-        background-color: white;
-        padding: 20px;
-        border-radius: 5px;
-        max-width: 600px;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .close:hover {
-        color: black;
-    }
-    .carousel-container {
-        position: relative;
-        overflow: hidden;
-        display: inline-block;
-
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .search-and-filter {
-            flex-direction: column;
-        }
-        .grid-item {
-            width: calc(50% - 20px);
-        }
-    }
-
-    @media (max-width: 480px) {
-        .grid-item {
-            width: calc(100% - 20px);
-        }
-        .header {
-            flex-direction: column;
-            align-items: center;
-        }
-    }
-
-    .listing-eggs {
-        padding: 10px;
-        border-radius: 5px;
-        color: #1a1a1a;
-    }
-</style>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SellNest</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://kit.fontawesome.com/d968c2f6ce.js" crossorigin="anonymous"></script>
+  <%= stylesheet_link_tag 'home', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
 <h1 class="header">Your Bookmarks</h1>
-<script src="https://kit.fontawesome.com/d968c2f6ce.js" crossorigin="anonymous"></script>
 <div class="continue-shopping">
   <%= link_to 'Continue Shopping', root_path, class: 'btn' %>
 </div>
@@ -325,3 +181,5 @@
         }
     };
 </script>
+</body>
+</html>
