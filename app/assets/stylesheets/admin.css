@@ -1,0 +1,126 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1a1a1a; /* Change to dark background */
+    margin: 0;
+    padding: 0;
+}
+
+.text-logo{
+    color: #d4af37; /* Gold text */
+}
+.text-logo:hover{
+    color: #f6cb3f; /* Gold text */
+}
+
+.dashboard-header {
+    background: #0a0a0a; /* Change to dark header */
+    padding: 20px 0;
+    border-bottom: 2px solid #d4af37; /* Gold border */
+    text-align: center;
+    color: #d4af37; /* Gold text */
+}
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.stat-card {
+    background: #222; /* Darker cards */
+    border: 1px solid #d4af37; /* Gold border */
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    color: #d4af37; /* Gold text */
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.5); /* Gold shadow */
+}
+
+.stat-title {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 15px;
+}
+
+.text-logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+/* Style adjustments for containers */
+.container {
+    background-color: #333; /* Dark background for content */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    padding: 20px; /* Add padding */
+}
+
+/* Style adjustments for headings */
+.container h2 {
+    background-color: #0a0a0a; /* Dark background for headers */
+    color: #d4af37; /* Gold text */
+    padding: 10px;
+    margin: 0;
+}
+
+/* Style adjustments for lists */
+.container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style adjustments for list items */
+.container li {
+    border-bottom: 1px solid #d4af37; /* Gold border */
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #d4af37; /* Gold text */
+}
+
+/* Style adjustments for buttons */
+.container li button {
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out; /* Smooth transition for hover */
+}
+
+/* Adjustments for the ban/remove buttons */
+.container li button.btn-danger {
+    background-color: #dc3545; /* Keep the red color for delete buttons */
+    color: #fff;
+}
+
+.container li button:hover {
+    background-color: #d4af37; /* Gold background on hover */
+    color: #0a0a0a; /* Dark text on hover */
+}
+
+/* Hover effect for list items */
+.container li:hover {
+    background-color: #1a1a1a; /* Dark background on hover */
+}
+
+/* Add custom styles here for other elements as needed */
