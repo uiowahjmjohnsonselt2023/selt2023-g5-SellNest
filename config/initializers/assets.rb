@@ -10,6 +10,7 @@ Rails.application.config.assets.precompile += %w( cart.css )
 Rails.application.config.assets.precompile += %w( chartkick.js )
 Rails.application.config.assets.precompile += %w( home.css )
 Rails.application.config.assets.precompile += %w( admin.css )
+Rails.application.config.assets.precompile += %w( devise.css )
 Rails.application.config.assets.precompile += %w( create-listing.css )
 
 
