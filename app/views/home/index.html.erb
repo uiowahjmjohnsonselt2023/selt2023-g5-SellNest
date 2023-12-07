@@ -6,182 +6,8 @@
   <title>SellNest</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <script src="https://kit.fontawesome.com/d968c2f6ce.js" crossorigin="anonymous"></script>
+  <%= stylesheet_link_tag 'home', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <style>
-      /* Global Styles */
-      *, *::before, *::after {
-          box-sizing: border-box;
-      }
-      body {
-          font-family: 'Arial', sans-serif;
-          margin: 0;
-          padding: 0;
-          background-color: #1a1a1a;
-          color: #d4af37;
-      }
-
-      /* Header Styles */
-      .header {
-          background-color: #0a0a0a;
-          padding: 10px 20px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-      }
-      .header h1 {
-          margin: 0;
-          color: #d4af37;
-      }
-      .header .button-group {
-          display: flex;
-          gap: 10px;
-      }
-
-      /* Search and Filters */
-      .search-and-filter {
-          display: flex;
-          justify-content: space-between;
-          padding: 20px;
-          background-color: #0a0a0a;
-      }
-      .search-form {
-          flex-grow: 2;
-          margin-right: 10px;
-      }
-      .filter-form {
-          flex-grow: 1;
-      }
-      .search-field, .min-price-field, .max-price-field, .category-select {
-          width: 100%;
-          padding: 10px;
-          border-radius: 5px;
-          border: 1px solid #d4af37;
-          background-color: #000000;
-          color: #d4af37;
-      }
-
-      .bookmark-icon {
-          position: absolute;
-          top: 10px; /* Adjust top position as needed */
-          right: 10px; /* Adjust right position as needed */
-          z-index: 999; /* Ensure it's above the picture */
-          cursor: pointer;
-          background: #fff; /* Background color for the icon */
-          border-radius: 50%; /* Rounded shape for the icon */
-          padding: 5px;
-      }
-      .bookmark-icon i {
-          color: #FFD700; /* Adjust the icon color */
-      }
-
-
-      /* Listings Container */
-      .listings-container {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-around;
-          padding: 20px;
-      }
-      .grid-item {
-          background-color: #222;
-          border: 1px solid #d4af37;
-          padding: 10px;
-          margin: 10px;
-          width: calc(33.333% - 20px);
-          box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4);
-      }
-
-      .listing-created-at {
-          display: none;
-      }
-
-      .listing-buttons {
-          display: flex;
-          justify-content: space-between;
-      }
-
-      /* Buttons */
-      .btn, .button-login, .button-signup, .search-button {
-          padding: 10px 15px;
-          background-color: #d4af37;
-          color: #0a0a0a;
-          border: none;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: background-color 0.2s;
-      }
-
-      .carousel-container {
-          position: relative;
-          overflow: hidden;
-          display: inline-block;
-      }
-
-      .modal {
-          display: none;
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.5);
-          justify-content: center;
-          align-items: center;
-      }
-
-      .modal-content {
-          background-color: white;
-          padding: 20px;
-          border-radius: 5px;
-          max-width: 600px;
-          margin: 0 auto;
-          text-align: center;
-      }
-
-      .close {
-          color: #aaa;
-          float: right;
-          font-size: 28px;
-          font-weight: bold;
-          cursor: pointer;
-      }
-
-      .close:hover {
-          color: black;
-      }
-      .carousel-container {
-          position: relative;
-          overflow: hidden;
-          display: inline-block;
-
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-          .search-and-filter {
-              flex-direction: column;
-          }
-          .grid-item {
-              width: calc(50% - 20px);
-          }
-      }
-
-      @media (max-width: 480px) {
-          .grid-item {
-              width: calc(100% - 20px);
-          }
-          .header {
-              flex-direction: column;
-              align-items: center;
-          }
-      }
-
-      .listing-eggs {
-          padding: 10px;
-          border-radius: 5px;
-          color: #1a1a1a;
-      }
-  </style>
 </head>
 <body>
 <div class="header">
@@ -189,7 +15,7 @@
   <div class="button-group">
     <% if user_signed_in? %>
       <% if current_user.email.eql? 'admin@email' %>
-        <%= link_to 'Admin Page', admin_path, class: 'btn' %>
+        <%= link_to 'Admin Page', admin_path, class: 'btn account-buttons' %>
       <% end %>
       <%= link_to cart_path do %>
         <i class="fas fa-shopping-cart btn"></i>
@@ -203,50 +29,51 @@
         <span class="notification-count"><%= current_user.notifications.unread.count %></span>
       </span>
       <% end %>
-      <% if current_user.seller %>
-        <%= link_to 'Create New Listing', new_listing_path, class: "search-button" %>
-      <% end %>
-      <%= link_to 'Profile', user_path(current_user), class: 'btn' %>
-      <%= button_to "Log Out", destroy_user_session_path, data: {turbo: "false"}, method: :delete, class: 'btn' %>
+      <%= link_to 'Profile', user_path(current_user), class: 'btn account-buttons' %>
+      <%= button_to "Log Out", destroy_user_session_path, data: {turbo: "false"}, method: :delete, class: 'btn account-buttons' %>
     <% else %>
-      <%= button_to 'Login', new_user_session_path, class: "button-login" %>
-      <%= link_to 'Signup', new_user_registration_path, class: 'button-signup' %>
+      <%= button_to 'Login', new_user_session_path, class: "btn account-buttons" %>
+      <%= link_to 'Signup', new_user_registration_path, class: 'btn account-buttons' %>
     <% end %>
   </div>
 </div>
-<div class="search-and-filter">
-  <div class="search-container">
+<div class="search-container">
     <%= form_tag(root_path, method: :get, class: "search-form") do %>
       <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
       <%= submit_tag "Search", name: nil, class: "search-button" %>
     <% end %>
+</div>
+<div class="sort-container">
+  <%= link_to 'Price Low to High', root_path(sort: 'price_asc'), class: 'btn' %>
+  <%= link_to 'Price High to Low', root_path(sort: 'price_desc'), class: 'btn' %>
+  <%= link_to 'Newest First', root_path(sort: 'newest'), class: 'btn' %>
+  <%= link_to 'Oldest First', root_path(sort: 'oldest'), class: 'btn' %>
+</div>
+<div class="filters-container">
+<%= form_tag(root_path, method: :get, class: "filter-form") do %>
+  <div class="form-group">
+    <%= label_tag(:min_price, "Minimum Price") %>
+    <%= text_field_tag(:min_price, nil, class: "min-price-field") %>
   </div>
-  <div class="filters-container">
-    <%= form_tag(root_path, method: :get, class: "filter-form") do %>
-      <div class="form-group">
-        <%= label_tag(:min_price, "Minimum Price") %>
-        <%= text_field_tag(:min_price, nil, class: "min-price-field") %>
-      </div>
-      <div class="form-group">
-        <%= label_tag(:max_price, "Maximum Price") %>
-        <%= text_field_tag(:max_price, nil, class: "max-price-field") %>
-      </div>
-      <div class="form-group">
-        <%= label_tag(:tags, "Category") %>
-        <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true, class: "category-select" %>
-      </div>
-      <%= submit_tag "Filter", class: "btn" %>
-    <% end %>
-    <%= link_to 'Price Low to High', root_path(sort: 'price_asc'), class: 'btn' %>
-    <%= link_to 'Price High to Low', root_path(sort: 'price_desc'), class: 'btn' %>
-    <%= link_to 'Newest First', root_path(sort: 'newest'), class: 'btn' %>
-    <%= link_to 'Oldest First', root_path(sort: 'oldest'), class: 'btn' %>
+  <div class="form-group">
+    <%= label_tag(:max_price, "Maximum Price") %>
+    <%= text_field_tag(:max_price, nil, class: "max-price-field") %>
   </div>
+  <div class="form-group">
+    <%= label_tag(:tags, "Category") %>
+    <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true, class: "category-select" %>
+  </div>
+  <%= submit_tag "Filter", class: "btn filter-button" %>
+<% end %>
+</div>
+<div class="Create">
+  <% if current_user.seller %>
+    <%= link_to 'Create New Listing', new_listing_path, class: "btn account-buttons listing-button" %>
+  <% end %>
 </div>
 <main>
   <div class="listings-container">
     <% @listings.each do |listing| %>
-
       <% unless listing.is_sold %>
         <div class="grid-item">
           <div class="carousel-container">
@@ -292,8 +119,8 @@
               <% partial_egg = 100 %>
               <% num_reviews = 0 %>
             <% end %>
-            <button class="btn" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= listing.tags.to_json %>', '<%= listing.user.email.split('@').first %>', '<%= num_reviews %>', '<%= full_eggs %>', '<%= remaining_eggs %>', '<%= partial_egg %>')">Details</button>
-            <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn' %>
+            <button class="btn details-button" onclick="showDescriptionModal('<%= listing.name %>', '<%= number_to_currency(listing.price, unit: "$", precision: 2) %>', '<%= listing.description %>', '<%= listing.tags.to_json %>', '<%= listing.user.email.split('@').first %>', '<%= num_reviews %>', '<%= full_eggs %>', '<%= remaining_eggs %>', '<%= partial_egg %>')">Details</button>
+            <%= button_to 'Add to Cart', add_item_to_cart_path(listing), method: :post, class: 'btn add-to-cart-button' %>
           </div>
         </div>
       <% end %>
@@ -351,10 +178,8 @@
 
         eggsContainer.innerHTML += (' (' + num_reviews + ')')
 
-        // Clear previous tags before adding new ones
         modalTags.innerHTML = '';
 
-        // Check if tags is defined and not empty before processing
         if (parsedTags && parsedTags.length > 0) {
             const isPlural = parsedTags.length > 1 ? 'Categories:' : 'Category:';
             modalTags.textContent = `${isPlural} ${parsedTags.map((tag, index) => (index === 0 ? tag.name : ` ${tag.name}`)).join(',')}`;
@@ -379,14 +204,12 @@
         })
             .then(response => {
                 if (response.ok) {
-                    // Handle success
                     const bookmarkIcon = document.querySelector(`.bookmark-icon[data-listing-id="${listingId}"]`);
                     if (bookmarkIcon) {
                         bookmarkIcon.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
                         bookmarkIcon.setAttribute('onclick', `removeBookmark(${listingId})`);
                     }
                 } else {
-                    // Handle error
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -403,14 +226,12 @@
         })
             .then(response => {
                 if (response.ok) {
-                    // Handle success
                     const bookmarkIcon = document.querySelector(`.bookmark-icon[data-listing-id="${listingId}"]`);
                     if (bookmarkIcon) {
                         bookmarkIcon.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
                         bookmarkIcon.setAttribute('onclick', `addBookmark(${listingId})`);
                     }
                 } else {
-                    // Handle error
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -420,13 +241,11 @@
         var element = event.target;
         if(element.classList.contains('mark-as-read')) {
             element.closest('.notification-item').remove();
-            // Update notification count somewhere in your header
             var notificationCount = document.querySelector('.notification-count');
             notificationCount.textContent = parseInt(notificationCount.textContent) - 1;
         }
     });
 
-    // Close modal if the user clicks outside the modal content
     window.onclick = function(event) {
         const modal = document.getElementById('descriptionModal');
         if (event.target === modal) {
