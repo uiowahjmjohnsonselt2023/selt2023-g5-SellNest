@@ -32,12 +32,14 @@ gem 'jbuilder'
 
 gem 'carrierwave'
 
+
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 1.1.0', group: :doc
 gem 'devise'
 
 gem 'omniauth-google-oauth2'
 gem "omniauth-rails_csrf_protection"
+gem 'dotenv-rails', groups: [:development, :test]
 
 
 gem 'image_processing', '~> 1.2'
@@ -57,6 +59,7 @@ gem 'bootstrap-datepicker-rails'
 
 gem 'chartkick'
 gem 'groupdate'
+gem 'faker'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -68,7 +71,6 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'launchy'
   gem 'spring'
-  gem 'faker'
 end
 
 group :development do
