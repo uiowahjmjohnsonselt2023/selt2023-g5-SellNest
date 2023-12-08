@@ -17,6 +17,8 @@ class HomeController < ApplicationController
     @listings = @listings.where('price <= ?', params[:max_price].to_f) if params[:max_price].present?
     @listings = @listings.joins(:tags).where(tags: { id: params[:tags] }) if params[:tags].present?
 
+    @recent_listings = Listing.order(created_at: :desc).limit(5) # Fetch the 5 most recent listings
+
     render :index
   end
 
