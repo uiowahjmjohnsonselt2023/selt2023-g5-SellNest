@@ -14,6 +14,7 @@ Rails.application.config.assets.precompile += %w( devise.css )
 Rails.application.config.assets.precompile += %w( create-listing.css )
 Rails.application.config.assets.precompile += %w( notifications.css )
 Rails.application.config.assets.precompile += %w( user.css )
+Rails.application.config.assets.precompile += %w( reviews.css )
 
 
 # Precompile additional assets.
