@@ -162,6 +162,7 @@
     <% end %>
   </div>
 
+  <h2 style="text-align: center">All Listings</h2>
   <div class="search-container">
     <%= form_tag(root_path, method: :get, class: "search-form") do %>
       <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
@@ -196,7 +197,6 @@
     </div>
   </div>
 
-  <h2 style="text-align: center">Listings</h2>
   <div class="listings-container">
     <% @listings.each do |listing|%>
       <% unless listing.is_sold %>
@@ -254,8 +254,6 @@
       <% end %>
     <% end %>
   </div>
-
-
 
   <div id="descriptionModal" class="modal">
   <div class="modal-content">
