@@ -95,8 +95,9 @@
         <% @cart.cart_items.each do |cart_item| %>
           <% listing = cart_item.listing %>
           <tr>
+
             <td class="carousel-container">
-              <div class="carousel">
+              <div class="carousel-image">
                 <% listing.photos.each do |photo| %>
                   <%= image_tag(photo, width: '100%', height: 'auto') %>
                 <% end %>

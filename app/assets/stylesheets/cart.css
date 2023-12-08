@@ -4,10 +4,19 @@
     margin: auto;
 }
 
+
 .cart-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+}
+
+
+
+
+.carousel-container {
+    position: relative; /* This allows absolute positioning inside */
+    width: 18%;
 }
 
 .cart-table thead {
@@ -32,6 +41,11 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.carousel-image {
+    width: 100%;
+    display: block;
 }
 
 .remove-button:hover {
