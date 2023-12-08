@@ -73,7 +73,7 @@
 <h1>Your Shopping Cart</h1>
 
 <div class="cart-container">
-  <%= button_to 'Checkout', cart_checkout_path, method: :post, class: 'checkout-button' %>
+  <%= link_to 'Continue Shopping', root_path, class: 'continue-shopping-link' %>
   <table class="cart-table">
     <thead>
     <tr>
@@ -121,8 +121,8 @@
     </tbody>
   </table>
 
-  <div class="continue-shopping">
-    <%= link_to 'Continue Shopping', root_path, class: 'continue-shopping-link' %>
+  <div class="cart-container">
+    <%= button_to 'Checkout', cart_checkout_path, method: :post, class: 'checkout-button' %>
   </div>
 </div>
 
