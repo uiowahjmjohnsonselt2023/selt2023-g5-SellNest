@@ -130,5 +130,45 @@ body {
 .container li:hover {
     background-color: #1a1a1a; /* Dark background on hover */
 }
-
+.chart-title {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    background-color: #0a0a0a; /* Dark background for headers */
+    color: #d4af37; /* Gold text */
+    padding: 10px;
+    margin: 0;
+}
 /* Add custom styles here for other elements as needed */
+.chart-modal {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.chart-modal-content {
+    background-color: #000000;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #f6cb3f;
+    width: 100%;
+}
+
+.close-modal {
+    color: #000000;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: #f6cb3f;
+    text-decoration: none;
+    cursor: pointer;
+}
