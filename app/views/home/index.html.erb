@@ -103,6 +103,65 @@
     <% end %>
   </div>
 
+  <h2 style="text-align: center">Oldest Listings</h2>
+  <div class="listings-container">
+    <% @oldest_listings.each do |oldestListing| %>
+      <% unless oldestListing.is_sold %>
+        <div class="grid-item">
+          <div class="carousel-container">
+            <%if user_signed_in? %>
+              <% if current_user && current_user.bookmarked?(oldestListing) %>
+                <div class="bookmark-icon" onclick="removeBookmark(<%= oldestListing.id %>)" id="solidBookmark" data-listing-id="<%= oldestListing.id %>">
+                  <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
+                </div>
+              <% else %>
+                <div class="bookmark-icon" onclick="addBookmark(<%= oldestListing.id %>)" id="regularBookmark" data-listing-id="<%= oldestListing.id %>">
+                  <i class="fa-regular fa-bookmark"></i> <!-- Use your bookmark icon here -->
+                </div>
+              <% end %>
+            <% end %>
+            <% if oldestListing.photos.length > 1 %>
+              <div class="carousel-controls" data-listing-id="<%= oldestListing.id %>">
+                <% oldestListing.photos.each_with_index do |photo, index| %>
+                  <div class="carousel-slide <%= 'active' if index == 0 %>" data-listing-id="<%= oldestListing.id %>">
+                    <%= image_tag(photo, class: 'carousel-image') %>
+                  </div>
+                <% end %>
+                <button class="carousel-arrow prev" onclick="changeSlide(-1, <%= oldestListing.id %>)">❮</button>
+                <button class="carousel-arrow next" onclick="changeSlide(1, <%= oldestListing.id %>)">❯</button>
+              </div>
+            <% elsif oldestListing.photos.any? %>
+              <div class="carousel-slide active" data-listing-id="<%= oldestListing.id %>">
+                <%= image_tag(oldestListing.photos.first, class: 'carousel-image') %>
+              </div>
+            <% end %>
+          </div>
+          <h2 class="listing-title"><%= oldestListing.name %></h2>
+          <h2 class="listing-price"><%= number_to_currency(oldestListing.price, unit: "$", precision: 2) %></h2>
+          <div class="listing-created-at">
+            <%= oldestListing.created_at.strftime('%Y-%m-%d') %>
+          </div>
+          <div class="listing-buttons">
+            <% reviews = Review.where(listing_id: oldestListing.user.listings.pluck(:id)) %>
+            <% if reviews.any? %>
+              <% full_eggs = reviews.sum(:rating) / reviews.count %>
+              <% remaining_eggs = 5 - full_eggs - 1 %>
+              <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
+              <% num_reviews = reviews.count %>
+            <% else %>
+              <% full_eggs = 0 %>
+              <% remaining_eggs = 5 %>
+              <% partial_egg = 100 %>
+              <% num_reviews = 0 %>
+            <% end %>
+            <button class="btn details-button" onclick="showDescriptionModal('<%= oldestListing.name %>', '<%= number_to_currency(oldestListing.price, unit: "$", precision: 2) %>', '<%= oldestListing.description %>', '<%= oldestListing.tags.to_json %>', '<%= oldestListing.user.email.split('@').first %>', '<%= num_reviews %>', '<%= full_eggs %>', '<%= remaining_eggs %>', '<%= partial_egg %>')">Details</button>
+            <%= button_to 'Add to Cart', add_item_to_cart_path(oldestListing), method: :post, class: 'btn add-to-cart-button' %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
   <div class="search-container">
     <%= form_tag(root_path, method: :get, class: "search-form") do %>
       <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
