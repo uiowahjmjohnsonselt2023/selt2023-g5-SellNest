@@ -56,7 +56,6 @@ body {
 /* Search and Filter container */
 .search-and-filter, .sort-container, .filters-container {
     display: flex;
-    flex-direction: column;
     gap: 1rem;
     padding: 1rem;
     background-color: #0a0a0a; /* Dark container */
@@ -216,7 +215,7 @@ input[type="text"], select {
 }
 
 .btn {
-    max-width: 140px; /* Example max-width, adjust as needed */
+    max-width: 200px; /* Example max-width, adjust as needed */
     text-align: center; /* Center the text inside buttons */
 }
 
