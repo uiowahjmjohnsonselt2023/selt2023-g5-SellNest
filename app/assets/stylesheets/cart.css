@@ -32,10 +32,10 @@ h1 {
 }
 
 .cart-table th, .cart-table td {
-    border: 1px solid #d4af37;
     padding: 10px;
     text-align: center;
     font-size: 2rem;
+    border-bottom: 1px solid #d4af37;
 }
 .cart-table th {
     background-color: #222;
