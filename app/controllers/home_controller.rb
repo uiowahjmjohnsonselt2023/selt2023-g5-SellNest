@@ -23,7 +23,9 @@ class HomeController < ApplicationController
 
     render :index
   end
-
+  def self.search_by_title(search)
+    where("title ILIKE ?", "%#{search}%")
+  end
   def update
     @listing = Listing.find(params[:id])
     if @listing.update(listing_params)
