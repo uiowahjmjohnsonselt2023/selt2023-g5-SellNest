@@ -23,6 +23,28 @@ body {
 .header h1 {
     color: #d4af37; /* Gold text */
 }
+.header .btn {
+    padding: 10px 15px; /* Adjust padding to desired size */
+    min-width: 100px; /* Set a minimum width */
+    text-align: center; /* Center the text/icon inside the button */
+    display: inline-block; /* Ensure buttons are inline and block level */
+}
+
+/* If you have buttons with icons only, like shopping cart or bookmark,
+   you might want to set a fixed width to make them square or of a particular shape */
+.header .btn i {
+    display: block; /* Makes the icon centered and on its own line */
+    margin: auto; /* Center the icon horizontally */
+    font-size: 20px; /* Adjust icon size */
+}
+
+/* For buttons with text, to ensure text doesn't wrap on small buttons */
+.header .btn.account-buttons {
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Hides overflow */
+    text-overflow: ellipsis; /* Adds an ellipsis for overflowed text */
+}
+
 
 /* Button group */
 .button-group {
@@ -32,7 +54,7 @@ body {
 }
 
 /* Search and Filter container */
-.search-and-filter {
+.search-and-filter, .sort-container, .filters-container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -40,7 +62,6 @@ body {
     background-color: #0a0a0a; /* Dark container */
 }
 
-/* Search container */
 .search-container {
     display: flex;
     justify-content: space-between;
@@ -64,13 +85,18 @@ body {
     background-color: #0a0a0a; /* Dark container */
 }
 
-.filter-button, .btn {
-    padding: 0.5rem 1rem;
+.btn, .filter-button, .search-button {
+    padding: 0.25rem 0.5rem;
     background-color: #d4af37; /* Gold button */
     color: #0a0a0a; /* Dark text */
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.btn:hover, .filter-button:hover, .search-button:hover {
+    background-color: #ffbd00; /* Lighter gold on hover */
+    color: #0a0a0a;
 }
 
 .filter-container {
@@ -96,11 +122,6 @@ input[type="text"], select {
     color: #d4af37; /* Gold text */
     border-radius: 4px;
     box-sizing: border-box;
-}
-
-.filter-button:hover, .search-button:hover, .btn:hover {
-    background-color: #ffbd00; /* Lighter gold on hover */
-    color: #0a0a0a;
 }
 
 /* Listings styles */
@@ -139,7 +160,7 @@ input[type="text"], select {
     box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4); /* Gold shadow */
 }
 
-.grid-item:hover{
+.grid-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(212, 175, 55, 0.5); /* Gold shadow */
 }
@@ -149,6 +170,7 @@ input[type="text"], select {
     border-radius: 5px;
     color: #1a1a1a;
 }
+
 .modal {
     display: none;
     position: fixed;
@@ -193,13 +215,12 @@ input[type="text"], select {
     margin: 5px; /* Add margin for spacing between buttons */
 }
 
-/* If you want buttons to have a specific maximum width you can set it here */
 .btn {
     max-width: 140px; /* Example max-width, adjust as needed */
     text-align: center; /* Center the text inside buttons */
 }
 
-.Create{
+.Create {
     align-content: center;
     width: 100%;
 }
@@ -226,11 +247,8 @@ input[type="text"], select {
     }
 }
 
-
-
 /* Search field style */
 .search-field {
-    /* Other styles remain the same */
     padding-right: 3rem; /* Make room for the search icon */
 }
 
@@ -244,19 +262,6 @@ input[type="text"], select {
     border: none;
 }
 
-/* Sort and filter styles */
-.sort-container, .filters-container {
-    padding: 0.5rem; /* Reduce padding */
-    background-color: #333; /* Adjust to your preferred color */
-    border-radius: 5px;
-}
-
-/* Buttons and inputs style */
-.btn, .search-field, input[type="text"], select {
-    padding: 0.5rem; /* Uniform padding */
-    margin: 0.25rem; /* Reduce margins */
-}
-
 /* Grouping containers */
 .group-container {
     display: flex;
@@ -265,7 +270,6 @@ input[type="text"], select {
     flex-wrap: wrap; /* Allow wrapping on small screens */
 }
 
-/* Responsive adjustments for better spacing */
 @media (max-width: 768px) {
     .group-container {
         flex-direction: column;
@@ -275,6 +279,8 @@ input[type="text"], select {
         width: 100%; /* Full width on small screens */
     }
 }
+
+/* Carousel styles */
 .carousel-controls {
     position: relative;
 }
@@ -310,4 +316,3 @@ input[type="text"], select {
 .next {
     right: 10px;
 }
-
