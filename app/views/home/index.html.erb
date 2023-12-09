@@ -42,42 +42,165 @@
     <% end %>
   </div>
 </div>
-<div class="search-container">
-  <%= form_tag(root_path, method: :get, class: "search-form") do %>
-    <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
-    <button type="submit" class="search-button">
-      <i class="fas fa-search"></i>
-    </button>
-  <% end %>
-</div>
-<div class="group-container">
-<div class="sort-container">
-  <%= link_to 'Price Low to High', root_path(sort: 'price_asc'), class: 'btn' %>
-  <%= link_to 'Price High to Low', root_path(sort: 'price_desc'), class: 'btn' %>
-  <%= link_to 'Newest First', root_path(sort: 'newest'), class: 'btn' %>
-  <%= link_to 'Oldest First', root_path(sort: 'oldest'), class: 'btn' %>
-</div>
-<div class="filters-container">
-<%= form_tag(root_path, method: :get, class: "filter-form") do %>
-  <div class="form-group">
-    <%= label_tag(:min_price, "Minimum Price") %>
-    <%= text_field_tag(:min_price, nil, class: "min-price-field") %>
-  </div>
-  <div class="form-group">
-    <%= label_tag(:max_price, "Maximum Price") %>
-    <%= text_field_tag(:max_price, nil, class: "max-price-field") %>
-  </div>
-  <div class="form-group">
-    <%= label_tag(:tags, "Category") %>
-    <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true, class: "category-select" %>
-  </div>
-  <%= submit_tag "Filter", class: "btn filter-button" %>
-<% end %>
-</div>
-</div>
+
 <main>
+  <h2 style="text-align: center">Recent Listings</h2>
   <div class="listings-container">
-    <% @listings.each do |listing| %>
+    <% @recent_listings.each do |recentListing| %>
+      <% unless recentListing.is_sold %>
+        <div class="grid-item">
+          <div class="carousel-container">
+            <% if user_signed_in? %>
+              <% if current_user && current_user.bookmarked?(recentListing) %>
+                <div class="bookmark-icon bookmark-icon-carousel" onclick="removeBookmark(<%= recentListing.id %>)" data-listing-id="<%= recentListing.id %>">
+                  <i class="fa-solid fa-bookmark"></i>
+                </div>
+              <% else %>
+                <div class="bookmark-icon bookmark-icon-carousel" onclick="addBookmark(<%= recentListing.id %>)" data-listing-id="<%= recentListing.id %>">
+                  <i class="fa-regular fa-bookmark"></i>
+                </div>
+              <% end %>
+            <% end %>
+            <% if recentListing.photos.length > 1 %>
+              <div class="carousel-controls" data-listing-id="<%= recentListing.id %>">
+                <% recentListing.photos.each_with_index do |photo, index| %>
+                  <div class="carousel-slide <%= 'active' if index == 0 %>" data-listing-id="<%= recentListing.id %>">
+                    <%= image_tag(photo, class: 'carousel-image') %>
+                  </div>
+                <% end %>
+                <button class="carousel-arrow prev" onclick="changeSlide(-1, <%= recentListing.id %>)">❮</button>
+                <button class="carousel-arrow next" onclick="changeSlide(1, <%= recentListing.id %>)">❯</button>
+              </div>
+            <% elsif recentListing.photos.any? %>
+              <div class="carousel-slide active" data-listing-id="<%= recentListing.id %>">
+                <%= image_tag(recentListing.photos.first, class: 'carousel-image') %>
+              </div>
+            <% end %>
+          </div>
+
+          <h2 class="listing-title"><%= recentListing.name %></h2>
+          <h2 class="listing-price"><%= number_to_currency(recentListing.price, unit: "$", precision: 2) %></h2>
+          <div class="listing-created-at">
+            <%= recentListing.created_at.strftime('%Y-%m-%d') %>
+          </div>
+          <div class="listing-buttons">
+            <% reviews = Review.where(listing_id: recentListing.user.listings.pluck(:id)) %>
+            <% if reviews.any? %>
+              <% full_eggs = reviews.sum(:rating) / reviews.count %>
+              <% remaining_eggs = 5 - full_eggs - 1 %>
+              <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
+              <% num_reviews = reviews.count %>
+            <% else %>
+              <% full_eggs = 0 %>
+              <% remaining_eggs = 5 %>
+              <% partial_egg = 100 %>
+              <% num_reviews = 0 %>
+            <% end %>
+            <button class="btn details-button" onclick="showDescriptionModal('<%= recentListing.name %>', '<%= number_to_currency(recentListing.price, unit: "$", precision: 2) %>', '<%= recentListing.description %>', '<%= recentListing.tags.to_json %>', '<%= recentListing.user.email.split('@').first %>', '<%= num_reviews %>', '<%= full_eggs %>', '<%= remaining_eggs %>', '<%= partial_egg %>')">Details</button>
+            <%= button_to 'Add to Cart', add_item_to_cart_path(recentListing), method: :post, class: 'btn add-to-cart-button' %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <h2 style="text-align: center">Oldest Listings</h2>
+  <div class="listings-container">
+    <% @oldest_listings.each do |oldestListing| %>
+      <% unless oldestListing.is_sold %>
+        <div class="grid-item">
+          <div class="carousel-container">
+            <%if user_signed_in? %>
+              <% if current_user && current_user.bookmarked?(oldestListing) %>
+                <div class="bookmark-icon" onclick="removeBookmark(<%= oldestListing.id %>)" id="solidBookmark" data-listing-id="<%= oldestListing.id %>">
+                  <i class="fa-solid fa-bookmark"></i> <!-- Use your bookmark icon here -->
+                </div>
+              <% else %>
+                <div class="bookmark-icon" onclick="addBookmark(<%= oldestListing.id %>)" id="regularBookmark" data-listing-id="<%= oldestListing.id %>">
+                  <i class="fa-regular fa-bookmark"></i> <!-- Use your bookmark icon here -->
+                </div>
+              <% end %>
+            <% end %>
+            <% if oldestListing.photos.length > 1 %>
+              <div class="carousel-controls" data-listing-id="<%= oldestListing.id %>">
+                <% oldestListing.photos.each_with_index do |photo, index| %>
+                  <div class="carousel-slide <%= 'active' if index == 0 %>" data-listing-id="<%= oldestListing.id %>">
+                    <%= image_tag(photo, class: 'carousel-image') %>
+                  </div>
+                <% end %>
+                <button class="carousel-arrow prev" onclick="changeSlide(-1, <%= oldestListing.id %>)">❮</button>
+                <button class="carousel-arrow next" onclick="changeSlide(1, <%= oldestListing.id %>)">❯</button>
+              </div>
+            <% elsif oldestListing.photos.any? %>
+              <div class="carousel-slide active" data-listing-id="<%= oldestListing.id %>">
+                <%= image_tag(oldestListing.photos.first, class: 'carousel-image') %>
+              </div>
+            <% end %>
+          </div>
+          <h2 class="listing-title"><%= oldestListing.name %></h2>
+          <h2 class="listing-price"><%= number_to_currency(oldestListing.price, unit: "$", precision: 2) %></h2>
+          <div class="listing-created-at">
+            <%= oldestListing.created_at.strftime('%Y-%m-%d') %>
+          </div>
+          <div class="listing-buttons">
+            <% reviews = Review.where(listing_id: oldestListing.user.listings.pluck(:id)) %>
+            <% if reviews.any? %>
+              <% full_eggs = reviews.sum(:rating) / reviews.count %>
+              <% remaining_eggs = 5 - full_eggs - 1 %>
+              <% partial_egg = ((1 - ((reviews.sum(:rating) / reviews.count.to_f) - full_eggs)) * 100).to_i %>
+              <% num_reviews = reviews.count %>
+            <% else %>
+              <% full_eggs = 0 %>
+              <% remaining_eggs = 5 %>
+              <% partial_egg = 100 %>
+              <% num_reviews = 0 %>
+            <% end %>
+            <button class="btn details-button" onclick="showDescriptionModal('<%= oldestListing.name %>', '<%= number_to_currency(oldestListing.price, unit: "$", precision: 2) %>', '<%= oldestListing.description %>', '<%= oldestListing.tags.to_json %>', '<%= oldestListing.user.email.split('@').first %>', '<%= num_reviews %>', '<%= full_eggs %>', '<%= remaining_eggs %>', '<%= partial_egg %>')">Details</button>
+            <%= button_to 'Add to Cart', add_item_to_cart_path(oldestListing), method: :post, class: 'btn add-to-cart-button' %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+
+  <h2 style="text-align: center">All Listings</h2>
+  <div class="search-container">
+    <%= form_tag(root_path, method: :get, class: "search-form") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search Listings", class: "search-field" %>
+      <button type="submit" class="search-button">
+        <i class="fas fa-search"></i>
+      </button>
+    <% end %>
+  </div>
+  <div class="group-container">
+    <div class="sort-container">
+      <%= link_to 'Price Low to High', root_path(sort: 'price_asc'), class: 'btn' %>
+      <%= link_to 'Price High to Low', root_path(sort: 'price_desc'), class: 'btn' %>
+      <%= link_to 'Newest First', root_path(sort: 'newest'), class: 'btn' %>
+      <%= link_to 'Oldest First', root_path(sort: 'oldest'), class: 'btn' %>
+    </div>
+    <div class="filters-container">
+      <%= form_tag(root_path, method: :get, class: "filter-form") do %>
+        <div class="form-group">
+          <%= label_tag(:min_price, "Minimum Price") %>
+          <%= text_field_tag(:min_price, nil, class: "min-price-field") %>
+        </div>
+        <div class="form-group">
+          <%= label_tag(:max_price, "Maximum Price") %>
+          <%= text_field_tag(:max_price, nil, class: "max-price-field") %>
+        </div>
+        <div class="form-group">
+          <%= label_tag(:tags, "Category") %>
+          <%= select_tag :tags, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true, class: "category-select" %>
+        </div>
+        <%= submit_tag "Filter", class: "btn filter-button" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="listings-container">
+    <% @listings.each do |listing|%>
       <% unless listing.is_sold %>
         <div class="grid-item">
           <div class="carousel-container">
@@ -92,16 +215,19 @@
                 </div>
               <% end %>
             <% end %>
-
-            <div class="carousel">
-              <% listing.photos.each do |photo| %>
-                <%= image_tag(photo, width: '100%', height: 'auto') %>
-              <% end %>
-            </div>
             <% if listing.photos.length > 1 %>
-              <div class="carousel-controls">
-                <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
-                <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+              <div class="carousel-controls" data-listing-id="<%= listing.id %>">
+                <% listing.photos.each_with_index do |photo, index| %>
+                  <div class="carousel-slide <%= 'active' if index == 0 %>" data-listing-id="<%= listing.id %>">
+                    <%= image_tag(photo, class: 'carousel-image') %>
+                  </div>
+                <% end %>
+                <button class="carousel-arrow prev" onclick="changeSlide(-1, <%= listing.id %>)">❮</button>
+                <button class="carousel-arrow next" onclick="changeSlide(1, <%= listing.id %>)">❯</button>
+              </div>
+            <% elsif listing.photos.any? %>
+              <div class="carousel-slide active" data-listing-id="<%= listing.id %>">
+                <%= image_tag(listing.photos.first, class: 'carousel-image') %>
               </div>
             <% end %>
           </div>
@@ -130,6 +256,8 @@
       <% end %>
     <% end %>
   </div>
+
+
   <div id="descriptionModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeDescriptionModal()">&times;</span>
@@ -256,6 +384,14 @@
             modal.style.display = 'none';
         }
     };
+    function changeSlide(direction, listingId) {
+        const slides = document.querySelectorAll(`.carousel-slide[data-listing-id='${listingId}']`);
+        let activeIndex = Array.from(slides).findIndex(slide => slide.classList.contains('active'));
+        slides[activeIndex].classList.remove('active'); // Hide current slide
+        let newIndex = (activeIndex + direction + slides.length) % slides.length; // Calculate new index
+        slides[newIndex].classList.add('active'); // Show new slide
+    }
+
 </script>
 </body>
 </html>

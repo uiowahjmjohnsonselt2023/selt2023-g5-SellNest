@@ -65,33 +65,13 @@
       <%= pie_chart @tagged_listings, id: "tag-pie-chart" %>
     </div>
 
-    <div class="stat-card" onclick="openModal('lineChartModal')">
-      <h3 class="chart-title">Total Sales Over Time</h3>
-      <p> CLICK TO SEE CHART </p>
-    </div>
-
-    <div class="stat-card" onclick="openModal('lineChartModal')">
-      <h3 class="chart-title">New Users Over Time</h3>
-      <p> CLICK TO SEE CHART </p>
-    </div>
-
-    <div class="stat-card" onclick="openModal('areaChartModal')">
-      <h3 class="chart-title">Monthly Sales</h3>
-      <%= area_chart @total_sales_by_month, id: "sales-area-chart" %>
-    </div>
-
-    <div class="stat-card" onclick="openModal('stackedBarChartModal')">
-      <h3 class="chart-title">Sales by Category Over Time</h3>
-      <%= column_chart @sales_by_category, stacked: true, id: "sales-by-category-chart" %>
-    </div>
-
     <div class="scrollable-container stat-card">
       <h2>All Users</h2>
       <ul>
         <% @all_users.each do |user| %>
           <% unless user.email == 'admin@email' %>
             <li><%= user.email %> (ID: <%= user.id %>)
-            <%= button_to "Ban", user_path(user), method: :delete, data: { confirm: "Are you sure you want to ban this user?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
+              <%= button_to "Ban", user_path(user), method: :delete, data: { confirm: "Are you sure you want to ban this user?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
             </li>
           <% end %>
         <% end %>
@@ -103,7 +83,7 @@
       <ul>
         <% @all_listings.each do |listing| %>
           <li><%= listing.name %> (ID: <%= listing.id %>)
-          <%= button_to "Remove", listing_path(listing), method: :delete, data: { confirm: "Are you sure you want to delete this listing?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
+            <%= button_to "Remove", listing_path(listing), method: :delete, data: { confirm: "Are you sure you want to delete this listing?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
           </li>
         <% end %>
       </ul>
@@ -121,6 +101,26 @@
           <% end %>
         <%end %>
       </ul>
+    </div>
+
+    <div class="stat-card" onclick="openModal('lineChartModal')">
+      <h3 class="chart-title">Total Sales</h3>
+      <p> CLICK TO SEE CHART </p>
+    </div>
+
+    <div class="stat-card" onclick="openModal('lineChartModal')">
+      <h3 class="chart-title">New Users</h3>
+      <p> CLICK TO SEE CHART </p>
+    </div>
+
+    <div class="stat-card" onclick="openModal('areaChartModal')">
+      <h3 class="chart-title">Monthly Sales</h3>
+      <p> CLICK TO SEE CHART </p>
+    </div>
+
+    <div class="stat-card" onclick="openModal('stackedBarChartModal')">
+      <h3 class="chart-title">Sales by Category</h3>
+      <p> CLICK TO SEE CHART </p>
     </div>
   </div>
 </div>

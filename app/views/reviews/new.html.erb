@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SellNest</title>
+  <%= stylesheet_link_tag 'reviews', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+</head>
 <h2>Review Seller</h2>
 <% listing = Listing.find_by_id(@listing_id) %>
 <h2><%= listing.user.email.split('@').first %></h2>
