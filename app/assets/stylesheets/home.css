@@ -54,7 +54,7 @@ body {
 }
 
 /* Search and Filter container */
-.search-and-filter, .sort-container, .filters-container {
+.search-and-filter, .filters-container {
     display: flex;
     gap: 1rem;
     padding: 1rem;
@@ -81,7 +81,10 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    background-color: #0a0a0a; /* Dark container */
+    background-color: #1a1a1a; /* Dark container */
+}
+.sort-button{
+    height: 35%;
 }
 
 .btn, .filter-button, .search-button {
@@ -110,7 +113,7 @@ body {
 .filter-container {
     display: flex;
     gap: 10px;
-    background-color: #333; /* Dark container */
+    background-color: #1a1a1a; /* Dark container */
     padding: 20px;
     align-items: center;
 }
