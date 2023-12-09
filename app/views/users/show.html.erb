@@ -187,13 +187,15 @@
       (<%= num_reviews %>)
     </p>
   </div>
-    <div class="stat-card">
-      <%= pie_chart @tagged_listings2, id: "tag-pie-chart", library: { title: "Listings by Tag" } %>
-    </div>
+    <% if @user.listings.where(is_sold: true).any?%>
+      <div class="stat-card">
+        <%= pie_chart @tagged_listings2, id: "tag-pie-chart", library: { title: "Listings by Tag" } %>
+      </div>
 
-    <div class="stat-card">
-      <%= bar_chart @chart_data2 %>
-    </div>
+      <div class="stat-card">
+        <%= bar_chart @chart_data2 %>
+      </div>
+    <% end %>
   </div>
   </div>
   <div class="reviews-section">
