@@ -178,7 +178,7 @@ input[type="text"], select {
 .listing-eggs {
     padding: 10px;
     border-radius: 5px;
-    color: #1a1a1a;
+    color: white;
 }
 
 .modal {

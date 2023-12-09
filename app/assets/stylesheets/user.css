@@ -117,12 +117,21 @@ h2 {
 }
 
 .stat-card {
-    background: #fff;
-    border: 1px solid #eaeaea;
+    background: white;
+    border: 1px solid white;
     border-radius: 8px;
     padding: 20px;
     text-align: center;
     transition: transform 0.3s ease-in-out;
+}
+.egg-stat-card {
+    background: lightgrey;
+    border: 1px solid lightgrey;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    margin-top: 20px;
 }
 
 .stat-card:hover {
@@ -196,15 +205,6 @@ h2 {
     margin-top: 2rem;
 }
 
-.stat-card {
-    background: #222; /* Darker cards */
-    border: 1px solid #d4af37; /* Gold border */
-    border-radius: 8px;
-    padding: 20px;
-    text-align: center;
-    transition: transform 0.3s ease-in-out;
-    color: #d4af37; /* Gold text */
-}
 .stat-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(212, 175, 55, 0.5); /* Gold shadow */
