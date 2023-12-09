@@ -22,6 +22,11 @@ body {
     position: relative; /* This allows absolute positioning inside */
     height: 20%
 }
+.carousel img {
+    width: 50%;
+    height: 30%;
+    object-fit: cover;
+}
 
 h2 {
     color: #d4af37; /* Updated text color */
