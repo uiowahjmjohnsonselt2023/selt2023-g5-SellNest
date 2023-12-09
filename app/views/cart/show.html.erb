@@ -30,7 +30,7 @@
           cursor: pointer;
           text-decoration: none;
           display: inline-block;
-          margin: 10px 0;
+          margin-left: 10px;
       }
 
       .cart-table {
@@ -41,7 +41,8 @@
       .cart-table th, .cart-table td {
           border: 1px solid #d4af37;
           padding: 10px;
-          text-align: left;
+          text-align: center;
+          font-size: 2rem;
       }
 
       .cart-table th {
@@ -66,6 +67,17 @@
           color: #d4af37;
           text-align: center;
       }
+      .remove-from-cart {
+          background-color: #d4af37;
+          color: #0a0a0a;
+          padding: 10px 15px;
+          border: none;
+          border-radius: 10px;
+          cursor: pointer;
+          text-decoration: none;
+          display: inline-block;
+          margin-left: 10px;
+      }
   </style>
 </head>
 <body>
@@ -80,7 +92,6 @@
       <th>Photos</th>
       <th>Item</th>
       <th>Price</th>
-      <th>Remove From Cart</th>
     </tr>
     </thead>
     <tbody>
@@ -101,6 +112,7 @@
                 <% listing.photos.each do |photo| %>
                   <%= image_tag(photo, width: '100%', height: 'auto') %>
                 <% end %>
+                <%= button_to 'Delete', remove_item_from_cart_path(listing), method: :delete, class: 'remove-from-cart' %>
               </div>
 
               <% if listing.photos.length > 1 %>
@@ -111,9 +123,8 @@
               <% end %>
             </td>
             <td><%= listing.name %></td>
-            <td><%= number_to_currency(listing.price) %></td>
             <td>
-              <%= button_to 'X', remove_item_from_cart_path(listing), method: :delete, class: 'remove-button' %>
+              <%= number_to_currency(listing.price) %>
             </td>
           </tr>
         <% end %>
