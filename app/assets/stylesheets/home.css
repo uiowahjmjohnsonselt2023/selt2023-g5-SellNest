@@ -135,7 +135,7 @@ input[type="text"], select {
     background-color: #222; /* Dark item background */
     border: 1px solid #d4af37; /* Gold border */
     padding: 0.5rem;
-    width: calc(33.333% - 2rem);
+    width: calc(20% - 2rem);
     box-shadow: 0 2px 4px rgba(255, 215, 0, 0.4); /* Gold shadow */
 }
 
@@ -275,3 +275,39 @@ input[type="text"], select {
         width: 100%; /* Full width on small screens */
     }
 }
+.carousel-controls {
+    position: relative;
+}
+
+.carousel-slide {
+    display: none;
+    width: 100%;
+}
+
+.carousel-slide.active {
+    display: block;
+}
+
+.carousel-image {
+    width: 100%;
+    display: block;
+}
+
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+

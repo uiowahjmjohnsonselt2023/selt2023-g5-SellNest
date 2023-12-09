@@ -23,8 +23,8 @@ admin_listing = Listing.create!(
 )
 
 users = []
-50.times do |i|
-  created_at = Faker::Date.between(from: 10.days.ago, to: Date.today)
+100.times do |i|
+  created_at = Faker::Date.between(from: 50.days.ago, to: Date.today)
   users << User.create!(
     email: "user#{i + 3}@example.com",
     password: 'password',
@@ -36,7 +36,7 @@ end
 
 listings = []
 users.each do |user|
-  created_at = Faker::Date.between(from: 10.days.ago, to: Date.today)
+  created_at = Faker::Date.between(from: 50.days.ago, to: Date.today)
   tags_to_assign = (1..3).map { rand(1..9) }
   listings << Listing.create!(
     name: "Item for #{user.full_name}",

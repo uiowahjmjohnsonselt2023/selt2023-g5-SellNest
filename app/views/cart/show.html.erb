@@ -1,90 +1,67 @@
-<style>
-    body {
-        background-color: #1a1a1a; /* Black background */
-    }
-    h1 {
-        color: #d4af37;
-        text-align: center;
-        padding: 20px 0;
-    }
-    .cart-container {
-        padding: 20px;
-        color: #d4af37;
-    }
-    .checkout-button, .remove-button {
-        background-color: #d4af37;
-        color: #0a0a0a;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-        margin: 10px 0;
-    }
-    .cart-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    .cart-table th, .cart-table td {
-        border: 1px solid #d4af37;
-        padding: 10px;
-        text-align: left;
-    }
-    .cart-table th {
-        background-color: #222;
-    }
-    .continue-shopping {
-        text-align: center;
-        margin-top: 20px;
-    }
-    .continue-shopping-link {
-        color: #d4af37;
-        background-color: transparent;
-        text-decoration: none;
-        border: 1px solid #d4af37;
-        padding: 10px 15px;
-        border-radius: 10px;
-    }
-    p {
-        color: #d4af37;
-        text-align: center;
-    }
-</style>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%= stylesheet_link_tag 'cart', media: 'all', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
 <h1>Your Shopping Cart</h1>
 
 <div class="cart-container">
-  <%= stylesheet_link_tag 'cart' %>
-  <%= button_to 'Checkout', cart_checkout_path, method: :post, class: 'checkout-button' %>
-  <% if @cart.cart_items.any? %>
-    <table class="cart-table">
-      <thead>
+  <%= link_to 'Continue Shopping', root_path, class: 'continue-shopping-link' %>
+  <table class="cart-table">
+    <thead>
+    <tr>
+      <th>Photos</th>
+      <th>Item</th>
+      <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% unless @cart.cart_items.any? %>
       <tr>
-        <th>Item</th>
-        <th>Price</th>
-        <th>Actions</th>
+        <td colspan="4">
+          <p>You have no items in your cart.</p>
+        </td>
       </tr>
-      </thead>
-      <tbody>
-      <% @cart.cart_items.each do |cart_item| %>
-        <tr>
-          <td><%= cart_item.listing.name %></td>
-          <td><%= number_to_currency(cart_item.listing.price) %></td>
-          <td>
-            <%= button_to 'Remove from Cart', remove_item_from_cart_path(cart_item.listing), method: :delete, class: 'remove-button' %>
-          </td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-    <div class="continue-shopping">
-      <%= link_to 'Continue Shopping', root_path, class: 'continue-shopping-link' %>
-    </div>
-  <% else %>
-    <p>Your cart is empty.</p>
-    <div class="continue-shopping">
-      <%= link_to 'Start Shopping', root_path, class: 'continue-shopping-link' %>
-    </div>
-  <% end %>
+    <% else %>
+      <div class="listings-container">
+        <% @cart.cart_items.each do |cart_item| %>
+          <% listing = cart_item.listing %>
+          <tr>
+
+            <td class="carousel-container">
+              <div class="carousel-image">
+                <% listing.photos.each do |photo| %>
+                  <%= image_tag(photo, width: '100%', height: 'auto') %>
+                <% end %>
+                <%= button_to 'Delete', remove_item_from_cart_path(listing), method: :delete, class: 'remove-from-cart' %>
+              </div>
+
+              <% if listing.photos.length > 1 %>
+                <div class="carousel-controls">
+                  <button class="carousel-arrow" onclick="prevSlide(this)">❮</button>
+                  <button class="carousel-arrow" onclick="nextSlide(this)">❯</button>
+                </div>
+              <% end %>
+            </td>
+            <td><%= listing.name %></td>
+            <td>
+              <%= number_to_currency(listing.price) %>
+            </td>
+          </tr>
+        <% end %>
+      </div>
+    <% end %>
+    </tbody>
+  </table>
+
+  <div class="cart-container">
+    <%= button_to 'Checkout', cart_checkout_path, method: :post, class: 'checkout-button' %>
+  </div>
 </div>
+
+</body>
+</html>

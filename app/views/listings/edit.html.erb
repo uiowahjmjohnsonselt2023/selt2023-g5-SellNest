@@ -1,119 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Edit Listing</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-      body {
-          font-family: Arial, sans-serif;
-          margin: 0;
-          padding: 0;
-          background-color: #f7f7f7;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          flex-direction: column;
-      }
-      .container {
-          text-align: center;
-          width: 400px; /* Adjust width as needed */
-          background-color: white;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
-          margin-top: -50px; /* Adjust as needed */
-      }
-      h1 {
-          color: #333;
-      }
-      .form-group {
-          margin-bottom: 15px;
-          text-align: left;
-      }
-      label {
-          display: block;
-          margin-bottom: 5px;
-      }
-      input[type="text"],
-      input[type="number"],
-      input[type="file"],
-      textarea {
-          width: 100%;
-          padding: 8px;
-          border-radius: 4px;
-          border: 1px solid #ccc;
-          box-sizing: border-box; /* Added to keep width as 100% including padding */
-      }
-      input[type="submit"] {
-          background-color: #ffd700;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: background-color 0.3s;
-
-      }
-      input[type="submit"]:hover {
-          background-color: #b8860b;
-          transform: scale(1.05);
-      }
-      .text-logo {
-          display: block;
-          text-align: center;
-          font-size: 24px;
-          font-weight: bold;
-          color: #ffd700;
-          text-decoration: none;
-          margin-bottom: 20px;
-      }
-      .horizontal-tags-list {
-          display: flex;
-          flex-wrap: wrap; /* Allow tags to wrap onto the next line */
-          gap: 8px; /* Adjust the space between tags */
-      }
-
-      .selected-tag {
-          display: inline-block;
-          /*background-color: #eaeaea;*/
-          padding: 4px 8px;
-          margin-bottom: 8px; /* Adjust vertical spacing between tags */
-          border-radius: 4px;
-      }
-
-      .add-tag-btn {
-          background-color: #ffd700;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: background-color 0.3s, transform 0.2s;
-      }
-
-      .add-tag-btn:hover {
-          background-color: #b8860b;
-          /* Scale the button on hover */
-      }
-
-      .remove-tag {
-          background-color: #d9534f; /* Lighter shade of red */
-          color: white; /* Text color */
-          border: none;
-          padding: 4px 8px;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: background-color 0.3s, transform 0.2s, color 0.3s;
-      }
-
-      .remove-tag:hover {
-          background-color: #c9302c; /* Slightly darker shade of red on hover */
-
-          transform: scale(1.05); /* Scale the button on hover */
-      }
-
-  </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%= stylesheet_link_tag 'edit-listings', media: 'all', 'data-turbolinks-track': 'reload' %>
 </head>
 <body>
 <div class="container">
@@ -126,7 +17,7 @@
     </div>
 
     <div class="field">
-      <%= f.label :tag_ids, 'Select Tags' %>
+      <%= f.label :tag_ids, 'Select Tags', class: 'text'%>
       <%= f.select :tag_ids, Tag.all.collect { |t| [t.name, t.id] }, { include_blank: true }, { multiple: true, class: 'tag-dropdown' } %>
       <%= f.button "Add tag", type: 'button', class: 'add-tag-btn' %>
     </div>
@@ -158,7 +49,7 @@
     </div>
   <% end %>
 
-  <%= button_to 'Delete', listing_path(@listing), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+  <%= button_to 'Delete', listing_path(@listing), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger remove-button' %>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {

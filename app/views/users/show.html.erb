@@ -83,7 +83,7 @@
                 <div class="carousel-container">
                   <div class="carousel">
                     <% listing.photos.each do |photo| %>
-                      <%= image_tag(photo, width: '100%', height: 'auto') %>
+                      <%= image_tag(photo) %>
                     <% end %>
                   </div>
                   <% if listing.photos.length > 1 %>
@@ -166,7 +166,7 @@
       <% num_reviews = reviews.count %>
     <% else %>
       <% full_eggs = 0 %>
-      <% remaining_eggs = 5 %>
+      <% remaining_eggs = 4 %>
       <% partial_egg = 100 %>
       <% num_reviews = 0 %>
     <% end %>

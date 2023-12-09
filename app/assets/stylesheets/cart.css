@@ -1,39 +1,89 @@
 /* app/assets/stylesheets/cart.css */
+body {
+    background-color: #1a1a1a; /* Black background */
+}
+
+h1 {
+    color: #d4af37;
+    text-align: center;
+    padding: 20px 0;
+}
+
 .cart-container {
-    width: 100%;
-    margin: auto;
+    padding: 20px;
+    color: #d4af37;
 }
 
 .cart-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+}
+
+.carousel-container {
+    position: relative; /* This allows absolute positioning inside */
+    width: 25%;
 }
 
 .cart-table thead {
     background-color: #f4f4f4;
 }
 
-.cart-table th,
-.cart-table td {
-    text-align: left;
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
+.cart-table th, .cart-table td {
+    padding: 10px;
+    text-align: center;
+    font-size: 2rem;
+    border-bottom: 1px solid #d4af37;
 }
-
 .cart-table th {
-    font-weight: bold;
+    background-color: #222;
 }
 
-.remove-button {
-    background-color: #ff4d4d;
-    color: white;
-    padding: 5px 10px;
+.checkout-button, .remove-button {
+    background-color: #d4af37;
+    color: #0a0a0a;
+    padding: 10px 15px;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.carousel-image {
+    width: 100%;
+    display: block;
 }
 
 .remove-button:hover {
     background-color: #ff3333;
+}
+
+.continue-shopping {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.continue-shopping-link {
+    color: #d4af37;
+    background-color: transparent;
+    text-decoration: none;
+    border: 1px solid #d4af37;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+p {
+    color: #d4af37;
+    text-align: center;
+}
+.remove-from-cart {
+    background-color: #d4af37;
+    color: #0a0a0a;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 10px;
 }
