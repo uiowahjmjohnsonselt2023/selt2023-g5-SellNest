@@ -17,7 +17,7 @@
     </div>
 
     <div class="field">
-      <%= f.label :tag_ids, 'Select Tags' %>
+      <%= f.label :tag_ids, 'Select Tags', class: 'text'%>
       <%= f.select :tag_ids, Tag.all.collect { |t| [t.name, t.id] }, { include_blank: true }, { multiple: true, class: 'tag-dropdown' } %>
       <%= f.button "Add tag", type: 'button', class: 'add-tag-btn' %>
     </div>
@@ -49,7 +49,7 @@
     </div>
   <% end %>
 
-  <%= button_to 'Delete', listing_path(@listing), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+  <%= button_to 'Delete', listing_path(@listing), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger remove-button' %>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {

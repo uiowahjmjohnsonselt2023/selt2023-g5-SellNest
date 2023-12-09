@@ -23,6 +23,10 @@ body {
 h1 {
     color: #f6cb3f;
 }
+
+.text{
+    color: #f6cb3f;
+}
 .form-group {
     margin-bottom: 15px;
     text-align: left;
@@ -150,4 +154,15 @@ select:focus {
 .description:focus, select:focus{
     background-color: black;
     color: #f6cb3f;
+}
+.remove-button {
+    background-color: #d4af37;
+    color: #0a0a0a;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 10px;
 }

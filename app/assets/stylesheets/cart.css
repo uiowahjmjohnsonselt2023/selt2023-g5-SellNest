@@ -19,9 +19,6 @@ h1 {
     border-collapse: collapse;
 }
 
-
-
-
 .carousel-container {
     position: relative; /* This allows absolute positioning inside */
     width: 25%;

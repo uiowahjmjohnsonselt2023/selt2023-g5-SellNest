@@ -18,6 +18,11 @@ body {
     box-shadow: 0px 0px 10px 0px rgba(255, 215, 0, 0.5); /* Updated shadow color */
     position: relative;
 }
+.carousel-container{
+    position: relative; /* This allows absolute positioning inside */
+    height: 20%
+}
+
 h2 {
     color: #d4af37; /* Updated text color */
 }
@@ -61,7 +66,7 @@ h2 {
 }
 .carousel img {
     width: 50%;
-    height: 50%;
+    height: 10%;
     object-fit: cover; /* Update to cover to ensure images fill the element */
 }
 .toggle-container {
