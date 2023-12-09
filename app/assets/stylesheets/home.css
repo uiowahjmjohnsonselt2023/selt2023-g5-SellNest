@@ -23,6 +23,28 @@ body {
 .header h1 {
     color: #d4af37; /* Gold text */
 }
+.header .btn {
+    padding: 10px 15px; /* Adjust padding to desired size */
+    min-width: 100px; /* Set a minimum width */
+    text-align: center; /* Center the text/icon inside the button */
+    display: inline-block; /* Ensure buttons are inline and block level */
+}
+
+/* If you have buttons with icons only, like shopping cart or bookmark,
+   you might want to set a fixed width to make them square or of a particular shape */
+.header .btn i {
+    display: block; /* Makes the icon centered and on its own line */
+    margin: auto; /* Center the icon horizontally */
+    font-size: 20px; /* Adjust icon size */
+}
+
+/* For buttons with text, to ensure text doesn't wrap on small buttons */
+.header .btn.account-buttons {
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Hides overflow */
+    text-overflow: ellipsis; /* Adds an ellipsis for overflowed text */
+}
+
 
 /* Button group */
 .button-group {
@@ -64,7 +86,7 @@ body {
 }
 
 .btn, .filter-button, .search-button {
-    padding: 0.5rem 1rem;
+    padding: 0.25rem 0.5rem;
     background-color: #d4af37; /* Gold button */
     color: #0a0a0a; /* Dark text */
     border: none;
