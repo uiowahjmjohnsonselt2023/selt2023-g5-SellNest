@@ -31,7 +31,6 @@
       <%= link_to notifications_path, class: "btn notification-btn" do %>
       <span class="icon">
         <i class="fa-solid fa-bell notification-count"><%= current_user.notifications.unread.count %></i>
-        <span class="notification-count"></span>
       </span>
       <% end %>
       <%= link_to 'Profile', user_path(current_user), class: 'btn account-buttons' %>
