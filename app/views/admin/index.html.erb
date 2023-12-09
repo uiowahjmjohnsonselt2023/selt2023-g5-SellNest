@@ -103,7 +103,7 @@
       </ul>
     </div>
 
-    <div class="stat-card" onclick="openModal('lineChartModal')">
+    <div class="stat-card" onclick="openModal('barChartModal')">
       <h3 class="chart-title">Total Sales</h3>
       <p> CLICK TO SEE CHART </p>
     </div>
@@ -149,6 +149,7 @@
   </div>
 </div>
 
+
 <!-- Area Chart Modal -->
 <div id="areaChartModal" class="chart-modal">
   <div class="chart-modal-content">
@@ -165,13 +166,6 @@
   </div>
 </div>
 
-<!-- Listings Per Day Chart Modal -->
-<div id="listingsPerDayModal" class="chart-modal">
-  <div class="chart-modal-content">
-    <%= line_chart @listings_per_day, id: "listings-per-day-chart-modal" %>
-    <span class="close-modal" onclick="closeModal('listingsPerDayModal')">&times;</span>
-  </div>
-</div>
 <script>
     function openModal(modalId) {
         var modal = document.getElementById(modalId);
