@@ -7,6 +7,9 @@
   <script src="https://kit.fontawesome.com/d968c2f6ce.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <%= stylesheet_link_tag 'user', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag "chartkick.js" %>
+  <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" %>
+  <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" %>
 </head>
 <body>
 <div class="profile-card">
@@ -83,7 +86,7 @@
                 <div class="carousel-container">
                   <div class="carousel">
                     <% listing.photos.each do |photo| %>
-                      <%= image_tag(photo, width: '100%', height: 'auto') %>
+                      <%= image_tag(photo) %>
                     <% end %>
                   </div>
                   <% if listing.photos.length > 1 %>
@@ -166,7 +169,7 @@
       <% num_reviews = reviews.count %>
     <% else %>
       <% full_eggs = 0 %>
-      <% remaining_eggs = 5 %>
+      <% remaining_eggs = 4 %>
       <% partial_egg = 100 %>
       <% num_reviews = 0 %>
     <% end %>
@@ -184,13 +187,15 @@
       (<%= num_reviews %>)
     </p>
   </div>
-    <div class="stat-card">
-      <%= pie_chart @tagged_listings2, id: "tag-pie-chart", library: { title: "Listings by Tag" } %>
-    </div>
+    <% if @user.listings.where(is_sold: true).any?%>
+      <div class="stat-card">
+        <%= pie_chart @tagged_listings2, id: "tag-pie-chart", library: { title: "Listings by Tag" } %>
+      </div>
 
-    <div class="stat-card">
-      <%= bar_chart @chart_data2 %>
-    </div>
+      <div class="stat-card">
+        <%= bar_chart @chart_data2 %>
+      </div>
+    <% end %>
   </div>
   </div>
   <div class="reviews-section">

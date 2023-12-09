@@ -60,12 +60,9 @@
       <p class="stat-value"><%= number_to_currency(@company_profits) %></p>
     </div>
 
-    <div class="stat-card">
-      <%= pie_chart @tagged_listings, id: "tag-pie-chart", library: { title: "Listings by Tag" } %>
-    </div>
-
-    <div class="stat-card">
-      <%= bar_chart @chart_data %>
+    <div class="stat-card" onclick="openModal('pieChartModal')">
+      <h3 class="chart-title">Listings by Category</h3>
+      <%= pie_chart @tagged_listings, id: "tag-pie-chart" %>
     </div>
 
     <div class="scrollable-container stat-card">
@@ -74,7 +71,7 @@
         <% @all_users.each do |user| %>
           <% unless user.email == 'admin@email' %>
             <li><%= user.email %> (ID: <%= user.id %>)
-            <%= button_to "Ban", user_path(user), method: :delete, data: { confirm: "Are you sure you want to ban this user?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
+              <%= button_to "Ban", user_path(user), method: :delete, data: { confirm: "Are you sure you want to ban this user?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
             </li>
           <% end %>
         <% end %>
@@ -86,7 +83,7 @@
       <ul>
         <% @all_listings.each do |listing| %>
           <li><%= listing.name %> (ID: <%= listing.id %>)
-          <%= button_to "Remove", listing_path(listing), method: :delete, data: { confirm: "Are you sure you want to delete this listing?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
+            <%= button_to "Remove", listing_path(listing), method: :delete, data: { confirm: "Are you sure you want to delete this listing?" }, class: "btn btn-danger", style: "margin-left: 10px;" %>
           </li>
         <% end %>
       </ul>
@@ -106,9 +103,86 @@
       </ul>
     </div>
 
+    <div class="stat-card" onclick="openModal('barChartModal')">
+      <h3 class="chart-title">Total Sales</h3>
+      <p> CLICK TO SEE CHART </p>
+    </div>
+
+    <div class="stat-card" onclick="openModal('lineChartModal')">
+      <h3 class="chart-title">New Users</h3>
+      <p> CLICK TO SEE CHART </p>
+    </div>
+
+    <div class="stat-card" onclick="openModal('areaChartModal')">
+      <h3 class="chart-title">Monthly Sales</h3>
+      <p> CLICK TO SEE CHART </p>
+    </div>
+
+    <div class="stat-card" onclick="openModal('stackedBarChartModal')">
+      <h3 class="chart-title">Sales by Category</h3>
+      <p> CLICK TO SEE CHART </p>
+    </div>
   </div>
 </div>
+
+<!-- Pie Chart Modal -->
+<div id="pieChartModal" class="chart-modal">
+  <div class="chart-modal-content">
+    <%= pie_chart @tagged_listings, id: "tag-pie-chart-modal", library: { title: "Listings by Tag" } %>
+    <span class="close-modal" onclick="closeModal('pieChartModal')">&times;</span>
+  </div>
+</div>
+
+<!-- Bar Chart Modal -->
+<div id="barChartModal" class="chart-modal">
+  <div class="chart-modal-content">
+    <%= bar_chart @chart_data, id: "bar-chart-modal" %>
+    <span class="close-modal" onclick="closeModal('barChartModal')">&times;</span>
+  </div>
+</div>
+
+<!-- Line Chart Modal -->
+<div id="lineChartModal" class="chart-modal">
+  <div class="chart-modal-content">
+    <%= line_chart @new_users_over_time, id: "new-users-line-chart-modal" %>
+    <span class="close-modal" onclick="closeModal('lineChartModal')">&times;</span>
+  </div>
+</div>
+
+
+<!-- Area Chart Modal -->
+<div id="areaChartModal" class="chart-modal">
+  <div class="chart-modal-content">
+    <%= area_chart @total_sales_by_month, id: "sales-area-chart-modal" %>
+    <span class="close-modal" onclick="closeModal('areaChartModal')">&times;</span>
+  </div>
+</div>
+
+<!-- Stacked Bar Chart Modal -->
+<div id="stackedBarChartModal" class="chart-modal">
+  <div class="chart-modal-content">
+    <%= column_chart @sales_by_category, stacked: true, id: "sales-by-category-chart-modal" %>
+    <span class="close-modal" onclick="closeModal('stackedBarChartModal')">&times;</span>
+  </div>
+</div>
+
 <script>
+    function openModal(modalId) {
+        var modal = document.getElementById(modalId);
+        modal.style.display = "block";
+    }
+
+    function closeModal(modalId) {
+        var modal = document.getElementById(modalId);
+        modal.style.display = "none";
+    }
+
+    // Close modals when clicking anywhere outside of the modal
+    window.onclick = function(event) {
+        if (event.target.classList.contains('chart-modal')) {
+            event.target.style.display = "none";
+        }
+    }
     document.addEventListener("DOMContentLoaded", function () {
         new Chartkick.LineChart("my-chart", <%= raw @chart_data.to_json %>);
     });
