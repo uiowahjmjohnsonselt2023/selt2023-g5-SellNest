@@ -92,6 +92,15 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
+.filter-button{
+    padding: 0.25rem 0.5rem;
+    height: 50%;
+    background-color: #d4af37; /* Gold button */
+    color: #0a0a0a; /* Dark text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
 .btn:hover, .filter-button:hover, .search-button:hover {
     background-color: #ffbd00; /* Lighter gold on hover */
@@ -100,7 +109,6 @@ body {
 
 .filter-container {
     display: flex;
-    flex-wrap: wrap;
     gap: 10px;
     background-color: #333; /* Dark container */
     padding: 20px;
