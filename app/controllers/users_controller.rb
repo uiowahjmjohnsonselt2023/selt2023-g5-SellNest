@@ -35,7 +35,7 @@ class UsersController < ApplicationController
     @chart_data2 = @total_sales_over_time.map do |date, total|
       [date.to_date.strftime("%Y-%m-%d"), total.to_f]
     end
-    @tagged_listings2 = Tag.joins(:listings).where(lisitings: {user_id: current_user.id}).group('tags.name').count
+    @tagged_listings2 = Tag.joins(:listings).where(listings: {user_id: current_user.id}).group('tags.name').count
   end
 
   def become_seller
